@@ -51,29 +51,45 @@ data <-
           civilian_commit_1 + 
           civilian_commit_2 +
           civilian_commit_3 +
-          civilian_commit_4,
+          civilian_commit_4
+
+# Brain the chain to create rowwise grouping for the M2C-2
+) %>%
+  
         
 # M2C-Q: Total --------------------------------------------------------------
-        m2cq_total = 
-          m2cq_1 +
-          m2cq_2 +
-          m2cq_3 +
-          m2cq_4 +
-          m2cq_5 +
-          m2cq_6 +
-          m2cq_7 +
-          m2cq_8 +
-          m2cq_9 +
-          m2cq_10 +
-          m2cq_11 +
-          m2cq_12 +
-          m2cq_13 +
-          m2cq_14 +
-          m2cq_15 +
-          m2cq_16,
+## Items 6-9 are not applicable to everyone. Respondents can answer “N/A.”
+## Thus, the sum of responses is not valid. Instead, the rowwise mean should be
+## calculated, ignoring NAs. 
+  
+  rowwise() %>% 
+  mutate(
+    m2cq_mean = mean(
+                     c(m2cq_1, 
+                       m2cq_2, 
+                       m2cq_3, 
+                       m2cq_4, 
+                       m2cq_5, 
+                       m2cq_6, 
+                       m2cq_7, 
+                       m2cq_8,
+                       m2cq_9,
+                       m2cq_10,
+                       m2cq_11,
+                       m2cq_12,
+                       m2cq_13, 
+                       m2cq_14,
+                       m2cq_15,
+                       m2cq_16), na.rm = TRUE)
+    ) %>% 
+  
+  # Remove the row wise grouping and continue the data transformation:
+  ungroup() %>% 
+  mutate(
+
         
 # M-CARM: Sub Scales --------------------------------------------------------
-        mcarm_purpose_connection = 
+        mcarm_purpose_connection =  
           mcarm_1 + 
           mcarm_2 + 
           mcarm_3 + 
@@ -103,6 +119,15 @@ data <-
           mcarm_19 +
           mcarm_20 +
           mcarm_21, 
+        
+# M-CARM Total ---------------------------------------------------------------
+        mcarm_total =
+          mcarm_purpose_connection +
+          mcarm_help_seeking + 
+          mcarm_beliefs_about_civilians +
+          mcarm_resentment_regret +
+          mcarm_regimentation,
+        
 
         
 # MIOS Sub Scales -----------------------------------------------------------
@@ -128,15 +153,6 @@ data <-
         mios_total =
           mios_shame + 
           mios_trust,
-        
-# M-CARM Total ---------------------------------------------------------------
-        mcarm_total =
-          mcarm_purpose_connection +
-          mcarm_help_seeking + 
-          mcarm_beliefs_about_civilians +
-          mcarm_resentment_regret +
-          mcarm_regimentation,
-        
 # SCC: Total ---------------------------------------------------------------
         scc_total =
           scc_1 +

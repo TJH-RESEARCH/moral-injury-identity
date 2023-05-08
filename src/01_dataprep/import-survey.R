@@ -2,8 +2,6 @@
 
 
 # ------------------------------------------------------------ #
-# Load Packages -----------------------------------------------------------
-library(tidyverse)
 
 
 # Import Data --------------------------------------------------
@@ -15,7 +13,15 @@ data <-
 
 
 # Save the Labels -------------------------------------------------------------------
-labels <- data[1,]
+
+labels <- 
+  tibble(
+    variable = names(data), 
+    label = as.character(data[1,])
+  )
+
+#print(tibble::enframe(sjlabelled::get_label(data)), n = 500)
+
 
 # Remove meta-data rows --------------------------------------------------
 data <- data[3:nrow(data),]
@@ -32,8 +38,8 @@ file.remove(here::here('temp.csv'))
 
 
 # Re-label the data -------------------------------------------------------
-labelled::var_label(data) <- as.character(labels)
-rm(labels)
+labelled::var_label(data) <- as.character(labels$label)
+#rm(labels)
 
 
 # Treat the multi-response questions as characters ------------------------
@@ -47,6 +53,24 @@ data <-
       mios_event_type = as.character(mios_event_type),
       mios_ptsd_symptoms = as.character(mios_ptsd_symptoms),
       race = as.character(race),
-      unmet_needs = as.character(unmet_needs)
+      unmet_needs = as.character(unmet_needs),
     )
 
+
+# Remove Responses that didn't pass initial screening questions ------------
+data_screened_out <- 
+  data %>% 
+  filter(`Response Type` == "Screened Out")
+
+data_no_consent <- 
+  data %>% 
+  filter(`Response Type` == "Did not consent")
+
+data <- 
+  data %>% 
+  filter(`Response Type` == "Completed Survey")
+
+# Assign a simple ID to each respondent -----------------------------------
+data <- 
+  data %>% 
+  mutate(id = row_number())

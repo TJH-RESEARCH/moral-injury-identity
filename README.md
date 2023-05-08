@@ -3,6 +3,12 @@ contributors:
   - Thomas J. Hodges
 ---
 
+# To Do
+
+- Fix labels: Variables that are created may lose their label or inhereit on that is inaccurate. 
+- 
+- Create synthetic data
+
 
 # Morality, Identity, and the Military
 

@@ -2,63 +2,9 @@
 # -------------------------------------------------------------------------
 # Screen Responses
 
+
       
-      
 
-# Remove Responses that didn't pass initial screening questions ------------
-data_screened_out <- 
-  data %>% 
-  filter(`Response Type` == "Screened Out")
-
-data_no_consent <- 
-  data %>% 
-  filter(`Response Type` == "Did not consent")
-
-data <- 
-  data %>% 
-  filter(`Response Type` == "Completed Survey")
-      
-      
-# Additional Screening Criteria --------------------------------------------
-      
-data <-
-  data %>%
-      mutate(
-          
-
-# Air Force Warrant Officers ----------------------------------------------
-        air_force_warrant_officer = ifelse(branch == 1 & warrant_officer, 1, 0),
-
-# Branch: Space Force ---------------------------------------------------
-        #branch_space_force
-
-# Branch: Did not serve ---------------------------------------------------
-        #branch_none
-
-# Inconsistency: Children -------------------------------------------------
-## Report having children to one question, having no children in another.
-        inconsistent_children = is.na(bipf_children) & military_family_child == 1,
-      
-# Inconsistency: Education and Years of Age
-
-        inconsistent_education = education == 'doctorate' & years_of_age < 26,
-
-# Inconsistency: Rank and Years of Service --------------------------------
-        inconsistent_rank = highest_rank == 'E-7 to E-9' & years_service < 7)
-      
-# Inconsistency: Total Years ----------------------------------------------
-# Check that reported years are logically valid
-data <-
-  data %>% 
-    mutate(
-      validity_years = 
-        years_of_age - 
-        17 - 
-        years_service - 
-        years_separation,
-      
-      invalid_years = validity_years < 0
-    )
 
 
 
@@ -92,17 +38,45 @@ data_extra_screening <-
     
     # Inconsistency: Children
     inconsistent_children != 0 |
+      
+    # Inconsistency: Children-Age
+    inconsistent_children_age == TRUE |
     
     # Inconsistency: Education
     inconsistent_education == TRUE |
     
     # Inconsistency: Rank and Years of Service
-    inconsistent_rank == TRUE |
+    inconsistent_rank == TRUE #|
     
     # Inconsistency: Total Years
-    invalid_years == TRUE
-  )
-
+    #invalid_years == TRUE # I am not sure about this one. Since I programmed the survey logic wrong and did not get all their years. 
+    
+    
+  ) %>% 
+  select(id, 
+         ResponseId, 
+         `Response Type`,
+         attn_check_1,
+         attn_check_2,
+         mos,
+         validity_check,
+         `Duration (in minutes)`,
+         air_force_warrant_officer,
+         branch_space_force,
+         branch_none,
+         inconsistent_children,
+         inconsistent_children_age,
+         years_of_age,
+         bipf_children,
+         military_family_child,
+         inconsistent_education,
+         inconsistent_rank,
+         validity_years,
+         invalid_years,
+         honeypot1,
+         honeypot2,
+         honeypot3
+         )
 
 
 
@@ -135,14 +109,17 @@ data <-
 # Inconsistency: Children
         inconsistent_children == 0,
 
+# Inconsistency: Children-Age
+        inconsistent_children_age == FALSE,
+
 # Inconsistency: Education
         inconsistent_education == FALSE, 
       
 # Inconsistency: Rank and Years of Service
-        inconsistent_rank == FALSE,
+        inconsistent_rank == FALSE #,
 
 # Inconsistency: Total Years
-        invalid_years == FALSE
+        #invalid_years == FALSE
 )
       
 

@@ -18,13 +18,13 @@ data <-
 data <-
   data %>% 
     mutate(across(starts_with('m2cq_') & !ends_with('total'),
-           ~ ifelse(. == 99, NA, .)))
+           ~ dplyr::if_else(. == 99, NA, .)))
 
 
 # Religious ---------------------------------------------------------------
 data <-
   data %>% 
-  mutate(religious = ifelse(religious == -99, NA, religious))
+  mutate(religious = dplyr::if_else(religious == -99, NA, religious))
 
 
 

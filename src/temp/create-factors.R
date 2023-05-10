@@ -57,14 +57,6 @@ data <-
                                            'O-7 to O-10')
           ),
 
-# Job Like Military: Factor -----------------------------------------------
-          job_like_military = factor(job_like_military,
-                                     levels = c(1:4), 
-                                     labels = c('Not similar at all',
-                                                'A little similar',
-                                                'Moderately simiar',
-                                                'Very similar')
-          ),
 
 # Marital Status: Factor
           marital = factor(marital,

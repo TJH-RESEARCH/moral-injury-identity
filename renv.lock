@@ -1329,6 +1329,17 @@
       ],
       "Hash": "3838071b66e0c566d55cc26bd6e27bf4"
     },
+    "settings": {
+      "Package": "settings",
+      "Version": "0.2.7",
+      "Source": "Repository",
+      "Repository": "CRAN",
+      "Requirements": [
+        "grDevices",
+        "graphics"
+      ],
+      "Hash": "044078dfd387c9a6e160103978d23be4"
+    },
     "sjlabelled": {
       "Package": "sjlabelled",
       "Version": "1.2.0",
@@ -1577,6 +1588,22 @@
         "R"
       ],
       "Hash": "f1cb46c157d080b729159d407be83496"
+    },
+    "validate": {
+      "Package": "validate",
+      "Version": "1.1.3",
+      "Source": "Repository",
+      "Repository": "CRAN",
+      "Requirements": [
+        "R",
+        "graphics",
+        "grid",
+        "methods",
+        "settings",
+        "stats",
+        "yaml"
+      ],
+      "Hash": "429b1cdf290b6d3ae000ff2e4b110434"
     },
     "vctrs": {
       "Package": "vctrs",

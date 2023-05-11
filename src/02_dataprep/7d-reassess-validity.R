@@ -105,3 +105,6 @@ validation_plot
 ## Check individual records
 validate::aggregate(quality_check, by="record")
 
+
+
+

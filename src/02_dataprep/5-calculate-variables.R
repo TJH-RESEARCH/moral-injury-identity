@@ -30,6 +30,10 @@ data <-
       divorced = dplyr::if_else(marital == 4, 1, 0),  ## NEED RECODE IN QUALTRICS
       widowed = dplyr::if_else(marital == 5, 1, 0),   ## NEED RECODE IN QUALTRICS
       
+
+## Military Experiences ----------------------------------------------------
+      military_exp_none = if_else(military_exp_total == 0, 1, 0), 
+
 ## Sex ---------------------------------------------------------------------
       sex_female = dplyr::if_else(sex == 1, 1, 0),
       sex_male = dplyr::if_else(sex == 2, 1, 0),

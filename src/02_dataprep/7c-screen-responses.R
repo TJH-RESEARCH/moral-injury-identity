@@ -28,6 +28,7 @@ data_extra_screening <-
     # Failed attention checks (i.e., instructed items)
     attention_check_biis == 0 |
     attention_check_wis == 0 |
+    #attention_checks < 1 |
     
     # Failed Validity checks
     validity_check_1 == 0 |
@@ -40,8 +41,10 @@ data_extra_screening <-
     # Outliers
     outlier_longstring_reverse == 1 |
     outlier_longstring_no_reverse == 1 |
-    outlier_psychsyn == 1 |
-    outlier_psychant == 1 |
+    #outlier_psychsyn == 1 |
+    negative_correlation_psychsyn |
+    #outlier_psychant == 1 |
+    positive_correlation_psychant |
     outlier_evenodd == 1 |
     outlier_duration == 1 |
     outlier_mcarm_m2cq_difference == 1 #|
@@ -65,6 +68,8 @@ data_extra_screening <-
     # Inconsistency: Rank and Years of Service
     # inconsistent_rank == TRUE #|
     
+    # inconsistent_retirement == 1 |
+    
     # Inconsistency: Total Years
     #invalid_years == TRUE # I am not sure about this one. Since I programmed the survey logic wrong and did not get all their years. 
   
@@ -76,6 +81,7 @@ data_extra_screening2 <-
     # Failed attention checks (i.e., instructed items)
       attention_check_biis == 1 &
       attention_check_wis == 1 &
+      #attention_checks < 1 &
       
       # Failed Validity checks
       validity_check_1 == 1 &
@@ -105,7 +111,8 @@ data <-
 # Failed attention checks (i.e., instructed items)
         attention_check_biis == 1,
         attention_check_wis == 1,
-      
+        #attention_checks > 0,      
+
 # Failed Validity checks
         validity_check_1 == 1,
     
@@ -117,8 +124,10 @@ data <-
 # Outliers
         outlier_longstring_no_reverse == 0,
         outlier_longstring_reverse == 0,
-        outlier_psychsyn == 0,
-        outlier_psychant == 0,
+        #outlier_psychsyn == 0,
+        #outlier_psychant == 0,
+        negative_correlation_psychsyn == 0,
+        positive_correlation_psychant == 0,
         outlier_evenodd == 0,
         outlier_duration == 0,
         outlier_mcarm_m2cq_difference == 0,
@@ -140,6 +149,8 @@ data <-
       
 # Inconsistency: Rank and Years of Service
         #inconsistent_rank == FALSE #,
+
+        # inconsistent_retirement == FALSE,
 
 # Inconsistency: Total Years
         #invalid_years == FALSE

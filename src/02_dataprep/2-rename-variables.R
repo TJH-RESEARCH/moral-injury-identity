@@ -64,7 +64,7 @@ data <-
        # MIOS
        mios_event_type_self = mios_event_type_1,
        mios_event_type_other = mios_event_type_2,
-       mios_event_betrayal = mios_event_type_3,
+       mios_event_type_betrayal = mios_event_type_3,
        mios_ptsd_symptoms_nightmares= mios_ptsd_symptoms_1,
        mios_ptsd_symptoms_avoid = mios_ptsd_symptoms_2,
        mios_ptsd_symptoms_vigiliant = mios_ptsd_symptoms_3,

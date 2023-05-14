@@ -43,10 +43,10 @@ data <-
     ## Inconsistency: Total Years ----------------------------------------------
     ### Check that reported years are logically valid 
     validity_years = 
-      years_of_age - 
+      as.numeric(years_of_age) - 
       17 - 
-      years_service - 
-      years_separation,
+      as.numeric(years_service) - 
+      as.numeric(years_separation),
     
     invalid_years = validity_years < 0,
     

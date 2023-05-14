@@ -6,7 +6,7 @@ library(tidyverse)
 # Import Data --------------------------------------------------
 data <- 
   readr::read_csv(
-    here::here('data/raw/Dissertation_May 9, 2023_17.49.csv'), na = 'NA'
+    here::here('data/raw/Dissertation_May 14, 2023_12.12.csv'), na = 'NA'
   )
 
 
@@ -68,3 +68,4 @@ data <-
 data <- 
   data %>% 
   mutate(id = row_number())
+

@@ -6,7 +6,10 @@
 
 # Active Duty -------------------------------------------------------------
 
-
+data %>% 
+  ggplot(aes(x = mios_total, group = active_duty)) +
+  geom_boxplot() +
+  theme_bw()
 
 # Branch -------------------------------------------------------------------------
 data %>% 
@@ -16,19 +19,32 @@ data %>%
 
 
 # Discharge Reason --------------------------------------------------------
+data %>% 
+  ggplot(aes(x = mios_total, group = discharge_reason)) +
+  geom_boxplot() +
+  theme_bw()
 
 
 # Employment --------------------------------------------------------------
-
-
+data %>% 
+  ggplot(aes(x = mios_total, group = employment)) +
+  geom_boxplot() +
+  theme_bw()
 
 
 # Marital Status ---------------------------------------------------------------
-
+data %>% 
+  ggplot(aes(x = mios_total, group = marital)) +
+  geom_boxplot() +
+  theme_bw()
 
 
 # Military Family ---------------------------------------------------------
-##military_family_none
+data %>% 
+  ggplot(aes(x = mios_total, group = military_family_none)) +
+  geom_boxplot() +
+  theme_bw()
+
 
 # Military Experience: Combat -------------------------------------------------------------------------
 data %>% 
@@ -49,18 +65,30 @@ data %>%
 
 
 # MIOS Event Type ---------------------------------------------------------
+data %>% 
+  ggplot(aes(x = mios_total, group = mios_event_type)) +
+  geom_boxplot() +
+  theme_bw()
 
 
 # Religious ---------------------------------------------------------------
-
-
+data %>% 
+  ggplot(aes(x = mios_total, group = religious)) +
+  geom_boxplot() +
+  theme_bw()
 
 
 # Sex ---------------------------------------------------------------------
-
+data %>% 
+  ggplot(aes(x = mios_total, group = sex)) +
+  geom_boxplot() +
+  theme_bw()
 
 # Sexual Orientation ------------------------------------------------------
-
+data %>% 
+  ggplot(aes(x = mios_total, group = sexual_orientation)) +
+  geom_boxplot() +
+  theme_bw()
 
 
 

@@ -69,3 +69,8 @@ data <-
   data %>% 
   mutate(id = row_number())
 
+
+
+
+
+

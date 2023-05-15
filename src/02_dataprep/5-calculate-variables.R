@@ -10,12 +10,7 @@ data <-
     
 
 
-## Military Experiences: Dummies -----------------------------------------------
-      military_exp_total = military_exp_combat + 
-                          military_exp_noncombat +
-                          military_exp_support + 
-                          military_exp_peacekeeping,
-    
+
 
 # Create categorical variables ------------------------------------
 
@@ -42,6 +37,22 @@ data <-
     branch = ifelse(branch_multiple == 1, 'Multiple', branch), 
     branch = factor(branch),
 
+## Employment -------------------------------------------------------------
+
+    employment_multiple = ifelse(
+                              employment_full_time + 
+                              employment_part_time + 
+                              employment_irregular + 
+                              employment_unemployed + 
+                              employment_retired + 
+                              employment_student > 1, 1, 0),
+    employment = ifelse(employment_full_time == 1, 'Full Time', NA),
+    employment = ifelse(employment_part_time == 1, 'Part Time', employment),
+    employment = ifelse(employment_irregular == 1, 'Irregular', employment),
+    employment = ifelse(employment_unemployed == 1, 'Unemployed', employment),
+    employment = ifelse(employment_retired == 1, 'Retired', employment),
+    employment = ifelse(employment_student == 1, 'Student', employment),
+    employment = ifelse(employment_multiple == 1, 'Multiple', employment),
 
 ## Enlisted or Officer ----------------------------------------------------
       officer = dplyr::if_else(highest_rank >= 5, 1, 0),
@@ -55,6 +66,11 @@ data <-
       widowed = dplyr::if_else(marital == 5, 1, 0),   ## NEED RECODE IN QUALTRICS
       
 ## Military Experiences ----------------------------------------------------
+      military_exp_total = military_exp_combat + 
+        military_exp_noncombat +
+        military_exp_support + 
+        military_exp_peacekeeping,
+
       military_exp_none = if_else(military_exp_total == 0, 1, 0), 
 
 ## MIOS Event Type
@@ -135,5 +151,19 @@ data <-
       difi_overlap = dplyr::if_else(difi_us == 4, 100, difi_overlap),
       difi_overlap = dplyr::if_else(difi_us == 5, 100, difi_overlap),
 
+
+
+# Combine the old years variable and new ----------------------------------
+
+      years_service = ifelse(years_service == '4 1/2', '4.5', years_service),
+      years_service = as.numeric(ifelse(is.na(years_service), '0', years_service)),
+      years_reserve_hidden = as.numeric(ifelse(is.na(years_reserve_hidden), '0', years_reserve_hidden)),
+      years_service = years_service + years_reserve_hidden,
+
+      
+      years_separation = ifelse(is.na(years_separation), 0, years_separation)
+
 )
+
+
 

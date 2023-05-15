@@ -153,6 +153,15 @@ data <-
         mios_total =
           mios_shame + 
           mios_trust,
+
+# MIOS PTSD Symptoms ------------------------------------------------------
+        mios_ptsd_symptoms_total = 
+          mios_ptsd_symptoms_nightmares + 
+          mios_ptsd_symptoms_avoid +
+          mios_ptsd_symptoms_vigilant +
+          mios_ptsd_symptoms_numb +
+          mios_ptsd_symptoms_guilty,
+
 # SCC: Total ---------------------------------------------------------------
         scc_total =
           scc_1 +

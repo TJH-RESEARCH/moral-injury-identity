@@ -7,7 +7,7 @@ library(validate)
 
 
 ## Declare Validity Rules ------------------------------------------------------
-validity_rules_test <- 
+validity_rules <- 
   validate::validator(
     Air_Force_Warrant_Officer        = if(highest_rank == 4) branch_air_force != 1,
     Branch_None                      = branch_none == 0,
@@ -31,10 +31,13 @@ validity_rules_test <-
     Average_String_Length_Reverse    = avgstr_reverse < mean(data$avgstr_reverse) + (2 * sd(data$avgstr_reverse)),
     Average_String_Length_No_Reverse = avgstr_no_reverse < mean(data$avgstr_no_reverse) + (2 * sd(data$avgstr_no_reverse)),
     Even_Odd_Consistency             = evenodd > mean(data$evenodd) - (2 * sd(data$evenodd)),
-    Duration                         = `Duration (in minutes)` > mean(data$`Duration (in minutes)`) - (2 * sd(data$`Duration (in minutes)`))
+    Duration                         = `Duration (in minutes)` > mean(data$`Duration (in minutes)`) - (2 * sd(data$`Duration (in minutes)`)),
+    Validity_Years_Less_0            = validity_years > 0, 
+    Validity_Years_1                 = validity_years > mean(data$validity_years) - (2 * sd(data$validity_years)), 
+    Validity_Years_2                 = validity_years < mean(data$validity_years) + (2 * sd(data$validity_years))
     )
 ## Confront the data
-quality_check <- validate::confront(data, validity_rules_test) 
+quality_check <- validate::confront(data, validity_rules) 
 
 
 ## Summarize the validity criteria ------------------------------------------

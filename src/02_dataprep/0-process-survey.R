@@ -26,7 +26,7 @@ source(here::here('src/02_dataprep/3-fix-NAs.R'))
 source(here::here('src/02_dataprep/4-reverse-code.R'))
 
 # 5. Calculate Variables
-## Calculate new variables based on existing ones. 
+## Calculate new variables based on existing ones. Make variables factors.
 source(here::here('src/02_dataprep/5-calculate-variables.R'))
 
 # 6. Score Scales
@@ -81,10 +81,6 @@ source(here::here('src/02_dataprep/check-representation.R'))
 
 # Create Factors
 # source(here::here('src/02_dataprep/create-factors.R'))
-
-
-
-
 
 
 

@@ -37,6 +37,19 @@ data <-
     branch = ifelse(branch_multiple == 1, 'Multiple', branch), 
     branch = factor(branch),
 
+## Education -------------------------------------------------------------
+
+    education = factor(education, 
+                       levels = c(1:7),
+                       labels = c('High school diploma or equivalent',
+                                  'Some college',
+                                  'Associates degree',
+                                  'Bachelors degree',
+                                  'Masters degree',
+                                  'Applied or professional doctorate',
+                                  'Doctorate'),
+                       ordered = T),
+
 ## Employment -------------------------------------------------------------
 
     employment_multiple = ifelse(
@@ -53,17 +66,34 @@ data <-
     employment = ifelse(employment_retired == 1, 'Retired', employment),
     employment = ifelse(employment_student == 1, 'Student', employment),
     employment = ifelse(employment_multiple == 1, 'Multiple', employment),
+    employment = factor(employment),
 
 ## Enlisted or Officer ----------------------------------------------------
       officer = dplyr::if_else(highest_rank >= 5, 1, 0),
       enlisted = dplyr::if_else(highest_rank <= 3, 1, 0),
       warrant_officer = dplyr::if_else(highest_rank == 4, 1, 0),
-      
+
+## Highest Rank
+      highest_rank = factor(highest_rank,
+                            levels = c(1:7),
+                            labels = c('E-1 to E-3', 
+                                       'E-4 to E-6',
+                                       'E-7 to E-9',
+                                       'W-1 to CW-5',
+                                       'O-1 to O-3',
+                                       'O-4 to O-6',
+                                       'O-7 to O-10'),
+                            ordered = T),
+
 ## Marital Status ---------------------------------------------------------
-      never_married = dplyr::if_else(marital == 1, 1, 0),
-      married = dplyr::if_else(marital == 2, 1, 0),
-      divorced = dplyr::if_else(marital == 4, 1, 0),  ## NEED RECODE IN QUALTRICS
-      widowed = dplyr::if_else(marital == 5, 1, 0),   ## NEED RECODE IN QUALTRICS
+      never_married = dplyr::if_else(marital == 0, 1, 0),
+      married = dplyr::if_else(marital == 1, 1, 0),
+      divorced = dplyr::if_else(marital == 2, 1, 0),
+      widowed = dplyr::if_else(marital == 3, 1, 0),
+      marital = factor(marital, 
+                       levels = c(0:3),
+                       labels = c('Never married', 'Married', 'Divorced', 'Widowed'),
+                       ordered = F),
       
 ## Military Experiences ----------------------------------------------------
       military_exp_total = military_exp_combat + 
@@ -86,7 +116,8 @@ data <-
       mios_event_type = ifelse(mios_event_type_self == 1, 'Self', NA),
       mios_event_type = ifelse(mios_event_type_other == 1, 'Other', mios_event_type),
       mios_event_type = ifelse(mios_event_type_betrayal == 1, 'Betrayal', mios_event_type),
-      mios_event_type = ifelse(mios_event_type_multiple == 1, 'Miultiple', mios_event_type),
+      mios_event_type = ifelse(mios_event_type_multiple == 1, 'Multiple', mios_event_type),
+      mios_event_type = factor(mios_event_type),
 
 
 ## Race --------------------------------------------------------------------
@@ -117,13 +148,18 @@ data <-
       sex_male = dplyr::if_else(sex == 2, 1, 0),
       sex_nonbinary = dplyr::if_else(sex == 3, 1, 0),
       sex_other = dplyr::if_else(sex == 4, 1, 0),
-      sex = factor(sex, levels = c(1:4), labels = c('female', 'male', 'non-binary', 'other'),ordered = F),
+      sex = factor(sex, levels = c(1:4), 
+                   labels = c('female', 'male', 'non-binary', 'other'),
+                   ordered = F),
       
 ## Sexual Orientation -----------------------------------------------------
       sexual_orientation_straight = dplyr::if_else(sexual_orientation == 1, 1, 0),
       sexual_orientation_gay = dplyr::if_else(sexual_orientation == 2, 1, 0),
       sexual_orientation_bi = dplyr::if_else(sexual_orientation == 3, 1, 0),
       sexual_orientation_other = dplyr::if_else(sexual_orientation == 4, 1, 0),
+      sexual_orientation = factor(sexual_orientation, levels = c(1:4), 
+                                  labels = c('straight', 'gay', 'bisexual', 'other'),
+                                  ordered = F),
       
 ## Years of Age ------------------------------------------------------------
       years_of_age = 2023 - birth_year,
@@ -170,9 +206,63 @@ data <-
 
 # Service Era -------------------------------------------------------------
 
+      year_entered_military = 2023 - years_separation - years_service,
       year_left_military = 2023 - years_separation, 
-      year_entered_military = 2023 - years_separation - years_service
+
+      service_era_pre_wwii = ifelse(year_entered_military < 1941 | year_left_military < 1941, 1, 0),       
+      service_era_wwii = ifelse((year_entered_military >= 1941 & year_entered_military <= 1946) |  year_left_military >= 1941 & year_left_military <= 1946, 1, 0), 
+      service_era_post_wwii  = ifelse((year_entered_military >= 1947 & year_entered_military <= 1950) | (year_left_military >= 1947 & year_left_military <= 1950), 1, 0), 
+      service_era_korea  = ifelse((year_entered_military >= 1950 & year_entered_military <= 1956) | (year_left_military >= 1950 & year_left_military <= 1956), 1, 0), 
+      service_era_cold_war  = ifelse((year_entered_military >= 1955 & year_entered_military) | (year_left_military >= 1955 & year_left_military) <= 1990, 1, 0), 
+      service_era_vietnam  = ifelse((year_entered_military >= 1964 & year_entered_military) | (year_left_military >= 1964 & year_left_military) <= 1975, 1, 0), 
+      service_era_persian_gulf  = ifelse((year_entered_military >= 1990 & year_entered_military) | (year_left_military >= 1990 & year_left_military) < 1947, 1, 0), 
+      service_era_post_911  = ifelse((year_entered_military >= 2001) | (year_left_military >= 2001), 1, 0), 
+      
+      service_era_multiple = ifelse(service_era_pre_wwii +
+                                    service_era_wwii +
+                                    service_era_post_wwii +
+                                    service_era_korea +
+                                    service_era_cold_war +
+                                    service_era_vietnam +
+                                    service_era_persian_gulf +
+                                    service_era_post_911
+                                    > 1, 1, 0),
+
+      service_era = ifelse(service_era_pre_wwii == 1, "Pre-WWII", NA),
+      service_era = ifelse(service_era_wwii == 1, "WWII", service_era),
+      service_era = ifelse(service_era_post_wwii == 1, "Post-WWII", service_era),
+      service_era = ifelse(service_era_korea == 1, "Korea", service_era),
+      service_era = ifelse(service_era_cold_war == 1, "Cold War", service_era),
+      service_era = ifelse(service_era_vietnam == 1, "Vietnam", service_era),
+      service_era = ifelse(service_era_persian_gulf == 1, "Persian Gulf: Pre-9/11", service_era),
+      service_era = ifelse(service_era_post_911 == 1, "Post-9/11", service_era),
+      service_era = ifelse(service_era_multiple == 1, "Multiple", service_era),
+
+
+
+# MIOS x PTSD -------------------------------------------------------------
+
+      trauma_type = 
+        ifelse(mios_screener == 1 & 
+               mios_criterion_a == 1, 'MIOS and PTSD Event', NA),
+      trauma_type = 
+        ifelse(mios_screener == 0 & 
+                 mios_criterion_a == 1, 'PTSD Event without MIOS Event', trauma_type),
+      trauma_type = 
+        ifelse(mios_screener == 1 & 
+                 mios_criterion_a == 0, 'MIOS Event without PTSD Event', trauma_type),
+      trauma_type = 
+        ifelse(mios_screener == 0 & 
+                 mios_criterion_a == 0, 'No MIOS or PTSD Event', trauma_type),
+      trauma_type = factor(trauma_type)
 
 )
+
+
+
+
+
+
+
 
 

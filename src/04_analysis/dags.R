@@ -129,51 +129,105 @@ dag_model_2 <- dagitty::dagitty(
   ptsd -> mcarm
 
   
-  mios [exposure]
+  mios_event [exposure]
   mcarm [outcome]
   
   }")
 ggdag::ggdag(dag_model_2)
-ggdag_paths(dag_model_2)
 ggdag_adjustment_set(dag_model_2)
 adjustmentSets(dag_model_2)
 
 
-bigger_dag <- dagify(mcarm ~ x + a + b,
-                     x ~ a + b,
-                     exposure = "x",
-                     outcome = "mcarm"
-)
-ggdag::ggdag(bigger_dag)
-ggdag_paths(bigger_dag)
+
+# DAG 3: No Events    -------------------------------------------------
+dag_model_3 <- dagitty::dagitty(
+  "dag{
+
+  mios -> military -> biis
+  mios -> civilian -> biis
+  military -> biis -> mcarm
+  biis -> scc -> mcarm
+  mios -> scc
+  mios -> mcarm 
+  mios <- ptsd -> mcarm 
+  
+  mios <-> ptsd
+
+  ptsd -> mcarm
+
+  
+  mios [exposure]
+  mcarm [outcome]
+  
+  }")
+dagitty::paths(dag_model_3)
+
+ggdag::ggdag_parents(dag_model_3, .var = 'mios')
+
+ggdag::ggdag(dag_model_3)
+ggdag_adjustment_set(dag_model_3)
+adjustmentSets(dag_model_3)
+
+lm(mcarm_total ~ 
+       mios_total + 
+       mios_ptsd_symptoms_total,
+    data = data
+  ) %>% summary()
+
+lm(mcarm_total ~ 
+     mios_total + 
+     mios_ptsd_symptoms_total + 
+     wis_private_regard_total +
+     civilian_commit_total + 
+     scc_total +
+     biis_total,
+   data = data
+) %>% summary()
+
+lm(mcarm_total ~ 
+     mios_total + 
+     mios_ptsd_symptoms_total + 
+     wis_private_regard_total +
+     civilian_commit_total,
+   data = data
+) %>% summary()
+
+
+
+lm(mcarm_total ~ 
+     mios_total + 
+     mios_ptsd_symptoms_total + 
+     biis_total +
+     scc_total,
+   data = data
+) %>% summary()
+
+
+lm(mcarm_total ~ 
+     mios_total + 
+     biis_total +
+     scc_total,
+   data = data
+) %>% summary()
+
+# Should I have any reason to suspect that PTSD will affect identity?
+# It might affect reintegration, but identity?
+# I could test this with ANOVA: 
+## MIOS event with no PTSD event, 
+## MIOS event with PTSD event, 
+## PTSD event with no MIOS event 
+
+aov(mcarm_total ~ trauma_type, data = data) %>% summary()
+
+
+data %>% 
+  ggplot(aes(x = mcarm_total, color = trauma_type)) +
+  geom_boxplot()
 
 
 
 
-# exampl ------------------------------------------------------------------
-
-bigger_dag <- dagify(y ~ x + a + b,
-                     x ~ a + b,
-                     exposure = "x",
-                     outcome = "y"
-)
-ggdag::ggdag(bigger_dag)
-
-
-
-
-dagitty::paths(dag_full_model)
-ggdag::tidy_dagitty(dag_full_model)
-set.seed(12)
-ggdag::ggdag(dag_full_model) + theme_dag_gray()
-ggdag::ggdag_paths(dag_full_model)
-dagitty::adjustmentSets(dag_full_model)
-?adjustmentSets()
-
-
-# DAG: No events ----------------------------------------------------------
-
-
+# Extra -------------------------------------------------------------------
 
 
 dag_full_model <- dagitty::dagitty(

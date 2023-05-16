@@ -6,29 +6,17 @@ data <-
   mutate(
 
     ## Air Force Warrant Officers ----------------------------------------------
-    air_force_warrant_officer = ifelse(branch_air_force == 1 & warrant_officer, 1, 0),
-    
-    ## Branch: Space Force ---------------------------------------------------
-    #branch_space_force
-    
-    ## Branch: Did not serve ---------------------------------------------------
+    air_force_warrant_officer = ifelse(branch == 'Air Force' & warrant_officer == 1, 1, 0),
     
     ## Inconsistency: Children -------------------------------------------------
-    ## Report having children to one question, having no children in another.
-    inconsistent_children = is.na(bipf_children) & military_family_child == 1,
-    
-    ## Inconsistency: Children-Age
-    ## Report having a child who served in the military but is under 35 years themselves
-    ## Perhaps not an impossibility, but hihly unlikely
-    inconsistent_children_age = years_of_age < 40 & military_family_child == 1,
+    inconsistent_children = is.na(bipf_children) & military_family_child == 1, ## Report having children to one question, having no children in another.
+    inconsistent_children_age = years_of_age < 40 & military_family_child == 1, ## Inconsistency: Children-Age. ## Report having a child who served in the military but is under 35 years themselves. Perhaps not an impossibility, but hihly unlikely
     
     ## Inconsistency: Education and Years of Age
     inconsistent_education_years = education == 'doctorate' & years_of_age < 30,
     
     ## Inconsistency: Education
-    ## Reports N/A to b-IPF Education question, then 'Student' to employment
-    
-    inconsistent_education = is.na(bipf_education) & employment_student == 1, 
+    inconsistent_education = is.na(bipf_education) & employment_student == 1, ## Reports N/A to b-IPF Education question, then 'Student' to employment
     
     ## Inconsistency: Rank and Years of Service --------------------------------
     inconsistent_rank = highest_rank == 'E-7 to E-9' & years_service < 8,
@@ -39,7 +27,6 @@ data <-
     ## Inconsistency: Retirement
     inconsistent_retirement = is.na(bipf_work) & (employment_retired == 0 | employment_unemployed == 0 ), 
     
-    
     ## Inconsistency: Total Years ----------------------------------------------
     ### Check that reported years are logically valid 
     validity_years = 
@@ -49,6 +36,16 @@ data <-
       years_separation,
     
     invalid_years = validity_years < 0,
+    
+    age_enlisted = 
+      years_of_age - 
+      years_service - 
+      years_separation,
+    
+    age_separated = 
+      years_of_age - 
+      years_separation,
+    
     
     ## Failed attention checks (i.e., instructed items)
     attention_checks = attention_check_biis + attention_check_wis
@@ -299,10 +296,6 @@ data <-
   # of inconsistency across semantic synonyms.:
   transmute(mcarm_m2cq_difference = abs(mcarm_total - m2cq_mean)) %>% 
   bind_cols(data)
-
-
-  
-
 
 
 

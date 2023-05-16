@@ -40,14 +40,18 @@ labelled::var_label(data$sex_female) <- "Sex: Female"
 labelled::var_label(data$sex_male) <- "Sex: Male"
 labelled::var_label(data$sex_nonbinary) <- "Sex: Nonbinary"
 labelled::var_label(data$sex_other) <- "Sex: Other"
+labelled::var_label(data$sexual_orientation) <- "What is your sexual orientation?"
 labelled::var_label(data$sexual_orientation_straight) <- "Sexual Orientation: Straight or Heterosexual"                                            
 labelled::var_label(data$sexual_orientation_gay) <- "Sexual Orientation: Gay or Homosexual"
 labelled::var_label(data$sexual_orientation_bi) <- "Sexual Orientation: Bisexual"
 labelled::var_label(data$sexual_orientation_other) <- "Sexual Orientation: Other"
 labelled::var_label(data$validity_years) <- "Years of Age minus 17, years of service, and years of separation"
 
+
+# b-IPF -------------------------------------------------------------------
+#labelled::var_label(data$bipf_daily) <- ""
+
 # DIFI: US Identity -------------------------------------------------------------
-labelled::var_label(data$bipf_daily) <- ""
 labelled::var_label(data$difi_distance) <- ""
 labelled::var_label(data$difi_us) <- ""
 labelled::var_label(data$difi_overlap) <- ""
@@ -84,7 +88,7 @@ labelled::var_label(data$mios_event_type_betrayal) <- "Moral Injury Event: Betra
 # MIOS PTSD Symptoms ------------------------------------------------------
 labelled::var_label(data$mios_ptsd_symptoms_nightmares) <- "In the past month, have you had nightmares about the event or thought about the event when you did not want to?"                  
 labelled::var_label(data$mios_ptsd_symptoms_avoid) <- "In the past month, have you tried hard not to think about the event or went out of your way to avoid situations that reminded you of the event(s)?" 
-labelled::var_label(data$mios_ptsd_symptoms_vigiliant) <- "In the past month, have you been constantly on guard, watchful, or easily startled?"
+labelled::var_label(data$mios_ptsd_symptoms_vigilant) <- "In the past month, have you been constantly on guard, watchful, or easily startled?"
 labelled::var_label(data$mios_ptsd_symptoms_numb) <- "In the past month, have you felt numb or detached from people, activities, or your surroundings?" 
 labelled::var_label(data$mios_ptsd_symptoms_guilty) <- "In the past month, have you felt guilty or unable to stop blaming yourself or others for the event(s) or any problems the event(s) may have caused?"
 labelled::var_label(data$mios_ptsd_symptoms_none) <- "None of the above symptoms in the past month"  
@@ -169,6 +173,11 @@ labelled::var_label(data$mcarm_m2cq_difference) <- "Difference between MCARM and
 # Miscellaneous -----------------------------------------------------------
 labelled::var_label(data$id) <- "Respondent ID (assigned by researcher)"  
 
+
+# Honeypot ----------------------------------------------------------------
+labelled::var_label(data$honeypot1) <- "Item not display to valid users. To catch bots."  
+labelled::var_label(data$honeypot2) <- "Item not display to valid users. To catch bots."
+labelled::var_label(data$honeypot3) <- "Item not display to valid users. To catch bots."
 
 
 

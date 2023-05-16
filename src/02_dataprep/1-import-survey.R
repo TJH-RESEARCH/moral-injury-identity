@@ -6,7 +6,7 @@ library(tidyverse)
 # Import Data --------------------------------------------------
 data <- 
   readr::read_csv(
-    here::here('data/raw/Dissertation_May 14, 2023_12.12.csv'), na = 'NA'
+    here::here('data/raw/Dissertation_May 15, 2023_22.07.csv'), na = 'NA'
   )
 
 
@@ -42,27 +42,52 @@ labelled::var_label(data) <- as.character(labels$label)
 
 
 # Remove Responses that didn't pass initial screening questions ------------
-data_synthetic <- 
+
+exclusion_report <- list()
+
+exclusion_report$tests <-
+  data %>% 
+  group_by(DistributionChannel) %>% 
+  count()
+             
+exclusion_report$screened <-
+  data %>% 
+  filter(DistributionChannel != 'test') %>% 
+  group_by(term) %>% 
+  rename(`Exclusion Reason` = term) %>% 
+  count() %>% 
+  ungroup() %>% 
+  mutate(percent = n / sum(n) * 100)
+
+exclusion_report$finished <-
+  data %>% 
+  filter(DistributionChannel != 'test', is.na(term)) %>% 
+  group_by(Finished) %>% 
+  count() %>% 
+  ungroup() %>% 
+  mutate(percent = n / sum(n) * 100)
+
+
+#data_synthetic <- 
   data %>% 
   filter(`Status` == 2)
 
-data_synthetic %>% readr::write_csv(file = here::here('data/synthetic/synthetic-data.csv'))
-rm(data_synthetic)
+#data_synthetic %>% readr::write_csv(file = here::here('data/synthetic/synthetic-data.csv'))
+#rm(data_synthetic)
 
-data_screened_out <- 
+#data_screened_out <- 
   data %>% 
   filter(`Status` == 0) %>% 
   filter(`Response Type` == "Screened Out")
 
-data_no_consent <- 
+#data_no_consent <- 
   data %>% 
   filter(`Status` == 0) %>% 
   filter(`Response Type` == "Did not consent")
 
 data <- 
   data %>% 
-  filter(`Status` == 0) %>% 
-  filter(`Response Type` == "Completed Survey")
+  filter(DistributionChannel != 'test', is.na(term), Finished == 1)
 
 # Assign a simple ID to each respondent -----------------------------------
 data <- 

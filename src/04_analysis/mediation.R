@@ -84,36 +84,6 @@ data_mediation <-
   select((ends_with('total') | ends_with('mean')) & !c('irvTotal'))
 
 
-# DAG ---------------------------------------------------------------------
-dagitty::dagitty()
-
-?dagitty
-
-dg <- dagitty::dagitty(
-  "dag{
-  mios_screener <-> mios_criterion_a
-  mios_criterion_a -> mios_ptsd_symptoms_total
-  mios_screener -> mios_ptsd_symptoms_total
-  mios_screener -> mios_total
-  military_exp_combat -> mios_screener
-  mios_ptsd_symptoms_total -> mcarm_total
-  mios_total -> mcarm_total 
-  mios_total -> wis_private_total
-  mios_total -> wis_public_total
-  wis_private_total -> wis_public_total
-  wis_private_total -> mcarm_total
-  wis_public_total -> mcarm_total
-  mios_total [exposure]
-  mcarm_total [outcome]
-  }")
-  
-dagitty::paths(dg)
-ggdag::tidy_dagitty(dg)
-set.seed(1)
-ggdag::ggdag(dg) + theme_dag_gray()
-ggdag::ggdag_paths(dg)
-dagitty::adjustmentSets(dg)
-?adjustmentSets()
 
 
 # Model -------------------------------------------------------------------

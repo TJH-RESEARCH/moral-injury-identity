@@ -3,159 +3,61 @@
 # Screen Responses
 
 
-      
-
-
-
-
 
 # Save those screened out by additional criteria ----------------------------------------------------
 ## This should be the opposite of the next script
 
-data_extra_screening <-
-  data %>% 
-  filter(
-    
-    # No warrant officers in the Air Force
-    air_force_warrant_officer == 1 |
-    
-    # Branch: Space Force
-    #branch_space_force == 1 |
-    
-    # Branch: Did not serve
-    branch_none == 1 |
-        
-    # Failed attention checks (i.e., instructed items)
-    attention_check_biis == 0 |
-    attention_check_wis == 0 |
-    #attention_checks < 1 |
-    
-    # Failed Validity checks
-    validity_check_1 == 0 |
-    
-    # Answered honey pots
-    honeypot1 == 1 |
-    honeypot2 == 1 |
-    honeypot3 == 1 |
-    
-    # Outliers
-    outlier_longstring_reverse == 1 |
-    outlier_longstring_no_reverse == 1 |
-    #outlier_psychsyn == 1 |
-    negative_correlation_psychsyn |
-    #outlier_psychant == 1 |
-    positive_correlation_psychant |
-    outlier_evenodd == 1 |
-    outlier_duration == 1 |
-    outlier_mcarm_m2cq_difference == 1 #|
-    #outlier_irvTotal == 1 |
-    #outlier_irv1 == 1 |
-    #outlier_irv2 == 1 |
-    #outlier_irv3 == 1 |
-    #outlier_irv4 == 1 |
-    #outlier_irv5 == 1 |
-    #outlier_irv6 == 1
-    
-    # Inconsistency: Children
-    # inconsistent_children != 0 |
-      
-    # Inconsistency: Children-Age
-    #  inconsistent_children_age == TRUE |
-    
-    # Inconsistency: Education
-    # inconsistent_education == TRUE |
-    
-    # Inconsistency: Rank and Years of Service
-    # inconsistent_rank == TRUE #|
-    
-    # inconsistent_retirement == 1 |
-    
-    # Inconsistency: Total Years
-    #invalid_years == TRUE # I am not sure about this one. Since I programmed the survey logic wrong and did not get all their years. 
-  
-  )
-
-data_extra_screening2 <-
-  data_extra_screening %>% filter(
-    
-    # Failed attention checks (i.e., instructed items)
-      attention_check_biis == 1 &
-      attention_check_wis == 1 &
-      #attention_checks < 1 &
-      
-      # Failed Validity checks
-      validity_check_1 == 1 &
-      
-      # Answered honey pots
-      honeypot1 == 0 &
-      honeypot2 == 0 &
-      honeypot3 == 0
-    
-)
-
+data_original <- data
 
 # Filter out screeners ----------------------------------------------------
 data <-
   data %>% 
   filter(
+    air_force_warrant_officer == 0, # No warrant officers in the Air Force
+    branch_none == 0, # Branch: Did not serve
+    attention_check_biis == 1, # Failed attention checks (i.e., instructed items)
+    attention_check_wis == 1,
+    validity_check_1 == 1, # Failed Validity checks
+    honeypot1 == 0, # Answered honey pots
+    honeypot2 == 0,
+    honeypot3 == 0,
+    longstr_reverse < mean(data$longstr_reverse) + (2 * sd(data$longstr_reverse)), # Longsting outliers
+    longstr_no_reverse < mean(data$longstr_no_reverse) + (2 * sd(data$longstr_no_reverse)), # Longstring outliers
+    psychant < mean(data$psychant) + (2 * sd(data$psychant)),
+    psychsyn > mean(data$psychsyn) - (2 * sd(data$psychsyn)),
+    psychant < 0,
+    psychsyn > 0,
+    evenodd < mean(data$evenodd) + (2 * sd(data$evenodd)),
+    `Duration (in minutes)` > mean(data$`Duration (in minutes)`) - (2 * sd(data$`Duration (in minutes)`)),
+    `Duration (in seconds)` > 300
 
-# No warrant officers in the Air Force
-        air_force_warrant_officer == 0,
-      
-# Branch: Space Force
-       # branch_space_force != 1,
-  
-# Branch: Did not serve
-        branch_none == 0,
-
-# Failed attention checks (i.e., instructed items)
-        attention_check_biis == 1,
-        attention_check_wis == 1,
-        #attention_checks > 0,      
-
-# Failed Validity checks
-        validity_check_1 == 1,
-    
-# Answered honey pots
-        honeypot1 == 0,
-        honeypot2 == 0,
-        honeypot3 == 0,
-
-# Outliers
-        outlier_longstring_no_reverse == 0,
-        outlier_longstring_reverse == 0,
-        #outlier_psychsyn == 0,
-        #outlier_psychant == 0,
-        negative_correlation_psychsyn == 0,
-        positive_correlation_psychant == 0,
-        outlier_evenodd == 0,
-        outlier_duration == 0,
-        outlier_mcarm_m2cq_difference == 0,
-        #outlier_irvTotal == 0,
-        #outlier_irv1 == 0,
-        #outlier_irv2 == 0,
-        #outlier_irv3 == 0,
-        #outlier_irv4 == 0,
-        #outlier_irv5 == 0,
-        #outlier_irv6 == 0
-# Inconsistency: Children
-      #  inconsistent_children == 0,
-
-# Inconsistency: Children-Age
-       # inconsistent_children_age == FALSE,
-
-# Inconsistency: Education
-        #inconsistent_education == FALSE, 
-      
-# Inconsistency: Rank and Years of Service
-        #inconsistent_rank == FALSE #,
-
-        # inconsistent_retirement == FALSE,
-
-# Inconsistency: Total Years
-        #invalid_years == FALSE
 )
 
+data_extra_screening <- anti_join(data_original, data, by = c('id' = 'id'))
+rm(data_original)
 
 
-      
+
+
+#branch_space_force == 1 | # Branch: Space Force
+#outlier_mcarm_m2cq_difference == 1 #|
+#outlier_irvTotal == 1 |
+#outlier_irv1 == 1 |
+#outlier_irv2 == 1 |
+#outlier_irv3 == 1 |
+#outlier_irv4 == 1 |
+#outlier_irv5 == 1 |
+#outlier_irv6 == 1
+
+# inconsistent_children != 0 | # Inconsistency: Children
+# inconsistent_children_age == TRUE | # Inconsistency: Children-Age
+# inconsistent_education == TRUE | # Inconsistency: Education
+# inconsistent_rank == TRUE #| # Inconsistency: Rank and Years of Service
+
+# inconsistent_retirement == 1 |
+
+# Inconsistency: Total Years
+#invalid_years == TRUE # I am not sure about this one. Since I programmed the survey logic wrong and did not get all their years. 
+
+
+

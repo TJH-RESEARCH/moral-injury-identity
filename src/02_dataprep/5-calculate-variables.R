@@ -111,11 +111,13 @@ data <-
       race = ifelse(race_multiple == 1, "Multiple", race),
       race = factor(race),
 
+
 ## Sex ---------------------------------------------------------------------
       sex_female = dplyr::if_else(sex == 1, 1, 0),
       sex_male = dplyr::if_else(sex == 2, 1, 0),
       sex_nonbinary = dplyr::if_else(sex == 3, 1, 0),
       sex_other = dplyr::if_else(sex == 4, 1, 0),
+      sex = factor(sex, levels = c(1:4), labels = c('female', 'male', 'non-binary', 'other'),ordered = F),
       
 ## Sexual Orientation -----------------------------------------------------
       sexual_orientation_straight = dplyr::if_else(sexual_orientation == 1, 1, 0),
@@ -155,15 +157,22 @@ data <-
 
 # Combine the old years variable and new ----------------------------------
 
+      years_service = ifelse(years_service == '4years4months', '4.5', years_service),
       years_service = ifelse(years_service == '4 1/2', '4.5', years_service),
       years_service = as.numeric(ifelse(is.na(years_service), '0', years_service)),
       years_reserve_hidden = as.numeric(ifelse(is.na(years_reserve_hidden), '0', years_reserve_hidden)),
       years_service = years_service + years_reserve_hidden,
 
       
-      years_separation = ifelse(is.na(years_separation), 0, years_separation)
+      years_separation = ifelse(is.na(years_separation), 0, years_separation),
+
+
+
+# Service Era -------------------------------------------------------------
+
+      year_left_military = 2023 - years_separation, 
+      year_entered_military = 2023 - years_separation - years_service
 
 )
-
 
 

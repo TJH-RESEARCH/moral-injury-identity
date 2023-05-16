@@ -45,12 +45,14 @@ duration_box <-
   data %>%
   ggplot2::ggplot(aes(x = `Duration (in minutes)`)) +
   geom_boxplot() +
+  lims(x = c(0, 100))
   labs(title = 'Duration')
 
 duration_hist <-
   data %>%
   ggplot2::ggplot(aes(x = `Duration (in minutes)`)) +
-  geom_histogram()
+  geom_histogram() +
+  lims(x = c(0, 100))
 
 
 ## Even-Odd Consistency

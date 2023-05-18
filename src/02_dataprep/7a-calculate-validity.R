@@ -13,7 +13,7 @@ data <-
     inconsistent_children_age = years_of_age < 40 & military_family_child == 1, ## Inconsistency: Children-Age. ## Report having a child who served in the military but is under 35 years themselves. Perhaps not an impossibility, but hihly unlikely
     
     ## Inconsistency: Education and Years of Age
-    inconsistent_education_years = education == 'doctorate' & years_of_age < 30,
+    inconsistent_education_years = education == 'Doctorate' & years_of_age < 30,
     
     ## Inconsistency: Education
     inconsistent_education = is.na(bipf_education) & employment_student == 1, ## Reports N/A to b-IPF Education question, then 'Student' to employment

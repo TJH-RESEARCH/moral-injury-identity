@@ -14,7 +14,7 @@ validity_rules <-
     Honeypot_1                       = honeypot1 == 0,
     Honeypot_2                       = honeypot2 == 0,
     Honeypot_3                       = honeypot3 == 0,
-    Improbable_Rank_Years            = if(highest_rank == 'E-7 to E-9') years_service < 7,
+    Improbable_Rank_Years            = if(highest_rank == 'E-7 to E-9') years_service > 7,
     Improbable_Age_Child             = if(years_of_age < 40) military_family_child == 0,
     Improbable_Age_Education         = if(education == 'Doctorate') years_of_age > 30,
     Inconsistent_Child               = if(military_family_child == 1) !is.na(bipf_children),
@@ -37,8 +37,8 @@ validity_rules <-
     Even_Odd_Consistency             = evenodd > mean(data$evenodd) - (2 * sd(data$evenodd)),
     Duration                         = `Duration (in minutes)` > mean(data$`Duration (in minutes)`) - (2 * sd(data$`Duration (in minutes)`)),
     Validity_Years_Less_0            = validity_years > 0, 
-    Validity_Years_1                 = validity_years > mean(data$validity_years) - (2 * sd(data$validity_years)), 
-    Validity_Years_2                 = validity_years < mean(data$validity_years) + (2 * sd(data$validity_years))
+    Validity_Years_Low_Outlier       = validity_years > mean(data$validity_years) - (2 * sd(data$validity_years)), 
+    Validity_Years_High_Outlier      = validity_years < mean(data$validity_years) + (2 * sd(data$validity_years))
     )
 ## Confront the data
 quality_check <- validate::confront(data, validity_rules) 

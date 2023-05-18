@@ -6,7 +6,7 @@ library(tidyverse)
 # Import Data --------------------------------------------------
 data <- 
   readr::read_csv(
-    here::here('data/raw/Dissertation_May 15, 2023_22.07.csv'), na = 'NA'
+    here::here('data/raw/Dissertation_May 17, 2023_19.04.csv'), na = 'NA'
   )
 
 
@@ -68,26 +68,47 @@ exclusion_report$finished <-
   mutate(percent = n / sum(n) * 100)
 
 
-#data_synthetic <- 
+# Filter Data -------------------------------------------------------------
+
+data_synthetic <- 
   data %>% 
-  filter(`Status` == 2)
+  filter(DistributionChannel == 'test')
 
 #data_synthetic %>% readr::write_csv(file = here::here('data/synthetic/synthetic-data.csv'))
 #rm(data_synthetic)
 
-#data_screened_out <- 
+data_screened_out <- 
   data %>% 
-  filter(`Status` == 0) %>% 
-  filter(`Response Type` == "Screened Out")
+  filter(DistributionChannel != 'test') %>% 
+  filter(`Response Type` == "Screened Out" & term != 'scrubbed')
 
-#data_no_consent <- 
+data_scrubbed <- 
   data %>% 
-  filter(`Status` == 0) %>% 
+  filter(DistributionChannel != 'test') %>% 
+  filter(term == 'scrubbed')
+
+
+data_no_consent <- 
+  data %>% 
+  filter(DistributionChannel != 'test') %>% 
   filter(`Response Type` == "Did not consent")
 
+
+# -------------------------------------------------------------------------
 data <- 
   data %>% 
-  filter(DistributionChannel != 'test', is.na(term), Finished == 1)
+  filter(DistributionChannel != 'test', 
+         is.na(term), 
+         `Response Type` == 'Completed Survey')
+
+#data <- 
+  #bind_rows(data, data_scrubbed)
+
+
+#anti_join(data, 
+#          by = c('Response ID' = 'Response ID'))
+
+
 
 # Assign a simple ID to each respondent -----------------------------------
 data <- 
@@ -96,6 +117,8 @@ data <-
 
 
 
+#data_mis <- anti_join(data_scrubbed, data, by = c("ResponseId" = 
+#                                                  "ResponseId"))
 
 
 

@@ -41,27 +41,3 @@ data_extra_screening <- anti_join(data_original, data, by = c('id' = 'id'))
 rm(data_original)
 
 
-
-
-#branch_space_force == 1 | # Branch: Space Force
-#outlier_mcarm_m2cq_difference == 1 #|
-#outlier_irvTotal == 1 |
-#outlier_irv1 == 1 |
-#outlier_irv2 == 1 |
-#outlier_irv3 == 1 |
-#outlier_irv4 == 1 |
-#outlier_irv5 == 1 |
-#outlier_irv6 == 1
-
-# inconsistent_children != 0 | # Inconsistency: Children
-# inconsistent_children_age == TRUE | # Inconsistency: Children-Age
-# inconsistent_education == TRUE | # Inconsistency: Education
-# inconsistent_rank == TRUE #| # Inconsistency: Rank and Years of Service
-
-# inconsistent_retirement == 1 |
-
-# Inconsistency: Total Years
-#invalid_years == TRUE # I am not sure about this one. Since I programmed the survey logic wrong and did not get all their years. 
-
-
-

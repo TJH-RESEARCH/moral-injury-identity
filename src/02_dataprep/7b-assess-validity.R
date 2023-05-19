@@ -38,7 +38,9 @@ validity_rules <-
     Duration                         = `Duration (in minutes)` > mean(data$`Duration (in minutes)`) - (2 * sd(data$`Duration (in minutes)`)),
     Validity_Years_Less_0            = validity_years > 0, 
     Validity_Years_Low_Outlier       = validity_years > mean(data$validity_years) - (2 * sd(data$validity_years)), 
-    Validity_Years_High_Outlier      = validity_years < mean(data$validity_years) + (2 * sd(data$validity_years))
+    Validity_Years_High_Outlier      = validity_years < mean(data$validity_years) + (2 * sd(data$validity_years)),
+    
+    mohalanobis_d_flag               = d_sq_flagged == FALSE
     )
 ## Confront the data
 quality_check <- validate::confront(data, validity_rules) 

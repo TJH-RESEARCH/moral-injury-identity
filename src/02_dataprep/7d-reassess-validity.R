@@ -5,6 +5,8 @@
 ## Load packages 
 library(patchwork)
 
+data_original <- exclusion_report$data_original
+
 
 # Visualize ---------------------------------------------------------------
 
@@ -14,34 +16,34 @@ psych_scatter <-
   ggplot2::ggplot(aes(x = psychant, 
                       y = psychsyn)) +
   geom_text(aes(label = id)) +
-  labs(title = 'Psychological Synonym and Antonym Correlations') +
+  labs(title = 'Cleaned: Psychological Synonym and Antonym Correlations') +
   lims(x = c(-1, 0), y = c(0, 1))
 
 psychsyn_box <-
   data %>%
   ggplot2::ggplot(aes(x = psychsyn)) +
   geom_boxplot() +
-  labs(title = 'Psychological Synonym Correlation') +
-  lims(x = c(0, 1))
+  labs(title = 'Cleaned: Psychological Synonym Correlation') +
+  lims(x = c(-0.5, 1))
 
 psychsyn_hist <-
   data %>%
   ggplot2::ggplot(aes(x = psychsyn)) +
   geom_histogram() +
-  lims(x = c(0, 1))
+  lims(x = c(-.5, 1))
 
 psychant_box <-
   data %>%
   ggplot2::ggplot(aes(x = psychant)) +
   geom_boxplot() +
-  labs(title = 'Psychological Antonym Correlation') +
-  lims(x = c(-1, 0))
+  labs(title = 'Cleaned: Psychological Antonym Correlation') +
+  lims(x = c(-1, 0.5))
 
 psychant_hist <-
   data %>%
   ggplot2::ggplot(aes(x = psychant)) +
   geom_histogram() +
-  lims(x = c(-1, 0))
+  lims(x = c(-1, 0.5))
 
 ## Duration
 
@@ -49,14 +51,14 @@ duration_box <-
   data %>%
   ggplot2::ggplot(aes(x = `Duration (in minutes)`)) +
   geom_boxplot() +
-  lims(x = c(0, 100))
-  labs(title = 'Duration')
+  lims(x = c(0, 50)) +
+  labs(title = 'Cleaned: Duration')
 
 duration_hist <-
   data %>%
   ggplot2::ggplot(aes(x = `Duration (in minutes)`)) +
   geom_histogram() +
-  lims(x = c(0, 100))
+  lims(x = c(0, 50))
 
 
 ## Even-Odd Consistency
@@ -65,125 +67,107 @@ evenodd_box <-
   data %>%
   ggplot2::ggplot(aes(x = evenodd)) +
   geom_boxplot() +
-  labs(title = 'Even-Odd Consistency')
+  labs(title = 'Cleaned: Even-Odd Consistency') +
+  lims(x = c(-1, 0))
 
 evenodd_hist <-
   data %>%
   ggplot2::ggplot(aes(x = evenodd)) +
   geom_histogram() +
-  labs(title = '')
-
-## Difference between M2C-Q and M-CARM scores  
-
-diff_hist <-
-  data %>%
-  ggplot2::ggplot(aes(x = mcarm_m2cq_difference)) +
-  geom_histogram() +
-  labs(title = '')
-
-diff_box <-
-  data %>%
-  ggplot2::ggplot(aes(x = mcarm_m2cq_difference)) +
-  geom_boxplot() +
-  labs(title = 'Difference between M2C-Q and M-CARM (0-4 range)')
+  labs(title = '') +
+  lims(x = c(-1, 0))
 
 
 # Visualize for screened responses ----------------------------------------
 
 
 ## Psychometric Synonyms/Antonyms
-psych_scatter_screening <-
-  data_extra_screening %>% 
+psych_scatter_original <-
+  data_original %>% 
   ggplot2::ggplot(aes(x = psychant, 
                       y = psychsyn)) +
   geom_text(aes(label = id)) +
-  labs(title = 'Screened Out: Psychological Synonym and Antonym Correlations') +
+  labs(title = 'Original: Psychological Synonym and Antonym Correlations') +
   lims(x = c(-1, 0), y = c(0, 1))
 
-psychsyn_box_screening <-
-  data_extra_screening %>%
+psychsyn_box_original <-
+  data_original %>%
   ggplot2::ggplot(aes(x = psychsyn)) +
   geom_boxplot() +
-  labs(title = 'Screened Out: Psychological Synonym Correlation') +
-  lims(x = c(0, 1))
+  labs(title = 'Original: Psychological Synonym Correlation') +
+  lims(x = c(-0.5, 1))
 
-psychsyn_hist_screening <-
-  data_extra_screening %>%
+psychsyn_hist_original <-
+  data_original %>%
   ggplot2::ggplot(aes(x = psychsyn)) +
   geom_histogram() +
-  lims(x = c(0, 1))
+  lims(x = c(-0.5, 1))
 
-psychant_box_screening <-
-  data_extra_screening %>%
+psychant_box_original <-
+  data_original %>%
   ggplot2::ggplot(aes(x = psychant)) +
   geom_boxplot() +
-  labs(title = 'Screened Out: Psychological Antonym Correlation') +
-  lims(x = c(-1, 0))
+  labs(title = 'Original: Psychological Antonym Correlation') +
+  lims(x = c(-1, 0.5))
 
-psychant_hist_screening <-
-  data_extra_screening %>%
+psychant_hist_original <-
+  data_original %>%
   ggplot2::ggplot(aes(x = psychant)) +
   geom_histogram() +
-  lims(x = c(-1, 0))
+  lims(x = c(-1, 0.5))
 
 ## Duration
 
-duration_box_screening <-
-  data_extra_screening %>%
+duration_box_original <-
+  data_original %>%
   ggplot2::ggplot(aes(x = `Duration (in minutes)`)) +
   geom_boxplot() +
-  lims(x = c(0, 100))
-labs(title = 'Screened Out: Duration')
+  labs(title = 'Original: Duration') +
+  lims(x = c(0, 50))
 
-duration_hist_screening <-
-  data_extra_screening %>%
+duration_hist_original <-
+  data_original %>%
   ggplot2::ggplot(aes(x = `Duration (in minutes)`)) +
   geom_histogram() +
-  lims(x = c(0, 100))
+  lims(x = c(0, 50))
 
 
 ## Even-Odd Consistency
 
-evenodd_box_screening <-
-  data_extra_screening %>%
+evenodd_box_original <-
+  data_original %>%
   ggplot2::ggplot(aes(x = evenodd)) +
   geom_boxplot() +
-  labs(title = 'Even-Odd Consistency')
+  labs(title = 'Original: Even-Odd Consistency') +
+  lims(x = c(-1, 0))
 
-evenodd_hist_screening <-
-  data_extra_screening %>%
+evenodd_hist_original <-
+  data_original %>%
   ggplot2::ggplot(aes(x = evenodd)) +
   geom_histogram() +
-  labs(title = '')
-
-## Difference between M2C-Q and M-CARM scores  
-
-diff_hist_screening <-
-  data_extra_screening %>%
-  ggplot2::ggplot(aes(x = mcarm_m2cq_difference)) +
-  geom_histogram() +
-  labs(title = '')
-
-diff_box_screening <-
-  data_extra_screening %>%
-  ggplot2::ggplot(aes(x = mcarm_m2cq_difference)) +
-  geom_boxplot() +
-  labs(title = 'Difference between M2C-Q and M-CARM (0-4 range)')
+  labs(title = '') +
+  lims(x = c(-1, 0))
 
 
 # Plot -------------------------------------------------------------------------
 
 
-(psychsyn_box + psychsyn_hist_screening) / (psychsyn_box_screened + psychsyn_hist)
-psychant_box / psychant_hist
-psych_scatter
-duration_box / duration_hist
-evenodd_box / evenodd_hist
-diff_box / diff_hist
+(psychsyn_box + psychsyn_hist) / (psychsyn_box_original + psychsyn_hist_original) / 
+(psychant_box + psychant_hist) / (psychant_box_original + psychant_hist_original)
+
+psych_scatter / psych_scatter_original
+
+(duration_box + duration_hist) / (duration_box_original + duration_hist_original)
+
+(evenodd_box + evenodd_hist) / (evenodd_box_original + evenodd_hist_original)
+
 
 rm(psychsyn_box, psychsyn_hist, psychant_box, psychant_hist, 
    psych_scatter, duration_box, duration_hist, evenodd_box, 
-   evenodd_hist, diff_box, diff_hist)
+   evenodd_hist, psychsyn_box_original, psych_scatter_original,
+   psychsyn_hist_original, psychant_box_original, psychant_hist_original,
+   duration_box_original, duration_hist_original, evenodd_box_original,
+   evenodd_hist_original)
 
 # Validate ----------------------------------------------------------------
 
@@ -243,9 +227,6 @@ data %>%
 
 # Inspect the improbable answers ------------------------------------------
 
-data %>% 
-  filter(validity_nfail_2 > 0) #%>% 
-#  View()
 
 # Improbably fast rank achievement
 data %>% 
@@ -253,7 +234,6 @@ data %>%
   select(ResponseId, years_service) %>% 
   arrange(years_service) %>% 
   print(n = nrow(data))
-
 ## flag: R_333yrSOKhrqsI5N, 4 years service
 
 
@@ -263,62 +243,23 @@ data %>%
   select(ResponseId, years_of_age) %>%
   arrange(years_of_age) %>% 
   print(n = nrow(data))
-
 ## Flag: 
+
 
 # Improbable_Age_Education         = if(education == 'doctorate') years_of_age > 30,
 data %>% 
   filter(education == 'Doctorate') %>% 
-  select(ResponseId, years_of_age) %>%
+  select(ResponseId, years_of_age, education) %>%
   arrange(years_of_age) %>% 
   print(n = nrow(data))
-
 ## Flag: R_rcI2ky4GMLfDtKh, 23 year old doctorate
+
 
 data %>% 
   filter(education == 'Applied or professional doctorate') %>% 
-  select(ResponseId, years_of_age) %>%
+  select(ResponseId, years_of_age, education) %>%
   arrange(years_of_age) %>% 
   print(n = nrow(data))
-
-# Inconsistent_Child               = if(military_family_child == 1) !is.na(bipf_children),
-data %>% 
-  filter(military_family_child == 1) %>% 
-  select(ResponseId, military_family_child, bipf_children) %>%
-  arrange(bipf_children) %>% 
-  print(n = nrow(data))
-
-## Flag: 
-
-
-# Inconsistent_Religion_Worship    = if(religious == 0) worship < 4,
-data %>% 
-  filter(religious == 0 & worship > 4) %>% 
-  select(ResponseId, religious, worship, validity_nfail) %>%
-  arrange(worship) %>% 
-  print(n = nrow(data))
-## Flag: R_3kh9MlL3qrxkLrb, not religious at all but a weekly church goer...not impossible
-
-
-# Inconsistent_Retirement          = if(is.na(bipf_work)) employment_retired == 1 | employment_unemployed == 1,
-data %>% 
-  filter((employment_retired == 1 | employment_unemployed == 1) & bipf_work == 1) %>% 
-  select(ResponseId, employment_unemployed, employment_retired, bipf_work, validity_nfail) %>%
-  arrange(bipf_work) %>% 
-  print(n = nrow(data))
-
-## the item is supposed to assess how much this has made it hard to work.
-## If they report being retired, that is not necessarily inconsistent
-## Flag: 
-
-# Inconsistent_Student             = if(is.na(bipf_education)) employment_student == 0, 
-data %>% 
-  filter(employment_student == 0 & bipf_education == 1) %>% 
-  select(ResponseId, employment_student, bipf_education, validity_nfail) %>%
-  arrange(bipf_education) %>% 
-  print(n = nrow(data))
-
-## Again, not sure the b-IPF is a good judge of consistency
 ## Flag: 
 
 
@@ -329,46 +270,60 @@ data %>%
          year_entered_military, 
          year_left_military, 
          age_enlisted,
-         age_separated) %>%
+         age_separated,
+         years_service,
+         years_separation) %>%
   arrange(validity_years) %>% 
   print(n = nrow(data))
 
 
-## Flag: R_12rO13rLswQQlH3, enlisted when he was 62.
+## Flag: R_12rO13rLswQQlH3, enlisted at age 62.
 
 
 
 # Screen Out Inconsistent/Improbable -----------------------------------------------------------------
 
-# not yet screened: R_3kh9MlL3qrxkLrb, not religious at all but a weekly church goer...not impossible
-
 
 data_original <- data
 data <-
   data %>% 
-    filter(ResponseId != 'R_333yrSOKhrqsI5N' &   # R_333yrSOKhrqsI5N, E-7 to E-9 and only 4 years service
-           ResponseId != 'R_rcI2ky4GMLfDtKh' &   # R_rcI2ky4GMLfDtKh, 23 year-old phd
+    filter(ResponseId != 'R_333yrSOKhrqsI5N' &   # R_333yrSOKhrqsI5N E-7 to E-9 and only 4 years service
+           ResponseId != 'R_rcI2ky4GMLfDtKh' &   # R_rcI2ky4GMLfDtKh 23 year-old phd
            ResponseId != 'R_DIuctUzEpM5pXQR' &   # R_DIuctUzEpM5pXQR Dont know [mos], Army 8 years service, 15 years separated
-           ResponseId != 'R_12rO13rLswQQlH3')    # R_12rO13rLswQQlH3, enlisted when he was 62.
+           ResponseId != 'R_12rO13rLswQQlH3' &   # R_12rO13rLswQQlH3 enlisted when he was 62.
+           ResponseId != 'R_3qwzDFSzxJtD1S8' &   # R_3qwzDFSzxJtD1S8 1990 years of service
+           ResponseId != 'R_2pLztPsOtJp3tqx' &   # R_2pLztPsOtJp3tqx -8 validity years 
+           ResponseId != 'R_2dF3KxaBBb1DC7J')    # R_2dF3KxaBBb1DC7J -8 validity years
 
-data_extra_screening <- bind_rows(anti_join(data_original, data, by = c('id' = 'id')), data_extra_screening)
+exclusion_report$data_scrubbed_researcher <- bind_rows(anti_join(data_original, data, by = c('ResponseId' = 'ResponseId')),  exclusion_report$data_scrubbed_researcher)
 rm(data_original)
 
 # Test Difference between scrubbed at not ---------------------------------
 
 
+exclusion_report$scrubbed_researcher_not_qualtrics <- anti_join(exclusion_report$data_scrubbed_researcher, exclusion_report$data_scrubbed_qualtrics, by = c('ResponseId' = 'ResponseId'))
+exclusion_report$scrubbed_qualtrics_not_researcher <- anti_join(exclusion_report$data_scrubbed_qualtrics, exclusion_report$data_scrubbed_researcher, by = c('ResponseId' = 'ResponseId'))
+
+nrow(exclusion_report$data_scrubbed_researcher)
+nrow(exclusion_report$data_scrubbed_qualtrics)
+nrow(exclusion_report$scrubbed_researcher_not_qualtrics)
+nrow(exclusion_report$scrubbed_qualtrics_not_researcher)
+
+
+#exclusion_report$scrubbed_researcher_not_qualtrics %>% 
+  #select(ResponseId) %>% 
+  #write_csv(file = here::here('data/processed/to_scrub_May 18, 2023.csv'))
+
 
 # Is scrubbed data that much different from the sample? -------------------
 
-t.test(data$mios_total, data_extra_screening$mios_total)
-t.test(data$mcarm_total, data_extra_screening$mcarm_total)
-t.test(data$biis_total, data_extra_screening$biis_total)
-t.test(data$longstr_no_reverse, data_extra_screening$longstr_no_reverse)
-t.test(data$longstr_reverse, data_extra_screening$longstr_reverse)
-t.test(data$psychant, data_extra_screening$psychant)
-t.test(data$psychsyn, data_extra_screening$psychsyn)
-t.test(data$evenodd, data_extra_screening$evenodd)
-
-
+t.test(data$mios_total, exclusion_report$data_scrubbed_researcher$mios_total)
+t.test(data$mcarm_total, exclusion_report$data_scrubbed_researcher$mcarm_total)
+t.test(data$biis_total, exclusion_report$data_scrubbed_researcher$biis_total)
+t.test(data$longstr_no_reverse, exclusion_report$data_scrubbed_researcher$longstr_no_reverse)
+t.test(data$longstr_reverse, exclusion_report$data_scrubbed_researcher$longstr_reverse)
+t.test(data$psychant, exclusion_report$data_scrubbed_researcher$psychant)
+t.test(data$psychsyn, exclusion_report$data_scrubbed_researcher$psychsyn)
+t.test(data$evenodd, exclusion_report$data_scrubbed_researcher$evenodd)
 
 

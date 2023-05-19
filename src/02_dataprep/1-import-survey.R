@@ -70,25 +70,25 @@ exclusion_report$finished <-
 
 # Filter Data -------------------------------------------------------------
 
-data_synthetic <- 
+exclusion_report$data_synthetic <- 
   data %>% 
   filter(DistributionChannel == 'test')
 
 #data_synthetic %>% readr::write_csv(file = here::here('data/synthetic/synthetic-data.csv'))
 #rm(data_synthetic)
 
-data_screened_out <- 
+exclusion_report$data_screened_out <- 
   data %>% 
   filter(DistributionChannel != 'test') %>% 
   filter(`Response Type` == "Screened Out" & term != 'scrubbed')
 
-data_scrubbed <- 
+exclusion_report$data_scrubbed_qualtrics <- 
   data %>% 
   filter(DistributionChannel != 'test') %>% 
   filter(term == 'scrubbed')
 
 
-data_no_consent <- 
+exclusion_report$data_no_consent <- 
   data %>% 
   filter(DistributionChannel != 'test') %>% 
   filter(`Response Type` == "Did not consent")
@@ -99,15 +99,8 @@ data <-
   data %>% 
   filter(DistributionChannel != 'test', 
          is.na(term), 
-         `Response Type` == 'Completed Survey')
-
-#data <- 
-  #bind_rows(data, data_scrubbed)
-
-
-#anti_join(data, 
-#          by = c('Response ID' = 'Response ID'))
-
+         `Response Type` == 'Completed Survey') %>% 
+  bind_rows(exclusion_report$data_scrubbed_qualtrics)
 
 
 # Assign a simple ID to each respondent -----------------------------------

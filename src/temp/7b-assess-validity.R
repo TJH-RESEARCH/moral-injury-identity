@@ -1,6 +1,6 @@
 
 
-# Validate Data ----------------------------------------------------------------
+# Validate Data ---------------------------------------------------------------#
 
 ## The `validate` package confronts the data with a set of validation rules.
 library(validate)
@@ -42,17 +42,15 @@ validity_rules <-
     
     mohalanobis_d_flag               = d_sq_flagged == FALSE
     )
+
 ## Confront the data
 quality_check <- validate::confront(data, validity_rules) 
 
-
 ## Summarize the validity criteria ------------------------------------------
-validation_summary <- validate::summary(quality_check)
-validation_summary
+validate::summary(quality_check)[,1:6]
 
 ## Visualize the validity criteria ------------------------------------------
-validation_plot <- validate::plot(quality_check, xlab = "")
-validation_plot
+validate::plot(quality_check, xlab = "")
 
 ## Check individual records -------------------------------------------------
 validate::aggregate(quality_check, by="record")
@@ -61,16 +59,14 @@ validate::aggregate(quality_check, by="record")
 data <- 
   validate::aggregate(quality_check, by="record") %>% 
   tibble() %>%
+  select(rel.pass, rel.NA) %>% 
   bind_cols(data) %>% 
-  rename(validity_npass = npass,
-         validity_nfail = nfail,
-         validity_nNA = nNA,
-         validity_rel_pass = rel.pass,
-         validity_rel_fail = rel.fail,
+  rename(validity_rel_pass = rel.pass,
          validity_rel_NA = rel.NA,
          ) %>% 
-  select(id, everything())
+  select(ResponseId, everything())
+
+rm(quality_check)
 
 
-
-
+# ----------------------------------------------------------------------------#

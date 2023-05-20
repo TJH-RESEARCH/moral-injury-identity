@@ -1,48 +1,25 @@
 
 
-# Additional Screening Criteria --------------------------------------------
+# Additional Screening Criteria ----------------------------------------------
 data <-
   data %>%
   mutate(
 
-    ## Air Force Warrant Officers ----------------------------------------------
+    ## Air Force Warrant Officers ---------------------------------------------
     air_force_warrant_officer = ifelse(branch == 'Air Force' & warrant_officer == 1, 1, 0),
     
-    ## Inconsistency: Children and Years of Age -------------------------------------------------
+    ## Inconsistency: Children and Years of Age -------------------------------
     inconsistent_children_age = years_of_age < 40 & military_family_child == 1, ## Inconsistency: Children-Age. ## Report having a child who served in the military but is under 35 years themselves. Perhaps not an impossibility, but hihly unlikely
     
     ## Inconsistency: Education and Years of Age
     inconsistent_education_years = education == 'Doctorate' & years_of_age < 30,
     
-    ## Inconsistency: Rank and Years of Service --------------------------------
-    inconsistent_rank = highest_rank == 'E-7 to E-9' & years_service < 8,
-    
-    ## Inconsistency: Total Years ----------------------------------------------
-    ### Check that reported years are logically valid 
-    validity_years = 
-      years_of_age - 
-      17 - 
-      years_service - 
-      years_separation,
-    
-    invalid_years = validity_years < 0,
-    
-    age_enlisted = 
-      years_of_age - 
-      years_service - 
-      years_separation,
-    
-    age_separated = 
-      years_of_age - 
-      years_separation,
-    
-    
-    ## Failed attention checks (i.e., instructed items)
-    attention_checks = attention_check_biis + attention_check_wis
+    ## Inconsistency: Rank and Years of Service -------------------------------
+    inconsistent_rank = highest_rank == 'E-7 to E-9' & years_service < 8
   )
 
 
-# Save a copy of the data with on the scale items (no totals, metadata etc) ----
+# Save a copy of the data with on the scale items (no totals, metadata etc) ---
 data_scales <-
   data %>% 
   select(
@@ -90,10 +67,9 @@ data_scales <-
       !ends_with('total')
     )
 
+# Reorder items to be sequential per unidimensional measure ------------------
 data_scales_reordered <- 
   data_scales %>% 
-  
-  ## Reorder items to be sequential per unidimensional measure.:
   select(
     biis_1, biis_2, biis_3, biis_4, biis_5, biis_6, biis_7, biis_8,
     biis_9, biis_10, biis_11, biis_12, biis_13, biis_14, biis_15,
@@ -112,44 +88,23 @@ data_scales_reordered <-
     
     starts_with('scc'),
     
-    wis_private_1,
-    wis_private_2,
-    wis_private_3,
-    wis_private_4,
-    wis_private_5,
-    wis_private_6,
-    wis_private_7,
-    wis_interdependent_8,
-    wis_interdependent_9,
-    wis_interdependent_10,
-    wis_interdependent_11,
-    wis_interdependent_12,
-    wis_interdependent_13,
-    wis_interdependent_14,
-    wis_connection_15,
-    wis_connection_16,
-    wis_connection_17,
-    wis_family_18,
-    wis_family_19,
-    wis_family_20,
-    wis_centrality_21,
-    wis_centrality_22,
-    wis_centrality_23,
-    wis_centrality_24,
-    wis_public_25,
-    wis_public_26,
-    wis_public_27,
-    wis_public_28,
-    wis_skills_29,
-    wis_skills_30,
-    wis_skills_31
+    wis_private_1, wis_private_2, wis_private_3, wis_private_4,
+    wis_private_5, wis_private_6, wis_private_7,
+    wis_interdependent_8, wis_interdependent_9, wis_interdependent_10,
+    wis_interdependent_11, wis_interdependent_12, wis_interdependent_13, 
+    wis_interdependent_14, 
+    wis_connection_15, wis_connection_16, wis_connection_17,
+    wis_family_18, wis_family_19, wis_family_20,
+    wis_centrality_21, wis_centrality_22, wis_centrality_23, wis_centrality_24,
+    wis_public_25, wis_public_26, wis_public_27, wis_public_28,
+    wis_skills_29, wis_skills_30, wis_skills_31
     
   )
 
 
 # Save a Copy of Data with undone Reverse Coding -----------------------------
 data_scales_no_reverse_codes <-
-  data_scales %>% 
+  data_scales_reordered %>% 
   
   # to undo the reverse coding:
   mutate(
@@ -204,14 +159,11 @@ data_scales_no_reverse_codes <-
   )
 
 
-# Calculate Indices of Inconsistency --------------------------------------
+# Calculate Indices of Inconsistency ----------------------------------------
 
 ## Even-Odd Consistency ------------------------------------------------------
 data <-
   data_scales_reordered %>%
-
-  
-  ## Run the even-odd consistency analysis: 
   transmute(evenodd = 
               careless::evenodd(x =., 
                         # nItems in each subscale in order:
@@ -235,19 +187,10 @@ data <-
                                     4,  # WIS Centrality
                                     4,  # WIS Public Regard
                                     3)  # WIS Skills
-  )) %>% 
-  bind_cols(data) # Add the results back to the original data. 
+  )) %>% bind_cols(data) # Add the results back to the original data. 
 
 
-## IRV ---------------------------------------------------------------------
-# Intra-individual Response Variability (also termed Inter-item Standard Devxiation).
-# "This technique, proposed and tested by Marjanovic, Holden, Struthers, Cribbie, and Greenglass (2015), measures how much an individual strays from their own personal midpoint across a set of scale items." (Curran 2016)
-data <-
-  data_scales %>% 
-  transmute(careless::irv(x =., split = T, num.split = 6)) %>%
-  bind_cols(data)
-
-## Mohad ------------------------------------------------------------------
+## Mohad --------------------------------------------------------------------
 data <-
   data_scales %>% 
     select(!starts_with('scc')) %>% # Including the SCC produces an era for singularity 
@@ -260,21 +203,21 @@ data <-
     bind_cols(data)
   
 
-## Psychometric Synonyms --------------------------------------------------
+## Psychometric Synonyms ----------------------------------------------------
 data <-
   data_scales %>% 
   transmute(psychsyn = careless::psychsyn(., critval = 0.7)) %>% 
   bind_cols(data)
 
-## Psychometric Antonyms --------------------------------------------------
-# Before recoding, higher correlation indicates less attention/carefullness
+
+## Psychometric Antonyms ----------------------------------------------------
 data <-
-  data_scales_no_reverse_codes %>%
-  transmute(psychant = careless::psychant(., critval = -0.50, diag = FALSE)) %>% 
+  data_scales_no_reverse_codes %>%   # Before recoding, higher correlation indicates less attention/carefullness
+  transmute(psychant = careless::psychant(., critval = -0.5, diag = FALSE)) %>% 
   bind_cols(data)
 
   
-## Average Longstring: With Reverse Scoring --------------------------------
+## Average Longstring: With Reverse Scoring ----------------------------------
 data <-
   data_scales %>% 
   careless::longstring(avg = T) %>% 
@@ -283,7 +226,8 @@ data <-
          avgstr_reverse = avgstr) %>% 
   bind_cols(data)
 
-## Average Longstring: Without Reverse Scoring -----------------------------
+
+## Average Longstring: Without Reverse Scoring -------------------------------
 data <-
     data_scales_no_reverse_codes %>% 
     careless::longstring(avg = T) %>% 
@@ -293,7 +237,7 @@ data <-
   bind_cols(data)
 
 
-## Longstring BIIS
+## Longstring BIIS -----------------------------------------------------------
 data <-
   data_scales %>% 
     select(starts_with('biis')) %>% 
@@ -303,7 +247,8 @@ data <-
            avgstr_reverse_biis = avgstr) %>% 
     bind_cols(data)
 
-## Longstring - No Reverse: BIIS
+
+## Longstring - No Reverse: BIIS ---------------------------------------------
 data <-
   data_scales_no_reverse_codes %>% 
     select(starts_with('biis')) %>% 
@@ -313,7 +258,8 @@ data <-
            avgstr_no_reverse_biis = avgstr) %>% 
     bind_cols(data)
 
-## Longstring M2CQ
+
+## Longstring M2CQ -----------------------------------------------------------
 data <-
   data_scales %>% 
     select(starts_with('m2cq')) %>% 
@@ -323,7 +269,8 @@ data <-
            avgstr_reverse_m2cq = avgstr) %>% 
     bind_cols(data)
 
-## Longstring MCARM
+
+## Longstring MCARM ----------------------------------------------------------
 data <-
   data_scales %>% 
     select(starts_with('mcarm')) %>% 
@@ -333,7 +280,8 @@ data <-
            avgstr_reverse_mcarm = avgstr) %>% 
     bind_cols(data)
 
-## Longstring - No Reverse: MCARM
+
+## Longstring - No Reverse: MCARM --------------------------------------------
 data <-
   data_scales_no_reverse_codes %>% 
     select(starts_with('mcarm')) %>% 
@@ -343,7 +291,8 @@ data <-
            avgstr_no_reverse_mcarm = avgstr) %>% 
     bind_cols(data)
 
-## Longstring MIOS
+
+## Longstring MIOS -----------------------------------------------------------
 data <-
   data_scales %>% 
     select(starts_with('mios')) %>% 
@@ -353,7 +302,8 @@ data <-
            avgstr_mios = avgstr) %>% 
     bind_cols(data)
 
-## Longstring SCC
+
+## Longstring SCC ------------------------------------------------------------
 data <-
   data_scales %>% 
   select(starts_with('scc')) %>% 
@@ -363,7 +313,8 @@ data <-
          avgstr_reverse_scc = avgstr) %>% 
   bind_cols(data)
 
-## Longstring - No Reverse: SCC
+
+## Longstring - No Reverse: SCC ----------------------------------------------
 data <-
   data_scales_no_reverse_codes %>% 
   select(starts_with('scc')) %>% 
@@ -374,10 +325,5 @@ data <-
   bind_cols(data)
 
 
-
-
-
-
-
-
-
+rm(data_scales, data_scales_no_reverse_codes, data_scales_reordered)
+# ---------------------------------------------------------------------------#

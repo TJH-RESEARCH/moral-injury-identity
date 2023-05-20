@@ -1,44 +1,47 @@
 
-# -------------------------------------------------------------------------
-# Calculate new variables
-
-
+# -------------------------------------------------------------------------#
+# Calculate new variables including categorical variables from multi-response
+# Create factor variables
 
 data <-
   data %>% 
   dplyr::mutate(
-    
 
-
-
-
-# Create categorical variables ------------------------------------
-
-
-## Branch: Multiple
-    branch_multiple = ifelse(
-                            (branch_air_force + 
-                            branch_army + 
-                            branch_coast_guard + 
-                            branch_marines +
-                            branch_navy +
-                            branch_space_force + 
-                            branch_public_health) > 1, 1, 0),
-
+# Create categorical variables ---------------------------------------------
 
 ## Branch ------------------------------------------------------------------
-    branch = ifelse(branch_air_force == 1, 'Air Force', NA), 
-    branch = ifelse(branch_army == 1, 'Army', branch), 
-    branch = ifelse(branch_coast_guard == 1, 'Coast Guard', branch), 
-    branch = ifelse(branch_marines == 1, 'Marines', branch), 
-    branch = ifelse(branch_navy == 1, 'Navy', branch), 
-    branch = ifelse(branch_space_force == 1, 'Space Force', branch), 
-    branch = ifelse(branch_public_health == 1, 'Public Health Service', branch), 
-    branch = ifelse(branch_multiple == 1, 'Multiple', branch), 
+    branch_multiple = 
+        dplyr::if_else(
+                (branch_air_force + 
+                branch_army + 
+                branch_coast_guard + 
+                branch_marines +
+                branch_navy +
+                branch_space_force + 
+                branch_public_health) > 1, 1, 0),
+    branch = case_when(
+        branch_multiple == 1 ~ 'Multiple',
+        branch_air_force == 1 ~ 'Air Force',
+        branch_army == 1 ~ 'Army', 
+        branch_coast_guard == 1 ~ 'Coast Guard',
+        branch_marines == 1 ~ 'Marines',
+        branch_navy == 1 ~ 'Navy',
+        branch_space_force == 1 ~ 'Space Force',
+        branch_public_health == 1 ~ 'Public Health Service'), 
     branch = factor(branch),
 
-## Education -------------------------------------------------------------
+## Discharge -------------------------------------------------------------
+    discharge_reason = factor(discharge_reason, 
+                              levels = c(1:4), 
+                              labels = c('Voluntary Discharge',
+                                         'Medical Discharge',
+                                         'Service Completed',
+                                         'Other'), 
+                              ordered = F),
+    discharge_reason = if_else(is.na(discharge_reason), 'Not yet discharged', discharge_reason),
 
+
+## Education -------------------------------------------------------------
     education = factor(education, 
                        levels = c(1:7),
                        labels = c('High school diploma or equivalent',
@@ -51,21 +54,22 @@ data <-
                        ordered = T),
 
 ## Employment -------------------------------------------------------------
-
-    employment_multiple = ifelse(
+    employment_multiple = if_else(
                               employment_full_time + 
                               employment_part_time + 
                               employment_irregular + 
                               employment_unemployed + 
                               employment_retired + 
                               employment_student > 1, 1, 0),
-    employment = ifelse(employment_full_time == 1, 'Full Time', NA),
-    employment = ifelse(employment_part_time == 1, 'Part Time', employment),
-    employment = ifelse(employment_irregular == 1, 'Irregular', employment),
-    employment = ifelse(employment_unemployed == 1, 'Unemployed', employment),
-    employment = ifelse(employment_retired == 1, 'Retired', employment),
-    employment = ifelse(employment_student == 1, 'Student', employment),
-    employment = ifelse(employment_multiple == 1, 'Multiple', employment),
+    employment = case_when(
+        employment_multiple == 1 ~ 'Multiple',
+        employment_full_time == 1 ~ 'Full Time',
+        employment_part_time == 1 ~ 'Part Time',
+        employment_irregular == 1 ~ 'Irregular',
+        employment_unemployed == 1 ~ 'Unemployed',
+        employment_retired == 1 ~ 'Retired',
+        employment_student == 1 ~ 'Student',
+    ),
     employment = factor(employment),
 
 ## Enlisted or Officer ----------------------------------------------------
@@ -73,7 +77,7 @@ data <-
       enlisted = dplyr::if_else(highest_rank <= 3, 1, 0),
       warrant_officer = dplyr::if_else(highest_rank == 4, 1, 0),
 
-## Highest Rank
+## Highest Rank -----------------------------------------------------------
       highest_rank = factor(highest_rank,
                             levels = c(1:7),
                             labels = c('E-1 to E-3', 
@@ -103,26 +107,25 @@ data <-
 
       military_exp_none = if_else(military_exp_total == 0, 1, 0), 
 
-## MIOS Event Type
-
-      mios_event_type_multiple = ifelse(mios_event_type_self +
+## MIOS Event Type ---------------------------------------------------------
+      mios_event_type_multiple = if_else(mios_event_type_self +
                                  mios_event_type_other + 
                                  mios_event_type_betrayal > 1, 1, 0),
       
-      mios_event_type_multiple = ifelse(mios_event_type_self +
+      mios_event_type_multiple = if_else(mios_event_type_self +
                                     mios_event_type_other + 
                                     mios_event_type_betrayal == 0, NA, mios_event_type_multiple),
 
-      mios_event_type = ifelse(mios_event_type_self == 1, 'Self', NA),
-      mios_event_type = ifelse(mios_event_type_other == 1, 'Other', mios_event_type),
-      mios_event_type = ifelse(mios_event_type_betrayal == 1, 'Betrayal', mios_event_type),
-      mios_event_type = ifelse(mios_event_type_multiple == 1, 'Multiple', mios_event_type),
+      mios_event_type = case_when(mios_event_type_multiple == 1 ~ 'Multiple',
+                                  mios_event_type_self == 1 ~ 'Self',
+                                  mios_event_type_other == 1 ~ 'Other',
+                                  mios_event_type_betrayal == 1 ~ 'Betrayal',
+                                  is.na(mios_event_type_multiple) ~ 'None'
+                                  ),
       mios_event_type = factor(mios_event_type),
 
-
 ## Race --------------------------------------------------------------------
-
-      race_multiple = ifelse(
+      race_multiple = if_else(
                           race_asian + 
                           race_native + 
                           race_black + 
@@ -131,17 +134,18 @@ data <-
                           race_pacific +
                           race_white + 
                           race_other > 1, 1, 0),
-      race = ifelse(race_asian == 1, "Asian", NA),
-      race = ifelse(race_native == 1, "Native America", race),
-      race = ifelse(race_black == 1, "Black or African American", race),
-      race = ifelse(race_latino == 1, "Hispanic or Latino", race),
-      race = ifelse(race_mena == 1, "Middle Eastern or North African", race),
-      race = ifelse(race_pacific == 1, "Hawaiin or Pacific Islander", race),
-      race = ifelse(race_white == 1, "White", race),
-      race = ifelse(race_other == 1, "Other", race),
-      race = ifelse(race_multiple == 1, "Multiple", race),
+      race = case_when(
+          race_multiple == 1 ~ "Multiple",
+          race_asian == 1 ~ "Asian",
+          race_native == 1 ~ "American Indian or Alaska Native",
+          race_black == 1 ~ "Black or African American",
+          race_latino == 1 ~ "Hispanic, Latino, or Spanish origin",
+          race_mena == 1 ~ "Middle Eastern or North African",
+          race_pacific == 1 ~ "Native Hawaiian or Other Pacific Islander",
+          race_white == 1 ~ "White",
+          race_other == 1 ~ "Some other race, ethnicity, or origin"
+      ),
       race = factor(race),
-
 
 ## Sex ---------------------------------------------------------------------
       sex_female = dplyr::if_else(sex == 1, 1, 0),
@@ -165,17 +169,14 @@ data <-
       years_of_age = 2023 - birth_year,
 
 
-# Meta Data ----------------------------------------------------------------
-## Calculate new meta data variables
+# Miscellaneous -------------------------------------------------------------
+
+## Duration ----------------------------------------------------------------
       `Duration (in minutes)` = `Duration (in seconds)` / 60,
 
 
-# Miscellaneous -------------------------------------------------------------
-
-
 ## DIFI: Combine Pictorial and Interactive ----------------------------------
-### Two different versions of the DIFI were administered, 
-### depending on taking the survey on a phone or computer. 
+### Two different versions of the DIFI were administered, depending on taking the survey on a phone or computer. 
       difi_us =       dplyr::if_else(is.na(difi_us), 0, difi_us),
       difi_distance = dplyr::if_else(difi_us == 1, 0, difi_distance),
       difi_distance = dplyr::if_else(difi_us == 2, 23, difi_distance),
@@ -190,35 +191,29 @@ data <-
       difi_overlap = dplyr::if_else(difi_us == 5, 100, difi_overlap),
 
 
-
 # Combine the old years variable and new ----------------------------------
-
-      years_service = ifelse(years_service == '4years4months', '4.5', years_service),
-      years_service = ifelse(years_service == '4 1/2', '4.5', years_service),
-      years_service = as.numeric(ifelse(is.na(years_service), '0', years_service)),
+      years_service = if_else(years_service == '4years4months', '4.5', years_service),
+      years_service = if_else(years_service == '4 1/2', '4.5', years_service),
+      years_service = as.numeric(if_else(is.na(years_service), '0', years_service)),
       years_reserve_hidden = as.numeric(ifelse(is.na(years_reserve_hidden), '0', years_reserve_hidden)),
       years_service = years_service + years_reserve_hidden,
-
-      
-      years_separation = ifelse(is.na(years_separation), 0, years_separation),
-
-
+      years_separation = if_else(is.na(years_separation), 0, years_separation),
 
 # Service Era -------------------------------------------------------------
 
       year_entered_military = 2023 - years_separation - years_service,
       year_left_military = 2023 - years_separation, 
 
-      service_era_pre_wwii = ifelse(year_entered_military < 1941 | year_left_military < 1941, 1, 0),       
-      service_era_wwii = ifelse((year_entered_military >= 1941 & year_entered_military <= 1946) |  year_left_military >= 1941 & year_left_military <= 1946, 1, 0), 
-      service_era_post_wwii  = ifelse((year_entered_military >= 1947 & year_entered_military <= 1950) | (year_left_military >= 1947 & year_left_military <= 1950), 1, 0), 
-      service_era_korea  = ifelse((year_entered_military >= 1950 & year_entered_military <= 1956) | (year_left_military >= 1950 & year_left_military <= 1956), 1, 0), 
-      service_era_cold_war  = ifelse((year_entered_military >= 1955 & year_entered_military) | (year_left_military >= 1955 & year_left_military) <= 1990, 1, 0), 
-      service_era_vietnam  = ifelse((year_entered_military >= 1964 & year_entered_military) | (year_left_military >= 1964 & year_left_military) <= 1975, 1, 0), 
-      service_era_persian_gulf  = ifelse((year_entered_military >= 1990 & year_entered_military) | (year_left_military >= 1990 & year_left_military) < 1947, 1, 0), 
-      service_era_post_911  = ifelse((year_entered_military >= 2001) | (year_left_military >= 2001), 1, 0), 
+      service_era_pre_wwii = if_else(year_entered_military < 1941 | year_left_military < 1941, 1, 0),       
+      service_era_wwii = if_else((year_entered_military >= 1941 & year_entered_military <= 1946) |  year_left_military >= 1941 & year_left_military <= 1946, 1, 0), 
+      service_era_post_wwii  = if_else((year_entered_military >= 1947 & year_entered_military <= 1950) | (year_left_military >= 1947 & year_left_military <= 1950), 1, 0), 
+      service_era_korea  = if_else((year_entered_military >= 1950 & year_entered_military <= 1956) | (year_left_military >= 1950 & year_left_military <= 1956), 1, 0), 
+      service_era_cold_war  = if_else((year_entered_military >= 1955 & year_entered_military) | (year_left_military >= 1955 & year_left_military) <= 1990, 1, 0), 
+      service_era_vietnam  = if_else((year_entered_military >= 1964 & year_entered_military) | (year_left_military >= 1964 & year_left_military) <= 1975, 1, 0), 
+      service_era_persian_gulf  = if_else((year_entered_military >= 1990 & year_entered_military) | (year_left_military >= 1990 & year_left_military) < 1947, 1, 0), 
+      service_era_post_911  = if_else((year_entered_military >= 2001) | (year_left_military >= 2001), 1, 0), 
       
-      service_era_multiple = ifelse(service_era_pre_wwii +
+      service_era_multiple = if_else(service_era_pre_wwii +
                                     service_era_wwii +
                                     service_era_post_wwii +
                                     service_era_korea +
@@ -228,31 +223,36 @@ data <-
                                     service_era_post_911
                                     > 1, 1, 0),
 
-      service_era = ifelse(service_era_pre_wwii == 1, "Pre-WWII", NA),
-      service_era = ifelse(service_era_wwii == 1, "WWII", service_era),
-      service_era = ifelse(service_era_post_wwii == 1, "Post-WWII", service_era),
-      service_era = ifelse(service_era_korea == 1, "Korea", service_era),
-      service_era = ifelse(service_era_cold_war == 1, "Cold War", service_era),
-      service_era = ifelse(service_era_vietnam == 1, "Vietnam", service_era),
-      service_era = ifelse(service_era_persian_gulf == 1, "Persian Gulf: Pre-9/11", service_era),
-      service_era = ifelse(service_era_post_911 == 1, "Post-9/11", service_era),
-      service_era = ifelse(service_era_multiple == 1, "Multiple", service_era),
+      service_era = if_else(service_era_pre_wwii == 1, "Pre-WWII", NA),
+      service_era = if_else(service_era_wwii == 1, "WWII", service_era),
+      service_era = if_else(service_era_post_wwii == 1, "Post-WWII", service_era),
+      service_era = if_else(service_era_korea == 1, "Korea", service_era),
+      service_era = if_else(service_era_cold_war == 1, "Cold War", service_era),
+      service_era = if_else(service_era_vietnam == 1, "Vietnam", service_era),
+      service_era = if_else(service_era_persian_gulf == 1, "Persian Gulf: Pre-9/11", service_era),
+      service_era = if_else(service_era_post_911 == 1, "Post-9/11", service_era),
+      service_era = if_else(service_era_multiple == 1, "Multiple", service_era),
 
+
+# Age Enlisted/Separated --------------------------------------------------
+      validity_years = years_of_age - 17 - years_service - years_separation,
+      invalid_years = validity_years < 0,
+      age_enlisted = years_of_age - years_service - years_separation,
+      age_separated = years_of_age - years_separation,
 
 
 # MIOS x PTSD -------------------------------------------------------------
-
       trauma_type = 
-        ifelse(mios_screener == 1 & 
+        if_else(mios_screener == 1 & 
                mios_criterion_a == 1, 'MIOS and PTSD Event', NA),
       trauma_type = 
-        ifelse(mios_screener == 0 & 
+        if_else(mios_screener == 0 & 
                  mios_criterion_a == 1, 'PTSD Event without MIOS Event', trauma_type),
       trauma_type = 
-        ifelse(mios_screener == 1 & 
+        if_else(mios_screener == 1 & 
                  mios_criterion_a == 0, 'MIOS Event without PTSD Event', trauma_type),
       trauma_type = 
-        ifelse(mios_screener == 0 & 
+        if_else(mios_screener == 0 & 
                  mios_criterion_a == 0, 'No MIOS or PTSD Event', trauma_type),
       trauma_type = factor(trauma_type)
 

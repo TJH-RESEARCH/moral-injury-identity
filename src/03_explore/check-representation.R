@@ -63,12 +63,6 @@ demographic_representation <-
 # Sexual Orientation --------------------------------------------------------
     sexual_orientation =
       data %>% 
-      mutate(sexual_orientation = factor(sexual_orientation,
-                                         levels = c(1:4),
-                                         labels = c('Straight',
-                                                    'Gay',
-                                                    'Bisexual',
-                                                    "Other"))) %>% 
       group_by(sexual_orientation) %>% 
       count(sort = T) %>% 
       ungroup() %>% 

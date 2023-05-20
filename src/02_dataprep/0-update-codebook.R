@@ -52,9 +52,9 @@ labelled::var_label(data$validity_years) <- "Years of Age minus 17, years of ser
 #labelled::var_label(data$bipf_daily) <- ""
 
 # DIFI: US Identity -------------------------------------------------------------
-labelled::var_label(data$difi_distance) <- ""
-labelled::var_label(data$difi_us) <- ""
-labelled::var_label(data$difi_overlap) <- ""
+#labelled::var_label(data$difi_distance) <- ""
+#labelled::var_label(data$difi_us) <- ""
+#labelled::var_label(data$difi_overlap) <- ""
 
 # Employment --------------------------------------------------------------
 labelled::var_label(data$employment_full_time) <- "Employed Full-Time"                                            
@@ -160,18 +160,11 @@ labelled::var_label(data$wis_skills_total) <- "WIS Skills Subscale Score (3 item
 
 
 # Validity and Attention Criteria  ---------------------------------------------------------
-labelled::var_label(data$inconsistent_education) <- "Reports Doctorate and less than 26 years old" 
 labelled::var_label(data$inconsistent_rank) <- "Reached E-7 paygrade in less than 7 years." 
-labelled::var_label(data$inconsistent_children) <- "Reported children in one response, no children in another (military_family/bipf_children)" 
 labelled::var_label(data$inconsistent_children_age) <- "Reports having a child who served in the military but is under 35 years themselves" 
 labelled::var_label(data$air_force_warrant_officer) <- "Warrant officer in the Air Force" 
 labelled::var_label(data$validity_years) <- "Subtract 17 from years of age, then subtract years of service and separation. Negative numbers indicate inaccurate answers." 
 labelled::var_label(data$invalid_years) <- "Are validity years less than 0?" 
-labelled::var_label(data$mcarm_m2cq_difference) <- "Difference between MCARM and M2CQ mean scores, adjusted to be on same scale and direction."
-
-
-# Miscellaneous -----------------------------------------------------------
-labelled::var_label(data$id) <- "Respondent ID (assigned by researcher)"  
 
 
 # Honeypot ----------------------------------------------------------------
@@ -182,4 +175,15 @@ labelled::var_label(data$honeypot3) <- "Item not display to valid users. To catc
 
 
 
+# Write Codebook ----------------------------------------------------------
+
+
+labels_new <- tibble::enframe(sjlabelled::get_label(data)) %>% 
+  rename(variable = name, label = value)
+
+labels <- right_join(labels, labels_new, by = c('variable' = 'variable', 'label' = 'label'))
+
+
+print(labels, n = 500)
+print(labels_new, n = 500)
 

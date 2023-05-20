@@ -35,24 +35,24 @@ source(here::here('src/02_dataprep/5-calculate-variables.R'))
 source(here::here('src/02_dataprep/6-score-scales.R'))
 
 
-# DATA SCREENING ----------------------------------------------------------
+# DATA SCREENING -------------------------------------------------------- --
 # Once the data is clearned, invalid and innattentive responses should be screened. This is an iterative process. 
 
 # 7a. Calculate Validity
 ## Calculate indices of invalidity and inattentive or careless responding. 
 source(here::here('src/02_dataprep/7a-calculate-validity.R'))
 
-# 7b. Assess Validity
-## Visualize and inspect inattention and invalidity
-source(here::here('src/02_dataprep/7b-assess-validity.R'))
+# Update Codebook
+## Add labels to the R variables to update the codebook.
+source(here::here('src/02_dataprep/0-update-codebook.R'))
 
-# 7c. Screen Responses
+# 7b. Screen Responses
 ## Screen responses based on inclusion/exclusion and validity criteria
-source(here::here('src/02_dataprep/7c-screen-responses.R'))
+source(here::here('src/02_dataprep/7b-screen-responses.R'))
 
-# 7d. Reassess Validity
+# 7c. Assess Validity
 ## Visualize and inspect inattention and invalidity
-source(here::here('src/02_dataprep/7d-reassess-validity.R'))
+source(here::here('src/02_dataprep/7c-assess-validity.R'))
 
 
 
@@ -64,9 +64,7 @@ glimpse(data)
 ## Skim
 data %>% skimr::skim() 
 
-# Update Codebook
-## Add labels to the R variables to update the codebook.
-source(here::here('src/02_dataprep/0-update-codebook.R'))
+
 
 ### Codebook
 print(tibble::enframe(sjlabelled::get_label(data)), n = 500)

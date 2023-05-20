@@ -1,16 +1,11 @@
-
-
-
-# -------------------------------------------------------------------------
+# -------------------------------------------------------------------------#
 # Reverse code survey items where applicable
-
 
 data <-
   data %>% 
     dplyr::mutate(
   
-      
-# BIIS-2: Reverse Code -------------------------------------------------
+# BIIS-2: Reverse Code ----------------------------------------------------
       biis_5 = 6 - biis_5,
       biis_6 = 6 - biis_6,
       biis_7 = 6 - biis_7,
@@ -20,8 +15,7 @@ data <-
       biis_16 = 6 - biis_16,
       biis_17 = 6 - biis_17,
 
-
-# M-CARM: Reverse Code -------------------------------------------------
+# M-CARM: Reverse Code ----------------------------------------------------
       mcarm_5 = 6 - mcarm_5,
       mcarm_8 = 6 - mcarm_8,
       mcarm_9 = 6 - mcarm_9,
@@ -36,8 +30,7 @@ data <-
       mcarm_19 = 6 - mcarm_19,
       mcarm_21 = 6 - mcarm_21,
 
-
-# SCC: Reverse Code ---------------------------------------------------
+# SCC: Reverse Code -------------------------------------------------------
 ## All SCC items except 6 and 11 are reverse-scored
       scc_1 = 6 - scc_1,
       scc_2 = 6 - scc_2,
@@ -50,8 +43,7 @@ data <-
       scc_10 = 6 - scc_10,
       scc_12 = 6 - scc_12,
       
-      
-# WIS: Reverse Code ---------------------------------------------------
+# WIS: Reverse Code -------------------------------------------------------
       wis_private_5 = 5 - wis_private_5,
       wis_private_7 = 5 - wis_private_7,
       wis_connection_15 = 5 - wis_connection_15,
@@ -64,7 +56,4 @@ data <-
   
 )
 
-
-
-
-
+# -------------------------------------------------------------------------#

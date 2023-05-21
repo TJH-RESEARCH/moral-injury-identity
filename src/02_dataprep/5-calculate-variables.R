@@ -178,17 +178,21 @@ data <-
 ## DIFI: Combine Pictorial and Interactive ----------------------------------
 ### Two different versions of the DIFI were administered, depending on taking the survey on a phone or computer. 
       difi_us =       dplyr::if_else(is.na(difi_us), 0, difi_us),
-      difi_distance = dplyr::if_else(difi_us == 1, 0, difi_distance),
-      difi_distance = dplyr::if_else(difi_us == 2, 23, difi_distance),
-      difi_distance = dplyr::if_else(difi_us == 3, 69, difi_distance),
-      difi_distance = dplyr::if_else(difi_us == 4, 100, difi_distance),
-      difi_distance = dplyr::if_else(difi_us == 5, 125, difi_distance),
-      
-      difi_overlap = dplyr::if_else(difi_us == 1, 0, difi_overlap),
-      difi_overlap = dplyr::if_else(difi_us == 2, 14, difi_overlap),
-      difi_overlap = dplyr::if_else(difi_us == 3, 66, difi_overlap),
-      difi_overlap = dplyr::if_else(difi_us == 4, 100, difi_overlap),
-      difi_overlap = dplyr::if_else(difi_us == 5, 100, difi_overlap),
+
+      difi_distance = case_when(
+                                difi_us == 1 ~ 0, 
+                                difi_us == 2 ~ 23, 
+                                difi_us == 3 ~ 69, 
+                                difi_us == 4 ~ 100, 
+                                difi_us == 5 ~ 125
+      ),
+      difi_overlap = case_when(
+                                difi_us == 1 ~ 0,
+                                difi_us == 2 ~ 14,
+                                difi_us == 3 ~ 66,
+                                difi_us == 4 ~ 100,
+                                difi_us == 5 ~ 100
+      ),
 
 
 # Combine the old years variable and new ----------------------------------
@@ -223,15 +227,17 @@ data <-
                                     service_era_post_911
                                     > 1, 1, 0),
 
-      service_era = if_else(service_era_pre_wwii == 1, "Pre-WWII", NA),
-      service_era = if_else(service_era_wwii == 1, "WWII", service_era),
-      service_era = if_else(service_era_post_wwii == 1, "Post-WWII", service_era),
-      service_era = if_else(service_era_korea == 1, "Korea", service_era),
-      service_era = if_else(service_era_cold_war == 1, "Cold War", service_era),
-      service_era = if_else(service_era_vietnam == 1, "Vietnam", service_era),
-      service_era = if_else(service_era_persian_gulf == 1, "Persian Gulf: Pre-9/11", service_era),
-      service_era = if_else(service_era_post_911 == 1, "Post-9/11", service_era),
-      service_era = if_else(service_era_multiple == 1, "Multiple", service_era),
+      service_era = case_when(
+                              service_era_pre_wwii == 1 ~ "Pre-WWII",
+                              service_era_wwii == 1 ~ "WWII",
+                              service_era_post_wwii == 1 ~ "Post-WWII",
+                              service_era_korea == 1 ~ "Korea", 
+                              service_era_cold_war == 1 ~ "Cold War",
+                              service_era_vietnam == 1 ~ "Vietnam", 
+                              service_era_persian_gulf == 1 ~ "Persian Gulf: Pre-9/11", 
+                              service_era_post_911 == 1 ~ "Post-9/11",
+                              service_era_multiple == 1 ~ "Multiple"
+                              ),
 
 
 # Age Enlisted/Separated --------------------------------------------------
@@ -242,18 +248,12 @@ data <-
 
 
 # MIOS x PTSD -------------------------------------------------------------
-      trauma_type = 
-        if_else(mios_screener == 1 & 
-               mios_criterion_a == 1, 'MIOS and PTSD Event', NA),
-      trauma_type = 
-        if_else(mios_screener == 0 & 
-                 mios_criterion_a == 1, 'PTSD Event without MIOS Event', trauma_type),
-      trauma_type = 
-        if_else(mios_screener == 1 & 
-                 mios_criterion_a == 0, 'MIOS Event without PTSD Event', trauma_type),
-      trauma_type = 
-        if_else(mios_screener == 0 & 
-                 mios_criterion_a == 0, 'No MIOS or PTSD Event', trauma_type),
+      trauma_type = case_when(
+        mios_screener == 1 & mios_criterion_a == 1 ~ 'MIOS and PTSD Event',
+        mios_screener == 0 & mios_criterion_a == 1 ~ 'PTSD Event without MIOS Event',
+        mios_screener == 1 & mios_criterion_a == 0 ~ 'MIOS Event without PTSD Event',
+        mios_screener == 0 & mios_criterion_a == 0 ~ 'No MIOS or PTSD Event'
+        ),
       trauma_type = factor(trauma_type)
 
 )

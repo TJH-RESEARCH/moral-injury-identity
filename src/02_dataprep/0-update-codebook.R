@@ -174,14 +174,21 @@ labelled::var_label(data$honeypot3) <- "Item not display to valid users. To catc
 
 
 
+# -------------------------------------------------------------------------
+
+### Codebook
+print(tibble::enframe(sjlabelled::get_label(data)), n = 500)
+
+
 
 # Write Codebook ----------------------------------------------------------
 
+tibble::enframe(sjlabelled::get_label(data)) %>% print(n = 500)
 
 labels_new <- tibble::enframe(sjlabelled::get_label(data)) %>% 
   rename(variable = name, label = value)
 
-labels <- right_join(labels, labels_new, by = c('variable' = 'variable', 'label' = 'label'))
+labels <- left_join(labels, labels_new, by = c('variable' = 'variable', 'label' = 'label'))
 
 
 print(labels, n = 500)

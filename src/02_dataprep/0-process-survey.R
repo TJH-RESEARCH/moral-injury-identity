@@ -34,17 +34,12 @@ source(here::here('src/02_dataprep/5-calculate-variables.R'))
 ## Calculate the sum score of scales and subscales
 source(here::here('src/02_dataprep/6-score-scales.R'))
 
-
 # DATA SCREENING -------------------------------------------------------- --
 # Once the data is clearned, invalid and innattentive responses should be screened. This is an iterative process. 
 
 # 7a. Calculate Validity
 ## Calculate indices of invalidity and inattentive or careless responding. 
 source(here::here('src/02_dataprep/7a-calculate-validity.R'))
-
-# Update Codebook
-## Add labels to the R variables to update the codebook.
-source(here::here('src/02_dataprep/0-update-codebook.R'))
 
 # 7b. Screen Responses
 ## Screen responses based on inclusion/exclusion and validity criteria
@@ -54,6 +49,9 @@ source(here::here('src/02_dataprep/7b-screen-responses.R'))
 ## Visualize and inspect inattention and invalidity
 source(here::here('src/02_dataprep/7c-assess-validity.R'))
 
+# Update Codebook
+## Add labels to the R variables to update the codebook.
+source(here::here('src/02_dataprep/0-update-codebook.R'))
 
 
 

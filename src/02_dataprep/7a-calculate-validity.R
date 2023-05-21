@@ -104,7 +104,7 @@ data_scales_reordered <-
 
 # Save a Copy of Data with undone Reverse Coding -----------------------------
 data_scales_no_reverse_codes <-
-  data_scales_reordered %>% 
+  data_scales %>% 
   
   # to undo the reverse coding:
   mutate(
@@ -265,8 +265,8 @@ data <-
     select(starts_with('m2cq')) %>% 
     careless::longstring(avg = T) %>% 
     tibble() %>% 
-    rename(longstr_reverse_m2cq = longstr, 
-           avgstr_reverse_m2cq = avgstr) %>% 
+    rename(longstr_m2cq = longstr, 
+           avgstr_m2cq = avgstr) %>% 
     bind_cols(data)
 
 
@@ -325,5 +325,5 @@ data <-
   bind_cols(data)
 
 
-rm(data_scales, data_scales_no_reverse_codes, data_scales_reordered)
+
 # ---------------------------------------------------------------------------#

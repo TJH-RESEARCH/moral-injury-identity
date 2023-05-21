@@ -225,7 +225,7 @@ evenodd_hist_original <-
 (psychsyn_box + psychsyn_hist) / (psychsyn_box_original + psychsyn_hist_original) / 
 (psychant_box + psychant_hist) / (psychant_box_original + psychant_hist_original)
 
-psych_scatter / psych_scatter_original
+psych_scatter + psych_scatter_original
 
 (duration_box + duration_hist) / (duration_box_original + duration_hist_original)
 
@@ -242,7 +242,7 @@ rm(psychsyn_box, psychsyn_hist, psychant_box, psychant_hist,
 
 
 # print MOS to check manually -----------------------------------------------
-
+?evenodd
 data %>% 
   select(ResponseId, mos, branch, years_service, years_separation) %>% 
   print(n = nrow(data))

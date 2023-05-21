@@ -62,7 +62,8 @@ glimpse(data)
 ## Skim
 data %>% skimr::skim() 
 
-
+## View Exclusion Reasons
+data_scrubbed_researcher %>% group_by(exclusion_reason) %>% count() %>% arrange(desc(n))
 
 ### Codebook
 print(tibble::enframe(sjlabelled::get_label(data)), n = 500)

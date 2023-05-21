@@ -20,8 +20,9 @@ data <-
 
 
 # Save a copy of the data with on the scale items (no totals, metadata etc) ---
-data_scales <-
-  data %>% 
+
+select_scales <- function(x){
+x %>% 
   select(
     # BIIS-2
     starts_with('biis_') & 
@@ -66,7 +67,13 @@ data_scales <-
       starts_with('wis_') & 
       !ends_with('total')
     )
+}
 
+data_scales <-
+  data %>% 
+  select_scales()
+
+  
 # Reorder items to be sequential per unidimensional measure ------------------
 data_scales_reordered <- 
   data_scales %>% 
@@ -103,7 +110,7 @@ data_scales_reordered <-
 
 
 # Save a Copy of Data with undone Reverse Coding -----------------------------
-data_scales_no_reverse_codes <-
+undo_reverse_codes <- function(x){
   data_scales %>% 
   
   # to undo the reverse coding:
@@ -157,6 +164,11 @@ data_scales_no_reverse_codes <-
     wis_centrality_24 = -1 * (wis_centrality_24 - 5),
     wis_skills_30 = -1 * (wis_skills_30 - 5)
   )
+}
+
+data_scales_no_reverse_codes <-
+  data_scales %>% 
+  undo_reverse_codes()
 
 
 # Calculate Indices of Inconsistency ----------------------------------------

@@ -9,6 +9,7 @@ data <-
   data %>% 
     mutate(n_deploy = dplyr::if_else(is.na(n_deploy), 0, n_deploy)) %>% 
 
+
 # Replace NAs on Dummy variables with 0s --------------------------------------
   mutate(across(starts_with('branch_') | 
                 starts_with('employment_') | 

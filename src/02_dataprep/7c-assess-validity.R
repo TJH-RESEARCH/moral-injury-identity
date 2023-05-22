@@ -102,7 +102,7 @@ psychsyn_hist <-
   data %>%
   ggplot2::ggplot(aes(x = psychsyn)) +
   geom_histogram() +
-  lims(x = c(-.5, 1))
+  lims(x = c(-.5, 1), y = c(0, 30))
 
 psychant_box <-
   data %>%
@@ -115,7 +115,7 @@ psychant_hist <-
   data %>%
   ggplot2::ggplot(aes(x = psychant)) +
   geom_histogram() +
-  lims(x = c(-1, 0.5))
+  lims(x = c(-1, 0.5), y = c(0, 30))
 
 ## Duration
 
@@ -172,7 +172,7 @@ psychsyn_hist_original <-
   data_original %>%
   ggplot2::ggplot(aes(x = psychsyn)) +
   geom_histogram() +
-  lims(x = c(-0.5, 1))
+  lims(x = c(-.5, 1), y = c(0, 30))
 
 psychant_box_original <-
   data_original %>%
@@ -185,7 +185,7 @@ psychant_hist_original <-
   data_original %>%
   ggplot2::ggplot(aes(x = psychant)) +
   geom_histogram() +
-  lims(x = c(-1, 0.5))
+  lims(x = c(-1, 0.5), y = c(0, 30))
 
 ## Duration
 
@@ -219,6 +219,41 @@ evenodd_hist_original <-
   labs(title = '') +
   lims(x = c(-1, 0))
 
+longstring_reverse_hist_original <- 
+  data_original %>%
+  ggplot2::ggplot(aes(x = longstr_no_reverse)) +
+  geom_histogram() +
+  labs(title = '')
+
+longstring_reverse_hist <- 
+  data %>%
+  ggplot2::ggplot(aes(x = longstr_no_reverse)) +
+  geom_histogram() +
+  labs(title = '')
+
+avgstring_reverse_hist_original <- 
+  data_original %>%
+  ggplot2::ggplot(aes(x = avgstr_reverse)) +
+  geom_histogram() +
+  labs(title = '')
+
+avggstring_reverse_hist <- 
+  data %>%
+  ggplot2::ggplot(aes(x = avgstr_reverse)) +
+  geom_histogram() +
+  labs(title = '')
+
+avgstring_hist_original <- 
+  data_original %>%
+  ggplot2::ggplot(aes(x = avgstr_no_reverse)) +
+  geom_histogram() +
+  labs(title = '')
+
+avggstring_hist <- 
+  data %>%
+  ggplot2::ggplot(aes(x = avgstr_no_reverse)) +
+  geom_histogram() +
+  labs(title = '')
 
 # Plot -------------------------------------------------------------------------
 
@@ -231,6 +266,7 @@ psych_scatter + psych_scatter_original
 
 (evenodd_box + evenodd_hist) / (evenodd_box_original + evenodd_hist_original)
 
+longstring_reverse_hist_original + longstring_reverse_hist
 
 rm(psychsyn_box, psychsyn_hist, psychant_box, psychant_hist, 
    psych_scatter, duration_box, duration_hist, evenodd_box, 
@@ -242,7 +278,7 @@ rm(psychsyn_box, psychsyn_hist, psychant_box, psychant_hist,
 
 
 # print MOS to check manually -----------------------------------------------
-?evenodd
+
 data %>% 
   select(ResponseId, mos, branch, years_service, years_separation) %>% 
   print(n = nrow(data))

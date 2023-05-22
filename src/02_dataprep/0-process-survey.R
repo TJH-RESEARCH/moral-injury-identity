@@ -34,6 +34,7 @@ source(here::here('src/02_dataprep/5-calculate-variables.R'))
 ## Calculate the sum score of scales and subscales
 source(here::here('src/02_dataprep/6-score-scales.R'))
 
+
 # DATA SCREENING -------------------------------------------------------- --
 # Once the data is clearned, invalid and innattentive responses should be screened. This is an iterative process. 
 
@@ -45,7 +46,15 @@ source(here::here('src/02_dataprep/7a-calculate-validity.R'))
 ## Screen responses based on inclusion/exclusion and validity criteria
 source(here::here('src/02_dataprep/7b-screen-responses.R'))
 
-# 7c. Assess Validity
+## View Exclusion Reasons
+data_scrubbed_researcher1 %>% group_by(exclusion_reason) %>% count() %>% arrange(desc(n))
+data_scrubbed_researcher2 %>% group_by(exclusion_reason) %>% count() %>% arrange(desc(n))
+data_scrubbed_researcher3 %>% group_by(exclusion_reason) %>% count() %>% arrange(desc(n))
+data_scrubbed_researcher4 %>% group_by(exclusion_reason) %>% count() %>% arrange(desc(n))
+data_scrubbed_researcher %>% group_by(exclusion_reason) %>% count() %>% arrange(desc(n))
+
+
+w# 7c. Assess Validity
 ## Visualize and inspect inattention and invalidity
 source(here::here('src/02_dataprep/7c-assess-validity.R'))
 
@@ -62,8 +71,6 @@ glimpse(data)
 ## Skim
 data %>% skimr::skim() 
 
-## View Exclusion Reasons
-data_scrubbed_researcher %>% group_by(exclusion_reason) %>% count() %>% arrange(desc(n))
 
 ### Codebook
 print(tibble::enframe(sjlabelled::get_label(data)), n = 500)

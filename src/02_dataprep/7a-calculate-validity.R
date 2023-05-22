@@ -207,12 +207,15 @@ data <-
   data_scales %>% 
     select(!starts_with('scc')) %>% # Including the SCC produces an era for singularity 
     transmute(careless::mahad(x = ., 
-                              plot = FALSE, 
+                              plot = TRUE, 
                               flag = TRUE, 
-                              confidence = 0.99, 
+                              confidence = 0.999, 
                               na.rm = TRUE)) %>% 
     rename(d_sq_flagged = flagged) %>% 
     bind_cols(data)
+
+data %>% 
+  ggplot(aes(d_sq)) + geom_histogram()
   
 
 ## Psychometric Synonyms ----------------------------------------------------
@@ -225,7 +228,7 @@ data <-
 ## Psychometric Antonyms ----------------------------------------------------
 data <-
   data_scales_no_reverse_codes %>%   # Before recoding, higher correlation indicates less attention/carefullness
-  transmute(psychant = careless::psychant(., critval = -0.5, diag = FALSE)) %>% 
+  transmute(psychant = careless::psychant(., critval = -0.55, diag = FALSE)) %>% 
   bind_cols(data)
 
   

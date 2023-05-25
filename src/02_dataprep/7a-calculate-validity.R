@@ -207,7 +207,7 @@ data <-
   data_scales %>% 
     select(!starts_with('scc')) %>% # Including the SCC produces an era for singularity 
     transmute(careless::mahad(x = ., 
-                              plot = TRUE, 
+                              plot = FALSE, 
                               flag = TRUE, 
                               confidence = 0.999, 
                               na.rm = TRUE)) %>% 
@@ -221,6 +221,7 @@ data %>%
 ## Psychometric Synonyms ----------------------------------------------------
 data <-
   data_scales %>% 
+  select(!contains('mios'), !contains('m2cq')) %>%
   transmute(psychsyn = careless::psychsyn(., critval = 0.7)) %>% 
   bind_cols(data)
 
@@ -228,6 +229,7 @@ data <-
 ## Psychometric Antonyms ----------------------------------------------------
 data <-
   data_scales_no_reverse_codes %>%   # Before recoding, higher correlation indicates less attention/carefullness
+  select(!contains('mios'), !contains('m2cq')) %>%
   transmute(psychant = careless::psychant(., critval = -0.55, diag = FALSE)) %>% 
   bind_cols(data)
 
@@ -235,6 +237,7 @@ data <-
 ## Average Longstring: With Reverse Scoring ----------------------------------
 data <-
   data_scales %>% 
+  select(!contains('mios'), !contains('m2cq')) %>%        # The MIOS and M2C-Q have valid reasons for straightlining 0. Remove them from the survey-wide longstring calculations. 
   careless::longstring(avg = T) %>% 
   tibble() %>% 
   rename(longstr_reverse = longstr, 
@@ -245,6 +248,7 @@ data <-
 ## Average Longstring: Without Reverse Scoring -------------------------------
 data <-
     data_scales_no_reverse_codes %>% 
+    select(!contains('mios'), !contains('m2cq')) %>%      # The MIOS and M2C-Q have valid reasons for straightlining 0. Remove them from the survey-wide longstring calculations. 
     careless::longstring(avg = T) %>% 
     tibble() %>% 
     rename(longstr_no_reverse = longstr, 

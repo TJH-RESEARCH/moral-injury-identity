@@ -7,6 +7,8 @@
 # Load Packages -----------------------------------------------------------
 library(tidyverse)
 
+data_path <- here::here('data/raw/Dissertation_May 24, 2023_21.03 - after Qualtrics scrub 2- no bots.csv')
+
 
 # DATA IMPORT -------------------------------------------------------------
 
@@ -52,9 +54,9 @@ data_scrubbed_researcher2 %>% group_by(exclusion_reason) %>% count() %>% arrange
 data_scrubbed_researcher3 %>% group_by(exclusion_reason) %>% count() %>% arrange(desc(n))
 data_scrubbed_researcher4 %>% group_by(exclusion_reason) %>% count() %>% arrange(desc(n))
 data_scrubbed_researcher %>% group_by(exclusion_reason) %>% count() %>% arrange(desc(n))
+cut
 
-
-w# 7c. Assess Validity
+# 7c. Assess Validity
 ## Visualize and inspect inattention and invalidity
 source(here::here('src/02_dataprep/7c-assess-validity.R'))
 
@@ -88,6 +90,30 @@ source(here::here('src/02_dataprep/check-representation.R'))
 # source(here::here('src/02_dataprep/create-factors.R'))
 
 #exclusion_report$
+
+
+
+
+
+# I had 159 that i kept
+# qualtrics opened up for more. came back with 49 completed responses 
+# that they did not scrub -- 208 total
+# 210 show NA for term. 
+# run that set through the screener, and 189 remain
+# so 21 are cleaned, 40% of new scrubbed responses
+
+# there was an error in the code. I wasn't filtering out avgstr correctly.... I am now but minimal difference
+# now even more drop
+
+
+# Starting with the data that includes new, not removed, scrubbed, and removed, 
+## 296 cases goes to 197 (cut = 3) - 16 that Qualtrics scrubbed that I did not
+## 296 cases goes to 184 (cut = 2.75) - 16 that Qualtrics scrubbed that I did not
+
+# Starting with the responses that were retained and newly added,
+## 210 goes to 178 (cut = 3)
+## 210 goes to 166 (cut = 2.75)
+
 
 
 

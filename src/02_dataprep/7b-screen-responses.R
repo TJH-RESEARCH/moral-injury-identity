@@ -6,7 +6,12 @@
 
 # Save copies of the original data and the data scrubbed by Qualtrics --------
 data_original <- data
-data_scrubbed_qualtrics <- data %>% filter(term == 'scrubbed')
+data_scrubbed_qualtrics <- data %>% 
+                              filter(Progress == 100,
+                                     term == 'Scrubbed' |
+                                     term == 'Scrubbed Out' |
+                                     term == 'scrubbed'
+                              )
 
 # Filter Screeners: Bots ------------------------------------------
 data <-
@@ -35,9 +40,6 @@ data <-
       
 # Filter Screeners: Even-Odd Consistency ----------------------------------
       evenodd <= -.3,
-
-# Filter Screeners: Moha D ------------------------------------------------
-     # d_sq_flagged == FALSE,
     
 # Longstring by scale --------------------------------------------------------
         longstr_reverse_biis < 16,         # BIIS = 17 items total
@@ -64,6 +66,7 @@ data_scrubbed_researcher1 <-
              branch_none == 1 | validity_check_1 == 0 | air_force_warrant_officer == 1 ~ "Failed validity check",
              
              attention_check_biis == 0 | attention_check_wis == 0 ~ "Failed instructed items",
+             
              `Duration (in seconds)` <= 300 ~ 'Response time',
              
              evenodd > -0.30 ~ 'Even odd inconsistency',
@@ -72,49 +75,7 @@ data_scrubbed_researcher1 <-
                longstr_reverse_mcarm >= 20 | longstr_no_reverse_mcarm >= 20 | 
                longstr_reverse_scc >= 11 | longstr_no_reverse_scc >= 11 ~ 'Straightlining',
              
-             .default = "Not excluded"))
-
-
-
-  
-
-## Filter out remaining screeners ----------------------------------------------------
-### Three standard deviations from the mean of the data: longstring, duration
-
-data <-
-  data %>%
-  filter(
-    
-    longstr_reverse < mean(data$longstr_reverse) + (3 * sd(data$longstr_reverse)),          # Longsting outliers
-    longstr_no_reverse < mean(data$longstr_no_reverse) + (3 * sd(data$longstr_no_reverse)), 
-    
-    avgstr_no_reverse < mean(data$avgstr_no_reverse) + (3 * sd(data$avgstr_no_reverse)), 
-    avgstr_reverse < mean(data$avgstr_reverse) + (3 * sd(data$avgstr_reverse)),
-    
-    avgstr_reverse_biis < mean(data$longstr_reverse_biis) + (3 * sd(data$longstr_reverse_biis)),          # Longsting outliers
-    avgstr_no_reverse_biis < mean(data$longstr_no_reverse_biis) + (3 * sd(data$longstr_no_reverse_biis)), 
-    
-    avgstr_reverse_mcarm < mean(data$longstr_reverse_mcarm) + (3 * sd(data$longstr_reverse_mcarm)),          # Longsting outliers
-    avgstr_no_reverse_mcarm < mean(data$longstr_no_reverse_mcarm) + (3 * sd(data$longstr_no_reverse_mcarm)), 
-    
-    avgstr_no_reverse_scc < mean(data$avgstr_no_reverse_scc) + (3 * sd(data$avgstr_no_reverse_scc)),          # Longsting outliers
-    avgstr_reverse_scc < mean(data$avgstr_reverse_scc) + (3 * sd(data$avgstr_reverse_scc)),          # Longsting outliers
-    
-    `Duration (in seconds)` > mean(data$`Duration (in seconds)`) - (2.5 * sd(data$`Duration (in seconds)`))
-)
-
-
-data_scrubbed_researcher2 <- 
-  anti_join(data_original, data, by = c('ResponseId' = 'ResponseId')) %>% 
-  anti_join(data_scrubbed_researcher1, by = c('ResponseId' = 'ResponseId')) %>% 
-  mutate(exclusion_reason = 
-           case_when(
-            
-             `Duration (in seconds)` <= mean(data$`Duration (in seconds)`) - 
-               (3 * sd(data$`Duration (in seconds)`)) ~ "Response time",
-           
-             .default = 'Average String')) %>% 
-  bind_rows(data_scrubbed_researcher1)
+             .default = "Not excluded 1"))
 
 
 # Recalculate the indices with the partially cleaned data -----------------
@@ -137,7 +98,7 @@ data <-
   data_scales %>% 
   select(!starts_with('scc')) %>% # Including the SCC produces an era for singularity 
   transmute(careless::mahad(x = ., 
-                            plot = TRUE, 
+                            plot = FALSE, 
                             flag = TRUE, 
                             confidence = 0.999, 
                             na.rm = TRUE)) %>% 
@@ -147,11 +108,10 @@ data <-
 data %>% 
   ggplot(aes(d_sq)) + geom_histogram()
 
-
-
 ## Psychometric Synonyms ----------------------------------------------------
 data <-
   data_scales %>%
+  select(!contains('mios'), !contains('m2cq')) %>%
   transmute(psychsyn = careless::psychsyn(., critval = 0.6)) %>% 
   bind_cols(data %>% select(!psychsyn))
 
@@ -159,8 +119,166 @@ data <-
 ## Psychometric Antonyms ----------------------------------------------------
 data <-
   data_scales_no_reverse_codes %>%   # Before recoding, higher correlation indicates less attention/carefullness
+  select(!contains('mios'), !contains('m2cq')) %>%
   transmute(psychant = careless::psychant(., critval = -0.5, diag = FALSE)) %>% 
   bind_cols(data %>% select(!psychant))
+
+## Average Longstring: With Reverse Scoring ----------------------------------
+data <-
+  data_scales %>% 
+  select(!contains('mios'), !contains('m2cq')) %>%        # The MIOS and M2C-Q have valid reasons for straightlining 0. Remove them from the survey-wide longstring calculations. 
+  careless::longstring(avg = T) %>% 
+  tibble() %>% 
+  rename(longstr_reverse = longstr, 
+         avgstr_reverse = avgstr) %>% 
+  bind_cols(data %>% select(!c(longstr_reverse, avgstr_reverse)))
+
+
+## Average Longstring: Without Reverse Scoring -------------------------------
+data <-
+  data_scales_no_reverse_codes %>% 
+  select(!contains('mios'), !contains('m2cq')) %>%      # The MIOS and M2C-Q have valid reasons for straightlining 0. Remove them from the survey-wide longstring calculations. 
+  careless::longstring(avg = T) %>% 
+  tibble() %>% 
+  rename(longstr_no_reverse = longstr, 
+         avgstr_no_reverse = avgstr) %>% 
+  bind_cols(data %>% select(!c(longstr_no_reverse, avgstr_no_reverse)))
+
+
+## Longstring BIIS -----------------------------------------------------------
+data <-
+  data_scales %>% 
+  select(starts_with('biis')) %>% 
+  careless::longstring(avg = T) %>% 
+  tibble() %>% 
+  rename(longstr_reverse_biis = longstr, 
+         avgstr_reverse_biis = avgstr) %>% 
+  bind_cols(data %>% select(!c(longstr_reverse_biis, avgstr_reverse_biis)))
+
+
+## Longstring - No Reverse: BIIS ---------------------------------------------
+data <-
+  data_scales_no_reverse_codes %>% 
+  select(starts_with('biis')) %>% 
+  careless::longstring(avg = T) %>% 
+  tibble() %>% 
+  rename(longstr_no_reverse_biis = longstr, 
+         avgstr_no_reverse_biis = avgstr) %>% 
+  bind_cols(data %>% select(!c(longstr_no_reverse_biis, avgstr_no_reverse_biis)))
+
+
+## Longstring M2CQ -----------------------------------------------------------
+data <-
+  data_scales %>% 
+  select(starts_with('m2cq')) %>% 
+  careless::longstring(avg = T) %>% 
+  tibble() %>% 
+  rename(longstr_m2cq = longstr, 
+         avgstr_m2cq = avgstr) %>% 
+  bind_cols(data %>% select(!c(longstr_m2cq, avgstr_m2cq)))
+
+
+## Longstring MCARM ----------------------------------------------------------
+data <-
+  data_scales %>% 
+  select(starts_with('mcarm')) %>% 
+  careless::longstring(avg = T) %>% 
+  tibble() %>% 
+  rename(longstr_reverse_mcarm = longstr, 
+         avgstr_reverse_mcarm = avgstr) %>% 
+  bind_cols(data %>% select(!c(longstr_reverse_mcarm, avgstr_reverse_mcarm)))
+
+
+## Longstring - No Reverse: MCARM --------------------------------------------
+data <-
+  data_scales_no_reverse_codes %>% 
+  select(starts_with('mcarm')) %>% 
+  careless::longstring(avg = T) %>% 
+  tibble() %>% 
+  rename(longstr_no_reverse_mcarm = longstr, 
+         avgstr_no_reverse_mcarm = avgstr) %>% 
+  bind_cols(data %>% select(!c(longstr_no_reverse_mcarm, avgstr_no_reverse_mcarm)))
+
+
+## Longstring MIOS -----------------------------------------------------------
+data <-
+  data_scales %>% 
+  select(starts_with('mios')) %>% 
+  careless::longstring(avg = T) %>% 
+  tibble() %>% 
+  rename(longstr_mios = longstr, 
+         avgstr_mios = avgstr) %>% 
+  bind_cols(data %>% select(!c(longstr_mios, avgstr_mios)))
+
+
+## Longstring SCC ------------------------------------------------------------
+data <-
+  data_scales %>% 
+  select(starts_with('scc')) %>% 
+  careless::longstring(avg = T) %>% 
+  tibble() %>% 
+  rename(longstr_reverse_scc = longstr, 
+         avgstr_reverse_scc = avgstr) %>% 
+  bind_cols(data %>% select(!c(longstr_reverse_scc, avgstr_reverse_scc)))
+
+
+## Longstring - No Reverse: SCC ----------------------------------------------
+data <-
+  data_scales_no_reverse_codes %>% 
+  select(starts_with('scc')) %>% 
+  careless::longstring(avg = T) %>% 
+  tibble() %>% 
+  rename(longstr_no_reverse_scc = longstr, 
+         avgstr_no_reverse_scc = avgstr) %>% 
+  bind_cols(data %>% select(!c(longstr_no_reverse_scc, avgstr_no_reverse_scc)))
+
+
+
+
+
+
+
+
+
+
+## Filter out remaining screeners ----------------------------------------------------
+### Three standard deviations from the mean of the data: longstring, duration
+
+cut <- 3
+data <-
+  data %>%
+  filter(
+    
+    longstr_reverse < mean(data$longstr_reverse) + (cut * sd(data$longstr_reverse)),          # Longsting outliers
+    longstr_no_reverse < mean(data$longstr_no_reverse) + (cut * sd(data$longstr_no_reverse)), 
+    
+    avgstr_no_reverse < mean(data$avgstr_no_reverse) + (cut * sd(data$avgstr_no_reverse)), 
+    avgstr_reverse < mean(data$avgstr_reverse) + (cut * sd(data$avgstr_reverse)),
+    
+    avgstr_reverse_biis < mean(data$avgstr_reverse_biis) + (cut * sd(data$avgstr_reverse_biis)),          # Longsting outliers
+    avgstr_no_reverse_biis < mean(data$avgstr_no_reverse_biis) + (cut * sd(data$avgstr_no_reverse_biis)), 
+    
+    avgstr_reverse_mcarm < mean(data$avgstr_reverse_mcarm) + (cut * sd(data$avgstr_reverse_mcarm)),          # Longsting outliers
+    avgstr_no_reverse_mcarm < mean(data$avgstr_no_reverse_mcarm) + (cut * sd(data$avgstr_no_reverse_mcarm)), 
+    
+    avgstr_no_reverse_scc < mean(data$avgstr_no_reverse_scc) + (cut * sd(data$avgstr_no_reverse_scc)),          # Longsting outliers
+    avgstr_reverse_scc < mean(data$avgstr_reverse_scc) + (cut * sd(data$avgstr_reverse_scc)),          # Longsting outliers
+    
+    `Duration (in seconds)` > mean(data$`Duration (in seconds)`) - (2.5 * sd(data$`Duration (in seconds)`))
+  )
+
+
+data_scrubbed_researcher2 <- 
+  anti_join(data_original, data, by = c('ResponseId' = 'ResponseId')) %>% 
+  anti_join(data_scrubbed_researcher1, by = c('ResponseId' = 'ResponseId')) %>% 
+  mutate(exclusion_reason = 
+           case_when(
+             
+             `Duration (in seconds)` <= mean(data$`Duration (in seconds)`) - 
+               (3 * sd(data$`Duration (in seconds)`)) ~ "Response time",
+             
+             .default = 'Average String')) %>% 
+  bind_rows(data_scrubbed_researcher1)
 
 
 
@@ -242,7 +360,7 @@ data <-
          age_enlisted < 60
          )
 
-# Invalid Free Respone ----------------------------------------------------
+# Invalid Free Response ----------------------------------------------------
 data <-
   data %>% 
   filter(  

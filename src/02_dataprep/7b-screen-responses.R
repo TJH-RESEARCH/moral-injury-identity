@@ -42,12 +42,12 @@ data <-
       evenodd <= -.3,
     
 # Longstring by scale --------------------------------------------------------
-        longstr_reverse_biis < 16,         # BIIS = 17 items total
-        longstr_no_reverse_biis < 16,
-        longstr_reverse_mcarm < 20,        # MCARM = 21 items
-        longstr_no_reverse_mcarm < 20,
-        longstr_reverse_scc < 11,          # SCC = 12 items
-        longstr_no_reverse_scc < 11
+        longstr_reverse_biis < 15,         # BIIS = 17 items total
+        longstr_no_reverse_biis < 15,
+        longstr_reverse_mcarm < 19,        # MCARM = 21 items
+        longstr_no_reverse_mcarm < 19,
+        longstr_reverse_scc < 10,          # SCC = 12 items
+        longstr_no_reverse_scc < 10
 )
 
 data_scrubbed_researcher1 <- 
@@ -71,9 +71,9 @@ data_scrubbed_researcher1 <-
              
              evenodd > -0.30 ~ 'Even odd inconsistency',
              
-             longstr_reverse_biis >= 16 | longstr_no_reverse_biis >= 16 | 
-               longstr_reverse_mcarm >= 20 | longstr_no_reverse_mcarm >= 20 | 
-               longstr_reverse_scc >= 11 | longstr_no_reverse_scc >= 11 ~ 'Straightlining',
+             longstr_reverse_biis >= 15 | longstr_no_reverse_biis >= 15 | 
+               longstr_reverse_mcarm >= 19 | longstr_no_reverse_mcarm >= 19 | 
+               longstr_reverse_scc >= 10 | longstr_no_reverse_scc >= 10 ~ 'Straightlining',
              
              .default = "Not excluded 1"))
 

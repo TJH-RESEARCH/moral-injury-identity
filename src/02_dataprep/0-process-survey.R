@@ -7,7 +7,7 @@
 # Load Packages -----------------------------------------------------------
 library(tidyverse)
 
-data_path <- here::here('data/raw/Dissertation_May 24, 2023_21.03 - after Qualtrics scrub 2- no bots.csv')
+data_path <- here::here('data/raw/Dissertation_May 26, 2023_12.11 after Qualtrics scrub 3.csv')
 
 
 # DATA IMPORT -------------------------------------------------------------
@@ -116,4 +116,23 @@ source(here::here('src/02_dataprep/check-representation.R'))
 
 
 
+
+
+# Data Removed in the first and second round but not in the third:
+data_already_removed <- 
+  readr::read_csv(here::here('data/processed/sent-to-qualtrics-2023-05-25.csv')) %>% 
+  bind_rows(
+    readr::read_csv(here::here('data/processed/sent-to-qualtrics_2023-05-22.csv'))
+  ) %>% 
+  bind_rows(
+    data_scrubbed_qualtrics_not_researcher
+  )
+
+new_removals <- anti_join(data_already_removed, data_scrubbed_researcher, by = c('ResponseId' = 'ResponseId'))
+ 
+# Data not yet sent to Qualtrics to remove:
+
+anti_join(new_removals, data_scrubbed_qualtrics, by = c('ResponseId' = 'ResponseId')) %>%
+  select(ResponseId, exclusion_reason) %>% 
+  write_csv('data/processed/to-send-to-qualtrics-26-May-2023.csv')
 

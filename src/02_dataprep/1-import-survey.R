@@ -27,8 +27,7 @@ labelled::var_label(data) <- as.character(labels$label)
 # Remove test responses ----------------------------------
 data <- 
   data %>% 
-  filter(!is.na(ResponseId))
-
+  filter(DistributionChannel != 'test')
 
 # -------------------------------------------------------------------------
 
@@ -43,9 +42,9 @@ data %>% filter(Progress < 100)
 # Survey ended early
 data %>% 
   filter(Progress == 100,
-         term == 'consent' |
            term == 'air force warrant ' |
            term == 'attention check' |
+           term == 'consent' |
            term == 'high rank' |
            term == 'never in military' |
            term == 'not separated' |
@@ -73,6 +72,7 @@ data %>%
   filter(Progress == 100,
          term == 'Average String' |
          term == 'Even odd inconsistency' |
+         term == 'Failed bot check' |
          term == 'Failed validity check' |
          term == 'Multivariate Outlier' |
          term == 'Other inconsistency or improbability' |
@@ -100,6 +100,7 @@ data %>%
          is.na(term) |
          term == 'Average String' |
          term == 'Even odd inconsistency' |
+         term == 'Failed bot check' |
          term == 'Failed validity check' |
          term == 'Multivariate Outlier' |
          term == 'Other inconsistency or improbability' |
@@ -118,16 +119,17 @@ data <-
   data %>% 
   filter(Progress == 100,
          is.na(term) |
-           term == 'Average String' |
-           term == 'Even odd inconsistency' |
-           term == 'Failed validity check' |
-           term == 'Multivariate Outlier' |
-           term == 'Other inconsistency or improbability' |
-           term == 'Psychometric synonym/antonym inconsistency' |
-           term == 'Straightlining' |
-           term == 'Scrubbed' |
-           term == 'Scrubbed Out' |
-           term == 'scrubbed'
+         term == 'Average String' |
+         term == 'Even odd inconsistency' |
+         term == 'Failed bot check' |
+         term == 'Failed validity check' |
+         term == 'Multivariate Outlier' |
+         term == 'Other inconsistency or improbability' |
+         term == 'Psychometric synonym/antonym inconsistency' |
+         term == 'Straightlining' |
+         term == 'Scrubbed' |
+         term == 'Scrubbed Out' |
+         term == 'scrubbed'
   )
 
 # Save a copy of the Retained Results

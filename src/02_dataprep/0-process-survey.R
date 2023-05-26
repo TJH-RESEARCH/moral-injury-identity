@@ -38,7 +38,17 @@ source(here::here('src/02_dataprep/6-score-scales.R'))
 
 
 # DATA SCREENING -------------------------------------------------------- --
-# Once the data is clearned, invalid and innattentive responses should be screened. This is an iterative process. 
+# Once the data is cleaned, invalid and innattentive responses should be screened. This is an iterative process. 
+
+# Screen Data
+## Calculate indices of invalidity and inattentive or careless responding, then remove cases.
+source(here::here('src/02_dataprep/screen-data.R'))
+
+## View Exclusion Reasons
+data_scrubbed_researcher %>% group_by(exclusion_reason) %>% count() %>% arrange(desc(n))
+cut
+
+
 
 # 7a. Calculate Validity
 ## Calculate indices of invalidity and inattentive or careless responding. 
@@ -47,15 +57,6 @@ source(here::here('src/02_dataprep/7a-calculate-validity.R'))
 # 7b. Screen Responses
 ## Screen responses based on inclusion/exclusion and validity criteria
 source(here::here('src/02_dataprep/7b-screen-responses.R'))
-
-## View Exclusion Reasons
-data_scrubbed_researcher1 %>% group_by(exclusion_reason) %>% count() %>% arrange(desc(n))
-data_scrubbed_researcher2 %>% group_by(exclusion_reason) %>% count() %>% arrange(desc(n))
-data_scrubbed_researcher3 %>% group_by(exclusion_reason) %>% count() %>% arrange(desc(n))
-data_scrubbed_researcher4 %>% group_by(exclusion_reason) %>% count() %>% arrange(desc(n))
-data_scrubbed_researcher %>% group_by(exclusion_reason) %>% count() %>% arrange(desc(n))
-cut
-
 # 7c. Assess Validity
 ## Visualize and inspect inattention and invalidity
 source(here::here('src/02_dataprep/7c-assess-validity.R'))
@@ -123,16 +124,14 @@ data_already_removed <-
   readr::read_csv(here::here('data/processed/sent-to-qualtrics-2023-05-25.csv')) %>% 
   bind_rows(
     readr::read_csv(here::here('data/processed/sent-to-qualtrics_2023-05-22.csv'))
-  ) %>% 
-  bind_rows(
-    data_scrubbed_qualtrics_not_researcher
-  )
+  ) %>% unique()
 
-new_removals <- anti_join(data_already_removed, data_scrubbed_researcher, by = c('ResponseId' = 'ResponseId'))
+new_removals <- anti_join(data_scrubbed_researcher, data_already_removed, by = c('ResponseId' = 'ResponseId'))
+not_removed <- anti_join(data_already_removed, data_scrubbed_researcher, by = c('ResponseId' = 'ResponseId'))
  
 # Data not yet sent to Qualtrics to remove:
 
 anti_join(new_removals, data_scrubbed_qualtrics, by = c('ResponseId' = 'ResponseId')) %>%
-  select(ResponseId, exclusion_reason) %>% 
+  select(ResponseId, exclusion_reason) %>%
   write_csv('data/processed/to-send-to-qualtrics-26-May-2023.csv')
 

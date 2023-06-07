@@ -301,6 +301,14 @@ data %>%
 ## flag: R_333yrSOKhrqsI5N, 4 years service
 
 
+
+# Age
+data %>% 
+  select(ResponseId, years_of_age, sex) %>%
+  arrange(years_of_age) %>% 
+  print(n = nrow(data))
+## Flag: 
+
 # Improbable_Age_Child: if(years_of_age < 40) military_family_child == 0,
 data %>% 
   filter(military_family_child == 1) %>% 
@@ -317,6 +325,13 @@ data %>%
   arrange(years_of_age) %>% 
   print(n = nrow(data))
 ## Flag: R_rcI2ky4GMLfDtKh, 23 year old doctorate
+
+# Improbable_Age_Education: Masters <24
+data %>% 
+  filter(education == 'Masters degree') %>% 
+  select(ResponseId, years_of_age, education) %>%
+  arrange(years_of_age) %>% 
+  print(n = nrow(data))
 
 
 # validity years

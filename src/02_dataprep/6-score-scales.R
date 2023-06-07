@@ -1,3 +1,5 @@
+# Save this plus operator that ignores NA to the env
+`%+%` <- function(x, y)  mapply(sum, x, y, MoreArgs = list(na.rm = TRUE))
 
 
 # -------------------------------------------------------------------------
@@ -38,12 +40,12 @@ data <-
         
 # b-IPF: Total --------------------------------------------------------------
         bipf_total = 
-          bipf_spouse +
-          bipf_children +
-          bipf_family +
-          bipf_friends +
-          bipf_work +
-          bipf_education +
+          bipf_spouse %+%
+          bipf_children %+%
+          bipf_family %+%
+          bipf_friends %+%
+          bipf_work %+%
+          bipf_education %+%
           bipf_daily,
         
 # Civilian Identity Commitment: Total --------------------------------------
@@ -53,7 +55,7 @@ data <-
           civilian_commit_3 +
           civilian_commit_4
 
-# Brain the chain to create rowwise grouping for the M2C-2
+# Brake the chain to create rowwise grouping for the M2C-2
 ) %>%
   
         
@@ -235,6 +237,8 @@ data <-
           wis_skills_29 +
           wis_skills_30 +
           wis_skills_31,
+
+
 )
 
 

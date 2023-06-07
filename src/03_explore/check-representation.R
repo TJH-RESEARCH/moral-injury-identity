@@ -28,6 +28,18 @@ demographic_representation <-
       ) %>% 
     select(category, !c(group, population_estimate)),
       
+
+age_hist =
+  data %>% 
+    select(ResponseId, years_of_age) %>%
+    arrange(years_of_age) %>% 
+    ggplot(aes(years_of_age)) + geom_histogram(bins = 10),
+
+age_sex = 
+  data %>% 
+  ggplot(aes(years_of_age, color = sex)) +
+  geom_density(position = 'jitter'),
+
 # Branch ------------------------------------------------------------------
     branch_sample = 
       data %>%
@@ -35,6 +47,14 @@ demographic_representation <-
       count(sort = T) %>% 
       ungroup() %>% 
       mutate(sample_percent = n / sum(n) * 100), 
+
+    
+    branch_hist =
+      data %>% 
+      ggplot(aes(branch)) +
+      geom_bar(),
+      
+      
     
 
 # Disability -------------------------------------------------------------------------

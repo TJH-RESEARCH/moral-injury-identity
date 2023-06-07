@@ -7,7 +7,7 @@
 # Load Packages -----------------------------------------------------------
 library(tidyverse)
 
-data_path <- here::here('data/raw/Dissertation_May 26, 2023_12.11 after Qualtrics scrub 3.csv')
+data_path <- here::here('data/raw/Dissertation_May 30, 2023_20.49 after Qualtrics scrub 4.csv')
 
 
 # DATA IMPORT -------------------------------------------------------------
@@ -36,34 +36,40 @@ source(here::here('src/02_dataprep/5-calculate-variables.R'))
 ## Calculate the sum score of scales and subscales
 source(here::here('src/02_dataprep/6-score-scales.R'))
 
-
 # DATA SCREENING -------------------------------------------------------- --
 # Once the data is cleaned, invalid and innattentive responses should be screened. This is an iterative process. 
 
-# Screen Data
+# 7. Screen Data
 ## Calculate indices of invalidity and inattentive or careless responding, then remove cases.
-source(here::here('src/02_dataprep/screen-data.R'))
+source(here::here('src/02_dataprep/7-screen-data.R'))
 
 ## View Exclusion Reasons
 data_scrubbed_researcher %>% group_by(exclusion_reason) %>% count() %>% arrange(desc(n))
 cut
 
+# Save a copy that includes the results scrubbed by Qualtrics
+data <- anti_join(data, data_scrubbed_qualtrics, by = c('ResponseId' = 'ResponseId'))
 
-
-# 7a. Calculate Validity
-## Calculate indices of invalidity and inattentive or careless responding. 
-source(here::here('src/02_dataprep/7a-calculate-validity.R'))
-
-# 7b. Screen Responses
-## Screen responses based on inclusion/exclusion and validity criteria
-source(here::here('src/02_dataprep/7b-screen-responses.R'))
-# 7c. Assess Validity
-## Visualize and inspect inattention and invalidity
-source(here::here('src/02_dataprep/7c-assess-validity.R'))
 
 # Update Codebook
 ## Add labels to the R variables to update the codebook.
 source(here::here('src/02_dataprep/0-update-codebook.R'))
+
+
+# Reorder the data for further analysis
+source(here::here('src/02_dataprep/reorder-data.R'))
+
+
+
+
+
+
+
+# Write Data --------------------------------------------------------------
+
+#data %>% readr::write_csv(here::here('data/processed/data-cleaned.csv'))
+
+## 
 
 
 
@@ -124,14 +130,49 @@ data_already_removed <-
   readr::read_csv(here::here('data/processed/sent-to-qualtrics-2023-05-25.csv')) %>% 
   bind_rows(
     readr::read_csv(here::here('data/processed/sent-to-qualtrics_2023-05-22.csv'))
+  ) %>% 
+  bind_rows(
+    readr::read_csv(here::here('data/processed/sent-to-qualtrics-2023-05-30.csv'))
   ) %>% unique()
 
 new_removals <- anti_join(data_scrubbed_researcher, data_already_removed, by = c('ResponseId' = 'ResponseId'))
-not_removed <- anti_join(data_already_removed, data_scrubbed_researcher, by = c('ResponseId' = 'ResponseId'))
+previously_removed_but_not_now <- anti_join(data_already_removed, data_scrubbed_researcher, by = c('ResponseId' = 'ResponseId'))
  
 # Data not yet sent to Qualtrics to remove:
 
 anti_join(new_removals, data_scrubbed_qualtrics, by = c('ResponseId' = 'ResponseId')) %>%
   select(ResponseId, exclusion_reason) %>%
-  write_csv('data/processed/to-send-to-qualtrics-26-May-2023.csv')
+  write_csv('data/processed/to-send-to-qualtrics-31-May-2023.csv')
+
+
+
+
+
+# +5 -5
+#NEW
+#exclusion_reason                               n
+#<chr>                                          NEW.  OLD. 
+#1 Straightlining                                52.  50.  = 2
+#2 Average String                                22.  21.  = 1
+#3 Psychometric synonym/antonym inconsistency    18.  23.  = -5
+#4 Failed bot check                              12.  10   = 2
+#5 Multivariate Outlier                           8.  3.   = 5
+#6 Other inconsistency or improbability           8.  7.   = 1
+#7 Even odd inconsistency                         7.  7.   = 0
+#8 Failed instructed items                        6.  6.   = 0 
+#9 Failed validity check                          3.  3.   = 0
+
+#OLD
+#exclusion_reason                               n
+#<chr>                                        <int>
+#1 Straightlining                                50
+#2 Psychometric synonym/antonym inconsistency    23
+#3 Average String                                21
+#4 Failed bot check                              10
+#5 Even odd inconsistency                         7
+#6 Other inconsistency or improbability           7
+#7 Failed instructed items                        6
+#8 Failed validity check                          3
+#9 Multivariate Outlier                           3
+#10 Semantic Inconsistency                        3
 

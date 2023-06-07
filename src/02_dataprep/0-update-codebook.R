@@ -101,6 +101,20 @@ labelled::var_label(data$officer) <- "Military Officer"
 labelled::var_label(data$enlisted) <- "Enlisted Personnel"
 labelled::var_label(data$warrant_officer) <- "Warrant Officer"
 
+
+# Service Era -------------------------------------------------------------
+labelled::var_label(data$service_era) <- "Service Era"
+labelled::var_label(data$service_era) <- "Served Before WWII"
+labelled::var_label(data$service_era) <- "Served in WWII"
+labelled::var_label(data$service_era) <- "Served in the post-WWII era"
+labelled::var_label(data$service_era) <- "Served in the Korean era"
+labelled::var_label(data$service_era) <- "Served in the Cold War era"
+labelled::var_label(data$service_era) <- "Served in the Vietnam era"
+labelled::var_label(data$service_era) <- "Served in the Persian Gulf (pre-9/11) era"
+labelled::var_label(data$service_era) <- "Served in the post-9/11 era"
+labelled::var_label(data$service_era) <- "Served in multiple service eras"
+
+
 # Unmet Needs -------------------------------------------------------------
 labelled::var_label(data$unmet_needs_job) <- "Not having a job when you left the military"
 labelled::var_label(data$unmet_needs_housing) <- "Not having a place to live when you left the military"                                          
@@ -160,12 +174,33 @@ labelled::var_label(data$wis_skills_total) <- "WIS Skills Subscale Score (3 item
 
 
 # Validity and Attention Criteria  ---------------------------------------------------------
-labelled::var_label(data$inconsistent_rank) <- "Reached E-7 paygrade in less than 7 years." 
-labelled::var_label(data$inconsistent_children_age) <- "Reports having a child who served in the military but is under 35 years themselves" 
 labelled::var_label(data$air_force_warrant_officer) <- "Warrant officer in the Air Force" 
 labelled::var_label(data$validity_years) <- "Subtract 17 from years of age, then subtract years of service and separation. Negative numbers indicate inaccurate answers." 
 labelled::var_label(data$invalid_years) <- "Are validity years less than 0?" 
-
+labelled::var_label(data$psychant) <- "Psychometric Antonym Correlation" 
+labelled::var_label(data$psychsyn) <- "Psychometric Synonym Correlation" 
+labelled::var_label(data$longstr_no_reverse_scc) <- "Longest String Length: Self-Concept Clarity Scale without reverse scoring"
+labelled::var_label(data$avgstr_no_reverse_scc) <- "Average String Length: Self-Concept Clarity Scale without reverse scoring" 
+labelled::var_label(data$longstr_reverse_scc) <- "Longest String Length: Self-Concept Clarity Scale with reverse scoring"
+labelled::var_label(data$avgstr_reverse_scc) <- "Average String Length: Self-Concept Clarity Scale with reverse scoring " 
+labelled::var_label(data$longstr_mios) <- "Longest String Length: Moral Injury Outcomes Scale"
+labelled::var_label(data$avgstr_mios) <- "Average String Length: Moral Injury Outcomes Scale" 
+labelled::var_label(data$longstr_no_reverse_mcarm) <- "Longest String Length: Military-Civilian Adjustment and Reintegration Measure without reverse scoring" 
+labelled::var_label(data$avgstr_no_reverse_mcarm) <- "Average String Length: Military-Civilian Adjustment and Reintegration Measure without reverse scoring" 
+labelled::var_label(data$longstr_reverse_mcarm) <- "Longest String Length: Military-Civilian Adjustment and Reintegration Measure with reverse scoring" 
+labelled::var_label(data$avgstr_reverse_mcarm) <- "Average String Length: Military-Civilian Adjustment and Reintegration Measure with reverse scoring" 
+labelled::var_label(data$longstr_m2cq) <- "Longest String Length: Military to Civilian Questionnaire with revese scoring" 
+labelled::var_label(data$avgstr_m2cq) <- "Average String Length: Military to Civilian Questionnaire with revese scoring" 
+labelled::var_label(data$longstr_no_reverse_biis) <- "Longest String Length: Bicultural Identity Integration Scale-2 without reverse scoring" 
+labelled::var_label(data$avgstr_no_reverse_biis) <- "Average String Length: Bicultural Identity Integration Scale-2 without reverse scoring" 
+labelled::var_label(data$longstr_reverse_biis) <- "Longest String Length: Bicultural Identity Integration Scale-2 with reverse scoring" 
+labelled::var_label(data$avgstr_reverse_biis) <- "Average String Length: Bicultural Identity Integration Scale-2 with reverse scoring" 
+labelled::var_label(data$longstr_no_reverse) <- "Longest String Length: Entire Survey without reverse scoring" 
+labelled::var_label(data$avgstr_no_reverse) <- "Average String Length: Entire Survey with reverse scoring" 
+labelled::var_label(data$longstr_reverse) <- "Longest String Length: Entire Survey with reverse scoring" 
+labelled::var_label(data$avgstr_reverse) <- "Average String Length: Entire Survey with reverse scoring" 
+labelled::var_label(data$d_sq) <- "Mahalanobis distance squared (D-sqaured)" 
+labelled::var_label(data$d_sq_flagged) <- "D: Multivariate Outlier" 
 
 # Honeypot ----------------------------------------------------------------
 labelled::var_label(data$honeypot1) <- "Item not display to valid users. To catch bots."  

@@ -77,6 +77,9 @@ data_scrubbed_qualtrics <- data %>%
            term == 'scrubbed'
   )
 
+
+longstring_cut <- .8
+
 # Screen 1 ------------------------------------------
 data <-
   data %>% 
@@ -108,12 +111,12 @@ data <-
     evenodd <= -.3,
     
     ## Longstring by scale
-    longstr_reverse_biis < 15,         # BIIS = 17 items total
-    longstr_no_reverse_biis < 15,
-    longstr_reverse_mcarm < 19,        # MCARM = 21 items
-    longstr_no_reverse_mcarm < 19,
-    longstr_reverse_scc < 10,          # SCC = 12 items
-    longstr_no_reverse_scc < 10
+    longstr_reverse_biis < (longstring_cut * 17),         # BIIS = 17 items total - <15
+    longstr_no_reverse_biis < (longstring_cut * 17),
+    longstr_reverse_mcarm < (longstring_cut * 19),        # MCARM = 21 items - <19
+    longstr_no_reverse_mcarm < (longstring_cut * 19),
+    longstr_reverse_scc < (longstring_cut * 12),          # SCC = 12 items - <10
+    longstr_no_reverse_scc < (longstring_cut * 12)
   )
 
 data_scrubbed_researcher <- 
@@ -137,9 +140,9 @@ data_scrubbed_researcher <-
              
              evenodd > -0.30 ~ 'Even odd inconsistency',
              
-             longstr_reverse_biis >= 15 | longstr_no_reverse_biis >= 15 | 
-               longstr_reverse_mcarm >= 19 | longstr_no_reverse_mcarm >= 19 | 
-               longstr_reverse_scc >= 10 | longstr_no_reverse_scc >= 10 ~ 'Straightlining',
+             longstr_reverse_biis >= (longstring_cut * 17) | longstr_no_reverse_biis >= (longstring_cut * 17) | 
+               longstr_reverse_mcarm >= (longstring_cut * 21) | longstr_no_reverse_mcarm >= (longstring_cut * 21) | 
+               longstr_reverse_scc >= (longstring_cut * 12) | longstr_no_reverse_scc >= (longstring_cut * 12) ~ 'Straightlining',
              
              .default = "Not excluded 1"))
 
@@ -336,6 +339,31 @@ data_scrubbed_researcher <-
 
 
 
+# IRV -------------------------------------------------------------------------
+
+data <-
+  data %>% 
+  select_scales() %>% 
+  careless::irv(split = T, num.split = 3) %>% 
+  tibble() %>% 
+  bind_cols(data)
+
+data <- 
+  data %>%
+    filter(
+    
+      irvTotal < mean(data$irvTotal) + (cut * sd(data$irvTotal)),
+      irv1 < mean(data$irv1) + (cut * sd(data$irv1)), 
+      irv2 < mean(data$irv1) + (cut * sd(data$irv2)), 
+      irv3 < mean(data$irv1) + (cut * sd(data$irv3))
+    )
+
+data_scrubbed_researcher <- 
+  anti_join(data_original, data, by = c('ResponseId' = 'ResponseId')) %>% 
+  anti_join(data_scrubbed_researcher, by = c('ResponseId' = 'ResponseId')) %>% 
+  mutate(exclusion_reason = 'IRV') %>% 
+  bind_rows(data_scrubbed_researcher)
+
 
 # Write Data --------------------------------------------------------------
 
@@ -350,6 +378,7 @@ data_scrubbed_qualtrics_not_researcher <-
 
 data_scrubbed_both_research_qualtrics <-
   anti_join(data_scrubbed_qualtrics, data_scrubbed_qualtrics_not_researcher, by = c('ResponseId' = 'ResponseId'))
+
 
 
 

@@ -105,7 +105,6 @@ ggdag_adjustment_set(dag_model_1)
 adjustmentSets(dag_model_1)
 
 
-
 # DAG 2:    -------------------------------------------------
 dag_model_2 <- dagitty::dagitty(
   "dag{

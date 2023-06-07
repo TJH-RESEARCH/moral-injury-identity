@@ -107,22 +107,30 @@ data <-
 
       military_exp_none = if_else(military_exp_total == 0, 1, 0), 
 
+## Military Family ---------------------------------------------------------
+      military_family_total = 
+        military_family_spouse +      
+        military_family_parents +
+        military_family_sibling +
+        military_family_child +
+        military_family_other,
+    
 ## MIOS Event Type ---------------------------------------------------------
       mios_event_type_multiple = if_else(mios_event_type_self +
                                  mios_event_type_other + 
                                  mios_event_type_betrayal > 1, 1, 0),
-      
-      mios_event_type_multiple = if_else(mios_event_type_self +
-                                    mios_event_type_other + 
-                                    mios_event_type_betrayal == 0, NA, mios_event_type_multiple),
 
-      mios_event_type = case_when(mios_event_type_multiple == 1 ~ 'Multiple',
-                                  mios_event_type_self == 1 ~ 'Self',
-                                  mios_event_type_other == 1 ~ 'Other',
-                                  mios_event_type_betrayal == 1 ~ 'Betrayal',
-                                  is.na(mios_event_type_multiple) ~ 'None'
-                                  ),
+      mios_event_type = case_when(
+        mios_event_type_multiple == 1 ~ "Multiple",
+        mios_event_type_self == 1 ~ "Self",
+        mios_event_type_other == 1 ~ "Other",
+        mios_event_type_betrayal == 1 ~ "Betrayal",
+        .default = "None"),
       mios_event_type = factor(mios_event_type),
+
+
+## Politics ----------------------------------------------------------------
+
 
 ## Race --------------------------------------------------------------------
       race_multiple = if_else(
@@ -180,6 +188,7 @@ data <-
       difi_us =       dplyr::if_else(is.na(difi_us), 0, difi_us),
 
       difi_distance = case_when(
+                                difi_us == 0 ~ difi_distance,                         
                                 difi_us == 1 ~ 0, 
                                 difi_us == 2 ~ 23, 
                                 difi_us == 3 ~ 69, 
@@ -187,6 +196,7 @@ data <-
                                 difi_us == 5 ~ 125
       ),
       difi_overlap = case_when(
+                                difi_us == 1 ~ difi_overlap,                        
                                 difi_us == 1 ~ 0,
                                 difi_us == 2 ~ 14,
                                 difi_us == 3 ~ 66,
@@ -249,14 +259,18 @@ data <-
 
 # MIOS x PTSD -------------------------------------------------------------
       trauma_type = case_when(
-        mios_screener == 1 & mios_criterion_a == 1 ~ 'MIOS and PTSD Event',
-        mios_screener == 0 & mios_criterion_a == 1 ~ 'PTSD Event without MIOS Event',
-        mios_screener == 1 & mios_criterion_a == 0 ~ 'MIOS Event without PTSD Event',
-        mios_screener == 0 & mios_criterion_a == 0 ~ 'No MIOS or PTSD Event'
+        mios_screener == 1 & mios_criterion_a == 1 ~ 4,
+        mios_screener == 0 & mios_criterion_a == 1 ~ 3,
+        mios_screener == 1 & mios_criterion_a == 0 ~ 2,
+        mios_screener == 0 & mios_criterion_a == 0 ~ 1
         ),
-      trauma_type = factor(trauma_type)
-
+      trauma_type = factor(trauma_type, levels = c(1:4), 
+                           labels = c('No MIOS or PTSD Event',
+                                     'PTSD Event without MIOS Event',
+                                     'MIOS Event without PTSD Event',
+                                     'MIOS and PTSD Event'))
 )
+
 
 
 

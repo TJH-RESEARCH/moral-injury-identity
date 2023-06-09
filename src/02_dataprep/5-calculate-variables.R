@@ -218,14 +218,14 @@ data <-
       year_entered_military = 2023 - years_separation - years_service,
       year_left_military = 2023 - years_separation, 
 
-      service_era_pre_wwii = if_else(year_entered_military < 1941 | year_left_military < 1941, 1, 0),       
-      service_era_wwii = if_else((year_entered_military >= 1941 & year_entered_military <= 1946) |  year_left_military >= 1941 & year_left_military <= 1946, 1, 0), 
-      service_era_post_wwii  = if_else((year_entered_military >= 1947 & year_entered_military <= 1950) | (year_left_military >= 1947 & year_left_military <= 1950), 1, 0), 
-      service_era_korea  = if_else((year_entered_military >= 1950 & year_entered_military <= 1956) | (year_left_military >= 1950 & year_left_military <= 1956), 1, 0), 
-      service_era_cold_war  = if_else((year_entered_military >= 1955 & year_entered_military) | (year_left_military >= 1955 & year_left_military) <= 1990, 1, 0), 
-      service_era_vietnam  = if_else((year_entered_military >= 1964 & year_entered_military) | (year_left_military >= 1964 & year_left_military) <= 1975, 1, 0), 
-      service_era_persian_gulf  = if_else((year_entered_military >= 1990 & year_entered_military) | (year_left_military >= 1990 & year_left_military) < 1947, 1, 0), 
-      service_era_post_911  = if_else((year_entered_military >= 2001) | (year_left_military >= 2001), 1, 0), 
+      service_era_pre_wwii       = if_else(year_entered_military < 1941 | year_left_military < 1941, 1, 0),       
+      service_era_wwii           = if_else((year_entered_military >= 1941 & year_entered_military <= 1946) |  (year_left_military >= 1941 & year_left_military <= 1946), 1, 0), 
+      service_era_post_wwii      = if_else((year_entered_military >= 1947 & year_entered_military < 1950) | (year_left_military >= 1947 & year_left_military < 1950), 1, 0), 
+      service_era_korea          = if_else((year_entered_military >= 1950 & year_entered_military < 1956) | (year_left_military >= 1950 & year_left_military < 1956), 1, 0), 
+      service_era_cold_war       = if_else((year_entered_military >= 1956 & year_entered_military < 1990) | (year_left_military >= 1956 & year_left_military < 1990), 1, 0), 
+      service_era_vietnam        = if_else((year_entered_military >= 1964 & year_entered_military <= 1975) | (year_left_military >= 1964 & year_left_military <= 1975) , 1, 0), 
+      service_era_persian_gulf   = if_else((year_entered_military >= 1990 & year_entered_military < 2001) | (year_left_military >= 1990 & year_left_military < 2001), 1, 0), 
+      service_era_post_911       = if_else((year_entered_military >= 2001) | (year_left_military >= 2001), 1, 0), 
       
       service_era_multiple = if_else(service_era_pre_wwii +
                                     service_era_wwii +

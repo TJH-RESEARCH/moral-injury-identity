@@ -31,14 +31,15 @@ demographic_representation <-
 
 age_hist =
   data %>% 
-    select(ResponseId, years_of_age) %>%
+    select(years_of_age) %>%
     arrange(years_of_age) %>% 
     ggplot(aes(years_of_age)) + geom_histogram(bins = 10),
 
 age_sex = 
   data %>% 
-  ggplot(aes(years_of_age, color = sex)) +
+  ggplot(aes(years_of_age, color = factor(sex))) +
   geom_density(position = 'jitter'),
+
 
 # Branch ------------------------------------------------------------------
     branch_sample = 
@@ -76,6 +77,12 @@ age_sex =
       select(category, everything(), !disability),
 
 
+# Discharge Reason --------------------------------------------------------
+    discharge_reason =
+      data %>% 
+      count(discharge_reason),
+      
+
 # Education ----------------------------------------------------------------
     education_sample = 
       data %>% 
@@ -89,6 +96,21 @@ age_sex =
       filter(variable == 'education') %>% 
       mutate(percent = population_estimate / sum(population_estimate) * 100) %>% 
       select(!c(margin_error, variable, veteran, source)),
+
+
+# Military Experiences ----------------------------------------------------
+      military_experiences =
+        data %>% 
+        select(starts_with('military_exp') & !ends_with('total')) %>% 
+        create_percentage_table() %>% select(!total),
+
+# Military Family ---------------------------------------------------------
+
+      military_family = 
+        data %>% 
+        select(starts_with('military_family') & 
+                 !ends_with('total')) %>% 
+        create_percentage_table() %>% select(!total),
 
 
 # Race ----------------------------------------------------------------------
@@ -155,7 +177,26 @@ age_sex =
       data_population %>% 
       filter(variable == 'poverty') %>% 
       mutate(percent = population_estimate / sum(population_estimate) * 100) %>% 
-      select(!c(margin_error, variable, veteran, source))
+      select(!c(margin_error, variable, veteran, source)),
+
+    years_service =
+      data %>% 
+      ggplot(aes(years_service)) +
+      geom_density(position = 'jitter'),
+    years_service_age =
+      data %>% 
+      ggplot(aes(years_service, color = factor(sex))) +
+      geom_density(position = 'jitter'),
+
+    years_service_age =
+      data %>% 
+      ggplot(aes(years_service, color = factor(branch))) +
+      geom_density(position = 'jitter'),
+
+    years_seperation =
+      data %>% 
+      ggplot(aes(years_separation)) +
+      geom_density(position = 'jitter')
 
 )
 

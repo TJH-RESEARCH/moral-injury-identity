@@ -47,7 +47,8 @@ data <-
           bipf_work %+%
           bipf_education %+%
           bipf_daily,
-        
+        bipf_none = if_else(bipf_total == 0, 1, 0),
+
 # Civilian Identity Commitment: Total --------------------------------------
         civilian_commit_total = 
           civilian_commit_1 + 
@@ -237,6 +238,15 @@ data <-
           wis_skills_29 +
           wis_skills_30 +
           wis_skills_31,
+
+        wis_total =
+           wis_centrality_total + 
+           wis_connection_total +
+           wis_family_total +
+           wis_interdependent_total +
+           wis_private_regard_total +
+           wis_public_regard_total +
+           wis_skills_total
 
 
 )

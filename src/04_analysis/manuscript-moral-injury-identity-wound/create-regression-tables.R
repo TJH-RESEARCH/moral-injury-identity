@@ -5,7 +5,8 @@
 
 # Get regression results and bind them by rows -------------------------------------------------------
 
-get_results(fit_set_1_controls) %>% 
+get_results(fit_set_1_controls_precision) %>% 
+  filter(DV != 'total') %>% 
 
 # Add significance stars --------------------------------------------------
 
@@ -25,7 +26,7 @@ get_results(fit_set_1_controls) %>%
   mutate(estimate = str_c(as.character(estimate), p.stars ),
          std_estimate = str_c( '(', as.character(std_estimate), ')')
          ) %>% 
-  select(term, estimate, std_estimate, DV) %>% 
+  select(term, estimate, std_estimate, DV) %>% #print(n = 100) 
   
 
 # Pivot longer ------------------------------------------------------------
@@ -63,8 +64,15 @@ pivot_longer(cols = -c(term, DV)) %>%
          term = str_replace_all(term, 'Bipf', 'Psychosocial Functioning'),
          term = str_replace_all(term, 'Sexmale', 'Male'),
          term = str_replace_all(term, 'Years Service', 'Years of Service'),
-         term = str_remove_all(term, ' Total')) %>% 
-  
+         term = str_remove_all(term, ' Total'),
+         centrality = str_replace(as.character(centrality), '0.', '.'),
+         connection = str_replace(as.character(connection), '0.', '.'),
+         family = str_replace(as.character(family), '0.', '.'),
+         interdependent = str_replace(as.character(interdependent), '0.', '.'),
+         private_regard = str_replace(as.character(private_regard), '0.', '.'),
+         public_regard = str_replace(as.character(public_regard), '0.', '.'),
+         skills = str_replace(as.character(skills), '0.', '.')
+  ) %>% 
 # Remove the standardized intercept row -----------------------------------
   slice(-(2)) %>% 
   #print(n = 100)

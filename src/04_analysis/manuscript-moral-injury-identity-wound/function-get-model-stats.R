@@ -4,6 +4,7 @@
 
 
 
+
 # R Squared ---------------------------------------------------------------
 
 get_r_squared <- function(x){
@@ -93,9 +94,9 @@ get_f <- function(x){
   # 
   for (i in 1:length(x)) {
     y[i] = x[[i]][2]
-    f[i] = y[[1]][1]
-    numdf[i] = y[[1]][2]
-    dendf[i] = y[[1]][3]
+    f[i] = y[[i]][1]
+    numdf[i] = y[[i]][2]
+    dendf[i] = y[[i]][3]
     i + 1
   }
   # Unlist and tidy the results
@@ -109,6 +110,33 @@ get_f <- function(x){
 }
 
 
+
+# RMSE -----------------------------------------------------------------------
+
+
+
+get_rmse <- function(x){
+  
+  # Open null lists
+  y = list(NULL)
+  
+  # 
+  for (i in 1:length(x)) {
+    
+    y[i] = sqrt(mean((x[[i]]$summary$model[,1] -
+                 x[[i]]$summary$fitted.values)^2))
+    
+    i + 1
+  }
+  # Unlist and tidy the results
+  y = tibble(
+    rmse = y %>% unlist()
+
+  )
+  
+  return(y)
+}
+
 # Get Results Function ----------------------------------------------------
 ## Puts everything together in one tibble
 
@@ -120,8 +148,8 @@ get_model_stats <- function(x){
   x2 = get_f(x)
   x3 = get_adj_r_squared(x)
   x4 = get_r_squared(x)
-  
-  y = bind_cols(x2, x3, x4, x1)
+  x5 = get_rmse(x)
+  y = bind_cols(x2, x3, x4, x1, x5)
   y = 
     y %>% 
     mutate(model = model_name,
@@ -129,7 +157,11 @@ get_model_stats <- function(x){
            DV = str_remove(DV, '_total'),
            model = str_remove(model, 'fit_'),
            ) %>% 
-    select(DV, model, adj_r_squared, r_squared, everything())
+    mutate(p.value = pf(f, df1 = numdf, df2 = dendf, lower.tail = F)) %>% 
+    mutate(across(where(is.numeric), round, 3)) %>% 
+    select(DV, model, r_squared, adj_r_squared, rmse,
+           f, p.value, everything())
+    
   
   return(y)
 }
@@ -138,4 +170,7 @@ get_model_stats <- function(x){
 # Test
 #x <- get_results(results_set_2_controls)
 #x
+
+
+get_model_stats(fit_set_1)
 

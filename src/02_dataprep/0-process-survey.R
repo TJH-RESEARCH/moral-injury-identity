@@ -49,7 +49,7 @@ exclusions <-
   group_by(exclusion_reason) %>% 
   count() %>% 
   arrange(desc(n))
-
+exclusions
 # Save a copy that includes the results scrubbed by Qualtrics
 data <- anti_join(data, data_scrubbed_qualtrics, by = c('ResponseId' = 'ResponseId'))
 

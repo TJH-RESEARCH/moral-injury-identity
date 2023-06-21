@@ -1,9 +1,6 @@
 
 # Remove outliers
 
-# Print the Demographics:
-demographic_representation
-
 
 # Filter ------------------------------------------------------------------
 data <-

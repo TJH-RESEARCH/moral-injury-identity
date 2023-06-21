@@ -8,7 +8,6 @@ data <-
   dplyr::mutate(
 
 # Create categorical variables ---------------------------------------------
-
 ## Branch ------------------------------------------------------------------
     branch_multiple = 
         dplyr::if_else(
@@ -76,6 +75,13 @@ data <-
       officer = dplyr::if_else(highest_rank >= 5, 1, 0),
       enlisted = dplyr::if_else(highest_rank <= 3, 1, 0),
       warrant_officer = dplyr::if_else(highest_rank == 4, 1, 0),
+      nonenlisted = dplyr::if_else(highest_rank > 3, 1, 0),
+      rank_e1_e3 = dplyr::if_else(highest_rank == 1, 1, 0),
+      rank_e4_e6 = dplyr::if_else(highest_rank == 2, 1, 0),
+      rank_e7_e9 = dplyr::if_else(highest_rank == 3, 1, 0),
+      rank_w1_cw5 = dplyr::if_else(highest_rank == 4, 1, 0),
+      rank_o1_o3 = dplyr::if_else(highest_rank == 5, 1, 0),
+      rank_o4_o6 = dplyr::if_else(highest_rank == 6, 1, 0),
 
 ## Highest Rank -----------------------------------------------------------
       highest_rank = factor(highest_rank,
@@ -217,7 +223,6 @@ data <-
 
       year_entered_military = 2023 - years_separation - years_service,
       year_left_military = 2023 - years_separation, 
-      service_era_wwii           = if_else((year_entered_military >= 1941 & year_entered_military <= 1946) |  (year_left_military >= 1941 & year_left_military <= 1946), 1, 0), 
       service_era_post_wwii      = if_else((year_entered_military >= 1947 & year_entered_military < 1950) | (year_left_military >= 1947 & year_left_military < 1950), 1, 0), 
       service_era_korea          = if_else((year_entered_military >= 1950 & year_entered_military < 1956) | (year_left_military >= 1950 & year_left_military < 1956), 1, 0), 
       service_era_cold_war       = if_else((year_entered_military >= 1956 & year_entered_military < 1990) | (year_left_military >= 1956 & year_left_military < 1990), 1, 0), 
@@ -226,7 +231,6 @@ data <-
       service_era_post_911       = if_else((year_entered_military >= 2001) | (year_left_military >= 2001), 1, 0), 
       
       service_era_multiple = if_else(
-                                    service_era_wwii +
                                     service_era_post_wwii +
                                     service_era_korea +
                                     service_era_cold_war +
@@ -236,7 +240,6 @@ data <-
                                     > 1, 1, 0),
 
       service_era = case_when(
-                              service_era_wwii == 1 ~ "WWII",
                               service_era_post_wwii == 1 ~ "Post-WWII",
                               service_era_korea == 1 ~ "Korea", 
                               service_era_cold_war == 1 ~ "Cold War",

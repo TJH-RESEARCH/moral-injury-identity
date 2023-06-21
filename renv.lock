@@ -2634,6 +2634,19 @@
       ],
       "Hash": "2fa7b59feca0d767533fd0c8a7a2bf4b"
     },
+    "lmtest": {
+      "Package": "lmtest",
+      "Version": "0.9-40",
+      "Source": "Repository",
+      "Repository": "CRAN",
+      "Requirements": [
+        "R",
+        "graphics",
+        "stats",
+        "zoo"
+      ],
+      "Hash": "c6fafa6cccb1e1dfe7f7d122efd6e6a7"
+    },
     "loo": {
       "Package": "loo",
       "Version": "2.6.0",

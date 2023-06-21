@@ -2,6 +2,7 @@
 # Creates a custom linear regression function that takes a list
 # of independent variables as input.
 
+
 lm_custom <-
   function(data, DV, IVs){
       
@@ -44,16 +45,19 @@ lm_custom <-
   }
 
 # Create a custom plot function -------------------------------------------
-plot_lm <- function(x){
-   plot(x$model)
+plot_lm <- function(data, DV, IVs){
+   
+  formula <- as.formula(paste(as.character(DV), " ~ ", IVs, sep = ""))
+  x <- lm(formula = formula, data = data)
+  plot(x)
 }
 
 # Test:
-x <- lm_custom(data, 'wis_total', c('mios_total', 'sex'))
-x
+#x <- lm_custom(data, 'wis_total', c('mios_total', 'sex'))
+#x
 #y <- lm(wis_total ~ mios_total + sex, data)
 #plot_lm(x)
+#plot(x$summary)
+#x$summary$terms
 
-x$summary$terms
-
-attr(x$summary$terms, "variables")
+#attr(x$summary$terms, "variables")

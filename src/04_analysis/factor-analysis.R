@@ -56,6 +56,29 @@ fit_cfa_biis_1 %>% summary(fit.measures = T, standardized = T)
 fit_cfa_biis_1 %>% semPlot::semPaths(curvePivot = TRUE)
 lavaan::standardizedsolution(fit_cfa_biis_1)
 
+# Fit Measures:
+lavaan::fitMeasures(model_efa_biis_1)
+
+# Factor Loadings:
+inspect(fit_cfa_biis_1, what = "std")$lambda
+
+# EFA
+model_efa_biis_1 <-
+  data %>% 
+  select(starts_with('biis') &
+           !ends_with('harmony') & 
+           !ends_with('blendedness') &
+           !ends_with('total')) %>% 
+  lavaan::efa(nfactors = 1:3) 
+
+model_efa_biis_1_sum <- 
+  model_efa_biis_1 %>% 
+  summary()
+
+
+
+
+
 model_cfa_biis_harmony <-
   'harmony =~ biis_1 + biis_2 + biis_3 + biis_4 + biis_5 + biis_6 + biis_7 + biis_8 + biis_9 + biis_10
     harmony ~~ harmony'

@@ -38,9 +38,9 @@ dag_full <- dagitty::dagitty(
   WIS [outcome]
 
   }")
-ggdag::ggdag(dag_full)
+ggdag::ggdag(dag_full) + ggdag::theme_dag_blank()
 ggdag::tidy_dagitty(dag_full)
-ggdag::ggdag_adjustment_set(dag_full)
+ggdag::ggdag_adjustment_set(dag_full) + ggdag::theme_dag_blank()
 ggdag::tidy_dagitty(dag_full)
 
 # Adjustment Sets
@@ -64,7 +64,7 @@ dagitty::children(dag_full, 'WIS')
 dagitty::vanishingTetrads(dag_full)
 
 dagitty::adjustedNodes(dag_full) <- c("Era", "PTSD", "Sex")
-ggdag::ggdag(dag_full)
+ggdag::ggdag(dag_full) + ggdag::theme_dag_blank()
 
 ## 2 Adjustment sets:
 ## { Era, PTSD, Sex }

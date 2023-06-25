@@ -29,6 +29,9 @@ data <-
         branch_public_health == 1 ~ 'Public Health Service'), 
     branch = factor(branch),
 
+## Disability percentage
+    disability_percent = ifelse(is.na(disability_percent), 0, disability_percent),
+
 ## Discharge -------------------------------------------------------------
     discharge_reason = factor(discharge_reason, 
                               levels = c(1:4), 

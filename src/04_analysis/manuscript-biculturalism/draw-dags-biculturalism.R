@@ -62,11 +62,7 @@ ggdag::ggdag_adjustment_set(dag_b) + ggdag::theme_dag()
 # -------------------------------------------------------------------------
 dag_id <- dagitty::dagitty(
   "dag{
-  
-   MI -> MCARM
-  MI -> WIS -> MCARM
-  MI -> CivID -> MCARM
-  MI -> SCC -> MCARM
+ 
   
   WIS -> Iconf <- CivID
   WIS -> Icomp <- CivID
@@ -74,18 +70,24 @@ dag_id <- dagitty::dagitty(
   Iconf -> SCC
   Icomp -> MCARM
   
+   
+  MI -> MCARM
+  MI -> WIS -> MCARM
+  MI -> CivID -> MCARM
+  MI -> SCC -> MCARM
+  
   bIPF <- MI <- PMIE  <-> Trauma -> PTSD -> bIPF -> WIS -> MCARM
   MCARM <- bIPF -> CivID
-  
   PTSD <- PMIE 
   PTSD <-> MI
   PTSD -> MCARM
   MI -> DisAble <- PTSD
-  Trauma -> DisAble -> MCARM
-  Trauma -> MedDis
   Trauma -> MI
   MI -> WIS <- PTSD
   
+  
+  Trauma -> DisAble -> MCARM
+  Trauma -> MedDis
   
   Age -> Era
   Age -> YoS -> YSep
@@ -131,6 +133,10 @@ dag_id <- dagitty::dagitty(
   MCARM [outcome]
 
   }")
+
+ggdag::ggdag(dag_id, edge_type = 'link_arc', text_size = 3, text_col = 'black',node = F) + ggdag::theme_dag()
+ggdag::ggdag_adjustment_set(dag_id, text_size = 3, node = F, text_col = 'black',shadow = T) + ggdag::theme_dag()
+
 
 ggdag::ggdag(dag_id) + ggdag::theme_dag_blank()
 ggdag::tidy_dagitty(dag_id)

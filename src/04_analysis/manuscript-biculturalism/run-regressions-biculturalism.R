@@ -10,54 +10,31 @@ DV_mcarm <- c('mcarm_total')
 DV_blend <- c('biis_blendedness')
 DV_harm <-  c('biis_harmony')
 
-IV_treatment <- c('biis_harmony', 'biis_blendedness')
-IV_adjustment_set_1 <- c('wis_total', 'civilian_commit_total')
+IV_treatment_1 <- c('wis_total', 'civilian_commit_total')
+IV_treatment_2 <- c('biis_harmony', 'biis_blendedness')
+IV_adjustment_set <- c('military_exp_combat', 'mios_total', 'mios_ptsd_symptoms_none', 'rank_e1_e3', 'rank_e7_e9', 'nonenlisted', 'sex_male', 'bipf_total')
+
+
 IV_neutral_controls <- c('employment_unemployed', 
-                         'disability_percent',
-                         'education_num')
+                         'disability_percent')
 IV_mios_ptsd <- c('mios_ptsd_symptoms_none', 'mios_total')
 IV_interact <- c('wis_total:civilian_commit_total')
 IV_mediators <- c('scc_total')
 
 
 
+
+
 # Fit Models --------------------------------------------------------------
 
-fit_treatment <- 
+fit_full <- 
   DV_mcarm %>% 
-    map(\(x) lm_custom(data, x, IV_treatment))
-
-fit_set <- 
-  DV_mcarm %>% 
-    map(\(x) lm_custom(data, x, c(IV_treatment, IV_adjustment_set_1)))
-
-fit_controls <- 
-  DV_mcarm %>% 
-    map(\(x) lm_custom(data, x, c(IV_treatment, 
-                                IV_adjustment_set_1,
-                                IV_neutral_controls)))
-
-fit_interact <- 
-  DV_mcarm %>% 
-  map(\(x) lm_custom(data, x, c(IV_treatment, 
-                                IV_adjustment_set_1,
-                                IV_interact,
-                                IV_neutral_controls)))
-fit_mios <- 
-  DV_mcarm %>% 
-  map(\(x) lm_custom(data, x, c(IV_treatment, 
-                                IV_mios_ptsd,
-                                IV_adjustment_set_1,
-                                IV_neutral_controls)))
-
-fit_mios_interact <- 
-  DV_mcarm %>% 
-  map(\(x) lm_custom(data, x, c(IV_treatment, 
-                                IV_mios_ptsd,
-                                IV_adjustment_set_1,
-                                IV_interact,
-                                IV_neutral_controls)))
-
+    map(\(x) lm_custom(data, x, 
+                       c(IV_treatment_1, 
+                       IV_treatment_2,
+                       IV_adjustment_set,
+                       IV_neutral_controls,
+                       IV_mediators)))
 
 fit_mediate <- 
   DV_mcarm %>% 
@@ -113,6 +90,10 @@ model_stats <-
     get_model_stats(fit_blend_interact)
   )
 
+
+model_stats <- 
+  get_model_stats(fit_full)
+
 # Inspect Model Stats -----------------------------------------------------
 model_stats %>% 
   arrange(DV, desc(r_squared)) %>% 
@@ -151,10 +132,14 @@ model_results <-
     get_results(fit_blend_interact)
   )
 
+model_results <- 
+  get_results(fit_full)
+
 # Inspect Model Coefficients ----------------------------------------------
 
 model_results  %>% 
   arrange(model) %>% print(n = 100)
+
 
 model_results  %>% 
   filter(model == 'mediate_interact') %>% 
@@ -194,10 +179,11 @@ model_results %>%
 
 # Which variables had a statistically significant impact? 
 model_results %>% 
-  filter(model == 'mediate',
+  filter(#model == 'mediate',
          term != '(Intercept)',
          p.value <= .05
   ) %>% 
   select(!c(model, IV), estimate, std_estimate) %>% 
   arrange(DV, p.value) %>% 
   print(n = 1000)
+

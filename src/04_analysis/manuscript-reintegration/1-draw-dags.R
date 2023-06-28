@@ -17,7 +17,7 @@ dag_basic <- dagitty::dagitty(
   
   
   MCARM [outcome]
-
+XN
   }")
 set.seed(104)
 ggdag::ggdag(dag_basic, edge_type = 'link_arc', text_size = 4, text_col = "#0072B2", node = F) + ggdag::theme_dag()

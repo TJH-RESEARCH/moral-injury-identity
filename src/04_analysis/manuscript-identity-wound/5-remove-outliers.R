@@ -1,6 +1,14 @@
 
 # Remove outliers
 
+### While the original exclusion criteria allowed for
+### members of the US Public Health Service and 
+### Korean war era to serve, only 2 respondents were from the
+### public health service and one from the Korean War era. 
+### As these variables will be included in the regression
+### model for Chapter 2, these respondents will be removed 
+### from the data.
+
 
 # Filter ------------------------------------------------------------------
 data <-

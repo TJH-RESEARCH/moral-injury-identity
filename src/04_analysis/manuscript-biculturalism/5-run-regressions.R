@@ -1,0 +1,82 @@
+
+# RUN REGRESSION
+
+# Military-Civilian Biculturalism?: 
+# Bicultural Identity and the Adjustment of Separated Service Members
+
+
+
+# Load the custom regression function -----------------------------------
+source(here::here('src/01_config/functions/function-regression.R'))
+source(here::here('src/01_config/functions/function-get-model-stats.R'))
+source(here::here('src/01_config/functions/function-get-results.R'))
+
+# Declare independent variables/covariates -----------------------------------
+DV_blend <- 'biis_blendedness'
+DV_harmony <- 'biis_harmony'
+IV_wis <- c('wis_centrality_total', 
+            'wis_connection_total', 
+            'wis_family_total', 
+            'wis_interdependent_total', 
+            'wis_private_regard_total',
+            'wis_public_regard_total',
+            'wis_skills_total')
+IV_civ <- 'civilian_commit_total'
+IV_interaction <- c('civilian_commit_total:wis_total')
+
+
+# Fit Models --------------------------------------------------------------
+
+fit_blendedness <- 
+  DV_blend %>% map(\(x) lm_custom(data, x, 
+                                  c(IV_wis, 
+                                  IV_civ)))
+
+fit_harmony <- 
+  DV_harmony %>% map(\(x) lm_custom(data, x, 
+                                    c(IV_wis, 
+                                    IV_civ)))
+
+
+# Get model stats ---------------------------------------------------------
+
+model_stats <- 
+  bind_rows(
+    get_model_stats(fit_blendedness),
+    get_model_stats(fit_harmony)
+  )
+
+
+# Inspect Model Fit  -----------------------------------------------------
+model_stats %>% arrange(desc(adj_r_squared))
+
+
+# Get coefficients --------------------------------------------------------
+
+model_results <- 
+  bind_rows(
+    get_results(fit_blendedness),
+    get_results(fit_harmony)
+  )
+
+
+# Inspect Model Coefficients ----------------------------------------------
+
+model_results  %>% arrange(DV, model)
+model_results  %>% arrange(term)
+
+# Which variables had the greatest standardized effect? 
+model_results %>% 
+  select(!c(model, IV), estimate, std_estimate) %>% 
+  arrange(DV, desc(abs(std_estimate)))
+
+
+# Which variables had a statistically significant impact? 
+model_results %>% 
+  filter(
+         term != '(Intercept)',
+         p.value <= .05
+  ) %>% 
+  select(!c(model, IV), estimate, std_estimate) %>% 
+  arrange(DV, p.value)
+

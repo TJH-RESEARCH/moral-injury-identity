@@ -1,0 +1,18 @@
+term,biis_blendedness,biis_harmony
+(Intercept),4.419,18.105*
+Wis Centrality,0.234,-0.19
+,(0.128),(-0.064)
+Wis Connection,-0.174,0.678*
+,(-0.066),(0.158)
+Wis Family,0.141,-0.943*
+,(0.063),(-0.261)
+Wis Interdependent,0.294*,-0.641*
+,(0.228),(-0.307)
+Wis Private Regard,0.078,0.489*
+,(0.055),(0.211)
+Wis Public Regard,0.093,0.539*
+,(0.04),(0.145)
+Wis Skills,0.584*,0.126
+,(0.227),(0.03)
+Civilian Commit,0.16,1.055*
+,(0.075),(0.307)

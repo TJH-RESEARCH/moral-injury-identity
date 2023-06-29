@@ -3,7 +3,7 @@
 
 # Hypotheses ----------------------------------------------------
 
-H1: Moral injury negatively predicts quality of reintegration.
+H1: Moral injury symptoms negatively predicts quality of reintegration.
 
 H2: Higher bicultural blendedness predicts better reintegration outcomes.
 
@@ -11,8 +11,33 @@ H3: Higher bicultural harmony predicts better reintegration outcomes.
 
 H4: Identity (WIS, civilian identity, bicultural blendedness, and identity conflict) mediate the relationship between moral injury and reintegration.
 
+H4a: Miilitary identity mediates the relationship between moral injury and reintegration.
+
+H4b: Civilian identity mediates the relationship between moral injury and reintegration.
+
+H4c: Bicultural identity blendedness mediates the relationship between moral injury and reintegration.
+
+H4d: Bicultural identity harmony mediates the relationship between moral injury and reintegration.
+
 
 # Analysis Plan -------------------------------------------------
+
+1. Mediation Analysis using Structural Equation Modelling
+
+a. dags
+b. correlation
+c. check assumptions
+d. run Model 1
+- Regress MCARM on MIOS without mediators
+e. run Model 2
+- Regress MCARM on MIOS with mediators
+- calculate direct and indirect effects
+f. inspect residual plots of individual regressions 
+
+
+
+
+
 
 
 What to do about the identity variables as mediators. There are several directly affected by the independent variable, and one affected by those. 

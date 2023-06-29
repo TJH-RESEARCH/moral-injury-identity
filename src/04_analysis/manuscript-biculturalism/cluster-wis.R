@@ -70,7 +70,8 @@ data <-
          
 data %>% count(wis_cluster)
 
-
+## The 2-cluster combines medium and high before incorporating low
+## It becomes a very unbalanced group in size
 
 # What comprises these clusters? ------------------------------------------
 data %>% 

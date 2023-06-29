@@ -1,9 +1,9 @@
 
 
 # Load the custom regression function -----------------------------------
-source(here::here('src/04_analysis/manuscript-1/function-regression.R'))
-source(here::here('src/04_analysis/manuscript-1/function-get-model-stats.R'))
-source(here::here('src/04_analysis/manuscript-1/function-get-results.R'))
+source(here::here('src/01_config/functions/function-regression.R'))
+source(here::here('src/01_config/functions/function-get-model-stats.R'))
+source(here::here('src/01_config/functions/function-get-results.R'))
 
 # Declare independent variables/covariates -----------------------------------
 DVs <- c('wis_total', 'wis_centrality_total', 'wis_connection_total', 'wis_family_total', 'wis_interdependent_total', 'wis_private_regard_total', 'wis_public_regard_total', 'wis_skills_total')

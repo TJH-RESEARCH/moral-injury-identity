@@ -1,3 +1,5 @@
+library(dagitty)
+library(ggdag)
 
 # DAG Basic -------------------------------------------------------------------
 
@@ -5,178 +7,50 @@ dag_basic <- dagitty::dagitty(
   "dag{
 
   
-  Iconf -> MCARM
-  Iconf -> SCC -> MCARM
-  Icomp -> MCARM
+  Conflict -> MCARM
+  Compart -> MCARM
   
+  MI -> WIS
+  MI -> CivilianID
   
-  WIS -> Icomp
-  WIS -> Iconf
-  CivID -> Icomp
-  CivID -> Iconf
-  
-  
-  MCARM [outcome]
-XN
-  }")
-set.seed(104)
-ggdag::ggdag(dag_basic, edge_type = 'link_arc', text_size = 4, text_col = "#0072B2", node = F) + ggdag::theme_dag()
-ggdag::ggdag_adjustment_set(dag_basic,text_size = 4,node = F, text_col = "#0072B2") + ggdag::theme_dag()
-
-
-
-# DAG Big -------------------------------------------------------------------
-
-dag_big <- dagitty::dagitty(
-  "dag{
-
-  
-  Iconf -> MCARM
-  Iconf -> SCC -> MCARM
-  Icomp -> MCARM
-  
-  
-  WIS -> Icomp
-  WIS -> Iconf
-  CivID -> Icomp
-  CivID -> Iconf
-  
-  Age -> Era -> Combat
-  Age -> YoS -> YSep
-  YoS -> WIS
-  YoS -> Rank -> WIS
-  YSep -> WIS
-  YSep -> CivID
-  
-  Rank -> MCARM
-  
-  PMIE <- Combat -> Trauma
-  
-  MilFam -> WIS
-  
-  Rank -> WIS
-  Race -> WIS
-  Race -> Rank
-  
-  Sex -> Rank
-  Sex -> WIS
-  Sex -> PMIE
-  Sex -> Trauma
-  
-
-  MCARM [outcome]
-
-  }")
-set.seed(104)
-ggdag::ggdag(dag_big, edge_type = 'link_arc', text_size = 4, text_col = "#0072B2", node = F) + ggdag::theme_dag()
-ggdag::ggdag_adjustment_set(dag_big,text_size = 4,node = F, text_col = "#0072B2") + ggdag::theme_dag()
-
-
-# DAG MI -------------------------------------------------------------------
-
-dag_mi <- dagitty::dagitty(
-  "dag{
-
-  
-  Iconf -> MCARM
-  Iconf -> SCC -> MCARM
-  Icomp -> MCARM
-  
-  
-  WIS -> Icomp
-  WIS -> Iconf
-  CivID -> Icomp
-  CivID -> Iconf
-  
-  Age -> Era -> Combat
-  Age -> YoS -> YSep
-  YoS -> WIS
-  YoS -> Rank -> WIS
-  YSep -> WIS
-  YSep -> CivID
-  
-  Rank -> MCARM
-  
-  PMIE <- Combat -> Trauma
-  
-  MilFam -> WIS
-  
-  Rank -> WIS
-  Race -> WIS
-  Race -> Rank
-  
-  Sex -> Rank
-  Sex -> WIS
-  Sex -> PMIE
-  Sex -> Trauma
-  
-  Worship -> CivID 
-  MilFam -> CivID
-  JobMil -> CivID
-  JobMil -> WIS
-  
-  Educ -> MCARM
-  OtherDis -> MCARM
-  Unmet -> MCARM
-  DisAble -> Empld -> MCARM
-  
-  Trauma -> DisAble -> MCARM
-   
-  MI -> MCARM
-  MI -> WIS -> MCARM
-  MI -> CivID -> MCARM
-  MI -> SCC -> MCARM
-  
-  bIPF <- MI <- PMIE  <-> Trauma -> PTSD -> bIPF -> WIS -> MCARM
-  MCARM <- bIPF -> CivID
-  PTSD <- PMIE 
-  PTSD <-> MI
-  PTSD -> MCARM
-  MI -> DisAble <- PTSD
-  Trauma -> MI
-  MI -> WIS <- PTSD
+  WIS -> Compart
+  WIS -> Conflict
+  CivilianID -> Compart
+  CivilianID -> Conflict
   
   MI [exposure]
   MCARM [outcome]
 
   }")
-set.seed(104)
-ggdag::ggdag(dag_mi, edge_type = 'link_arc', text_size = 4, text_col = "#0072B2", node = F) + ggdag::theme_dag()
-ggdag::ggdag_adjustment_set(dag_mi,text_size = 4,node = F, text_col = "#0072B2",shadow = T) + ggdag::theme_dag()
-dag_mi
-dag_mi %>% tidy_dagitty() %>% arrange(to, name) %>% print(n = 100)
-dag_mi %>% dagitty::adjustmentSets()
+set.seed(20)
+ggdag::ggdag(dag_basic, edge_type = 'link_arc', text_size = 4, text_col = "#0072B2", node = F) + ggdag::theme_dag()
+ggdag::ggdag_adjustment_set(dag_basic,text_size = 4,node = F, text_col = "#0072B2") + ggdag::theme_dag()
 
 
 
 
+# DAG B -------------------------------------------------------------------
 
-# DAG id -------------------------------------------------------------------
-
-dag_id <- dagitty::dagitty(
+dag_b <- dagitty::dagitty(
   "dag{
 
+
+  Conflict -> MCARM
+  Compart -> MCARM
   
-  Iconf -> MCARM
-  Iconf -> SCC -> MCARM
-  Icomp -> MCARM
+  MI -> WIS
+  MI -> CivilianID
   
+  WIS -> Compart
+  WIS -> Conflict
+  CivilianID -> Compart
+  CivilianID -> Conflict
   
-  WIS -> Icomp
-  WIS -> Iconf
-  CivID -> Icomp
-  CivID -> Iconf
-  
-  Age -> Era -> Combat
-  Age -> YoS -> YSep
-  YoS -> WIS
-  YoS -> Rank -> WIS
-  YSep -> WIS
-  YSep -> CivID
-  
-  Rank -> MCARM
-  
-  PMIE <- Combat -> Trauma
+  YrsServe -> YrsSep
+  YrsServe -> WIS
+  YrsServe -> Rank -> WIS
+  YrsSep -> WIS
+  YrsSep -> CivilianID
   
   MilFam -> WIS
   
@@ -186,45 +60,173 @@ dag_id <- dagitty::dagitty(
   
   Sex -> Rank
   Sex -> WIS
-  Sex -> PMIE
-  Sex -> Trauma
+
   
-  Worship -> CivID 
-  MilFam -> CivID
-  JobMil -> CivID
-  JobMil -> WIS
+  MI [exposure]
+  MCARM [outcome]
   
-  Educ -> MCARM
-  OtherDis -> MCARM
-  Unmet -> MCARM
-  DisAble -> Empld -> MCARM
+
+  }")
+set.seed(104)
+ggdag::ggdag(dag_b, 
+             edge_type = 'link_arc', 
+             text_size = 3.5, text_col = "#0072B2", node = F) + ggdag::theme_dag()
+ggdag::ggdag_adjustment_set(dag_b,text_size = 4,node = F, text_col = "#0072B2") + ggdag::theme_dag()
+
+
+
+
+
+# DAG Y = Civilian Identity & WIS -------------------------------------------------------------------
+
+dag_civ_wis <- dagitty::dagitty(
+  "dag{
+
+
+  Conflict -> MCARM
+  Compart -> MCARM
   
-  Trauma -> DisAble -> MCARM
-   
-  MI -> MCARM
-  MI -> WIS -> MCARM
-  MI -> CivID -> MCARM
-  MI -> SCC -> MCARM
+  MI -> WIS
+  MI -> CivilianID
   
-  bIPF <- MI <- PMIE  <-> Trauma -> PTSD -> bIPF -> WIS -> MCARM
-  MCARM <- bIPF -> CivID
-  PTSD <- PMIE 
-  PTSD <-> MI
-  PTSD -> MCARM
-  MI -> DisAble <- PTSD
-  Trauma -> MI
-  MI -> WIS <- PTSD
+  WIS -> Compart
+  WIS -> Conflict
+  CivilianID -> Compart
+  CivilianID -> Conflict
   
-  WIS [exposure]
-  CivID [exposure]
+  YrsSep <- Age -> YrsServe
+  
+  YrsServe -> YrsSep
+  YrsServe -> WIS
+  YrsServe -> Rank -> WIS
+  YrsSep -> WIS
+  YrsSep -> CivilianID
+  
+  MilFam -> WIS
+  
+  Rank -> WIS
+  Race -> WIS
+  Race -> Rank
+  
+  Sex -> Rank
+  Sex -> WIS
+  
+  MI -> MCARM <- PTSD
+  
+  CivilianID <- bIPF <- MI <- PMIE <-> Trauma -> PTSD -> bIPF -> WIS
+  PTSD <- PMIE <- Era -> Trauma -> MedDis
+  Trauma <- Sex -> PMIE
+  WIS <- PTSD <-> MI
+  Combat -> MedDis -> DisAble -> MCARM
+  
+  Era -> Combat -> DisAble <- Trauma <- Combat -> PMIE
+  WIS <- Era <- Age
+  Worship -> CivilianID <- JobMil -> WIS
+  Branch -> WIS <- MilFam -> CivilianID
+
+  MI [exposure]
+  CivilianID [outcome]
+  WIS [outcome]
+
+  }")
+set.seed(104)
+ggdag::ggdag(dag_civ_wis, 
+             edge_type = 'link_arc', 
+             text_size = 3.5, text_col = "#0072B2", node = F) + ggdag::theme_dag()
+ggdag::ggdag_adjustment_set(dag_civ_wis, text_size = 4,node = F, text_col = "#0072B2") + ggdag::theme_dag()
+adjustmentSets(dag_civ_wis)
+
+# Adjust and Plot
+ggdag::tidy_dagitty(dag_civ) %>% 
+  ggdag::adjust_for(var = c('DisAble', 
+                            'Era', 
+                            'PTSD', 
+                            'Sex')
+  ) %>% 
+  ggdag::ggdag_adjustment_set(text_size = 4,node = F, text_col = "#0072B2") + ggdag::theme_dag()
+
+
+
+
+# DAG Y = MCARM -------------------------------------------------------------------
+
+dag_mcarm <- dagitty::dagitty(
+  "dag{
+
+
+  Conflict -> MCARM
+  Compart -> MCARM
+  
+  MI -> WIS
+  MI -> CivilianID
+  
+  WIS -> Compart
+  WIS -> Conflict
+  CivilianID -> Compart
+  CivilianID -> Conflict
+  
+  YrsSep <- Age -> YrsServe
+  
+  YrsServe -> YrsSep
+  YrsServe -> WIS
+  YrsServe -> Rank -> WIS
+  YrsSep -> WIS
+  YrsSep -> CivilianID
+  
+  MilFam -> WIS
+  
+  Rank -> WIS
+  Race -> WIS
+  Race -> Rank
+  
+  Sex -> Rank
+  Sex -> WIS
+  
+  MI -> MCARM <- PTSD
+  
+  CivilianID <- bIPF <- MI <- PMIE <-> Trauma -> PTSD -> bIPF -> WIS
+  PTSD <- PMIE <- Era -> Trauma -> MedDis
+  Trauma <- Sex -> PMIE
+  WIS <- PTSD <-> MI
+  Combat -> MedDis -> DisAble -> MCARM
+  
+  Era -> Combat -> DisAble <- Trauma <- Combat -> PMIE
+  WIS <- Era <- Age
+  Worship -> CivilianID <- JobMil -> WIS
+  Branch -> WIS <- MilFam -> CivilianID
+
+  MI [exposure]
   MCARM [outcome]
 
   }")
 set.seed(104)
-ggdag::ggdag(dag_id, edge_type = 'link_arc', text_size = 4, text_col = "#0072B2", node = F) + ggdag::theme_dag()
-ggdag::ggdag_adjustment_set(dag_id,text_size = 4,node = F, text_col = "#0072B2",shadow = T) + ggdag::theme_dag()
-dag_id
-dag_id %>% tidy_dagitty() %>% arrange(to, name) %>% print(n = 100)
-dag_id %>% dagitty::adjustmentSets()
+ggdag::ggdag(dag_mcarm, 
+             edge_type = 'link_arc', 
+             text_size = 3.5, text_col = "#0072B2", node = F) + ggdag::theme_dag()
+ggdag::ggdag_adjustment_set(dag_mcarm,text_size = 4,node = F, text_col = "#0072B2") + ggdag::theme_dag()
 
 
+  
+
+# Adjustment Sets ---------------------------------------------------------
+adjustmentSets(dag_civ)
+adjustmentSets(dag_mcarm)
+
+# { DisAble, Era, PTSD, Sex } works for both!
+
+
+
+# Increased precision? ----------------------------------------------------
+
+## Adjust the model and plot the DAG to look for precision paths
+ggdag::tidy_dagitty(dag_mcarm) %>% 
+  ggdag::adjust_for(var = c('DisAble', 
+                            'Era', 
+                            'PTSD', 
+                            'Sex')
+  ) %>% 
+  ggdag::ggdag_adjustment_set(text_size = 4,node = F, text_col = "#0072B2") + ggdag::theme_dag()
+
+
+## Not for MCARM. Nothing going only into Y except the mediators
+##   and IV. 

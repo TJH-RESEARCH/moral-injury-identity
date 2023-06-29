@@ -3,6 +3,18 @@
 
 # Hypotheses ----------------------------------------------------
 
+H1: Moral injury symptoms predict lower levels of private regard for the military.
+
+H2: Moral injury symptoms predict lower levels of public regard for the military.
+
+H3: Moral injury symptoms predict lower levels of interdependence with the military.
+
+H4: Moral injury symptoms predict lower levels of connection to the military.
+
+H5: Moral injury symptoms predict lower levels of viewing the military as family 
+
+H6: Moral injury symptoms predict increased military identity centrality.
+
 
 # Analysis Plan -------------------------------------------------
 

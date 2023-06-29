@@ -56,7 +56,7 @@ dag_big <- dagitty::dagitty(
   Sex -> WIS
 
     
-     WIS [exposure]
+  WIS [exposure]
   Civilian_ID [exposure]
   Compart [outcome]
   Conflict [outcome]
@@ -67,3 +67,4 @@ ggdag::ggdag(dag_big,
              edge_type = 'link_arc', 
              text_size = 3.5, text_col = "#0072B2", node = F) + ggdag::theme_dag()
 ggdag::ggdag_adjustment_set(dag_big,text_size = 4,node = F, text_col = "#0072B2") + ggdag::theme_dag()
+

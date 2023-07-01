@@ -8,7 +8,6 @@ source(here::here('src/01_config/functions/function-get-results.R'))
 # Declare independent variables/covariates -----------------------------------
 DVs <- c('wis_total', 'wis_centrality_total', 'wis_connection_total', 'wis_family_total', 'wis_interdependent_total', 'wis_private_regard_total', 'wis_public_regard_total', 'wis_skills_total')
 IV_treatment <- c('mios_total')
-IV_treatment_sqrt <- c('mios_total_sqrt')
 IV_adjustment_set_1 <- c('mios_ptsd_symptoms',
                          'service_era_persian_gulf',
                          'service_era_post_911',
@@ -68,11 +67,6 @@ fit_set_1_controls_precision <- DVs %>%
                                 IV_neutral_controls,
                                 IV_improve_precision)))
 
-fit_set_1_cntrl_prec_trans <- DVs %>% 
-  map(\(x) lm_custom(data, x, c(IV_treatment_sqrt, 
-                                IV_adjustment_set_1,
-                                IV_neutral_controls,
-                                IV_improve_precision)))
 
 
 
@@ -89,8 +83,7 @@ model_stats <-
 
 model_stats <- 
   bind_rows(
-    get_model_stats(fit_set_1_controls_precision),
-    get_model_stats(fit_set_1_cntrl_prec_trans)
+    get_model_stats(fit_set_1_controls_precision)
 )
 
 model_stats <- 

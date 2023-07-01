@@ -5,7 +5,8 @@
 
 # Get regression results and bind them by rows -------------------------------------------------------
 
-get_results(fit_set_1_controls_precision) %>% 
+results_regression <- 
+  get_results(fit_set_1_controls_precision) %>% 
   filter(DV != 'total') %>% 
 
 # Add significance stars --------------------------------------------------
@@ -74,9 +75,19 @@ pivot_longer(cols = -c(term, DV)) %>%
          skills = str_replace(as.character(skills), '0.', '.')
   ) %>% 
 # Remove the standardized intercept row -----------------------------------
-  slice(-(2)) %>% 
-  #print(n = 100)
+  slice(-(2))
+  # print(n = 100)
+
+
+## Print:
+results_regression %>% print()
 
 # Write to CSV in output folder -------------------------------------------
-  write_csv(here::here('output/tables/regression-table-1.csv'))
+results_regression %>% 
+  write_csv(here::here('output/results/identity-wound-regression.csv'))
 
+# Message:
+if(exists('results_regression')) message('Results of regression analysis saved as `output/results/identity-wound-regression.csv`')
+
+# Clean Up
+rm(results_regression)

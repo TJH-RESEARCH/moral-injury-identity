@@ -50,7 +50,7 @@ output_results_anova_blended <-
 output_results_anova_blended
 
 ## Save:
-output_results_anova_blended %>% write_csv('output/results/results-anova-blended.csv')
+output_results_anova_blended %>% write_csv('output/results/anova-blended.csv')
 rm(output_results_anova_blended)
 
 
@@ -100,5 +100,5 @@ output_results_anova_harmony <-
 output_results_anova_harmony
 
 ## Save:
-output_results_anova_harmony %>% write_csv('output/results/results-anova-harmony.csv')
+output_results_anova_harmony %>% write_csv('output/results/anova-harmony.csv')
 rm(output_results_anova_harmony)

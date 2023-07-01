@@ -1,11 +1,14 @@
 
-# Make some simple tables and graphs
+# SIMPLE TABLE
+
+## Make a simple table illustrating the hypothesized relationship
 
 
-# Average MI symptom score by MI event yes/no screener
+# Table -------------------------------------------------------------------
+## Average WIS subscale score by MI event yes/no screener
 
-## 
-data %>% 
+table_simple_identity_wound <-
+  data %>% 
   group_by(mios_screener) %>% 
   summarise(MIOS = mean(mios_total), 
             Centrality = mean (wis_centrality_total),
@@ -15,8 +18,21 @@ data %>%
             Private_regard = mean (wis_private_regard_total),
             Public_regard = mean (wis_public_regard_total),
             Skills = mean (wis_skills_total)
-            ) %>% round(2) %>% write_csv(here::here('output/tables/means-table.csv'))
+            ) %>% 
+  round(2)
+  
+## Print
+table_simple_identity_wound %>% print()
 
+## Save:
+table_simple_identity_wound %>% 
+  write_csv(here::here('output/tables/identity-wound-simple.csv'))
+
+## Message:
+message('Simple table saved to `output/tables/identity-wound-simple.csv`')
+
+## Clean up:
+rm(table_simple_identity_wound)
 
 
 

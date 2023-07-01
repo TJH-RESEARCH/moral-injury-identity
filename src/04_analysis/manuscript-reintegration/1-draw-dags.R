@@ -1,5 +1,6 @@
 library(dagitty)
 library(ggdag)
+source(here::here('src/01_config/dag-themes.R'))
 
 # DAG Basic -------------------------------------------------------------------
 
@@ -23,10 +24,10 @@ dag_basic <- dagitty::dagitty(
   MCARM [outcome]
 
   }")
-set.seed(20)
+
 ggdag::tidy_dagitty(dag_basic)
-ggdag::ggdag(dag_basic, edge_type = 'link_arc', text_size = 4, text_col = "#0072B2", node = F) + ggdag::theme_dag()
-ggdag::ggdag_adjustment_set(dag_basic,text_size = 4,node = F, text_col = "#0072B2") + ggdag::theme_dag()
+ggdag_custom(dag_basic)
+ggdag_adjustment_set_custom(dag_basic)
 
 
 
@@ -70,11 +71,8 @@ dag_b <- dagitty::dagitty(
   
 
   }")
-set.seed(104)
-ggdag::ggdag(dag_b, 
-             edge_type = 'link_arc', 
-             text_size = 3.5, text_col = "#0072B2", node = F) + ggdag::theme_dag()
-ggdag::ggdag_adjustment_set(dag_b,text_size = 4,node = F, text_col = "#0072B2") + ggdag::theme_dag()
+ggdag_custom(dag_b)
+ggdag_adjustment_set_custom(dag_b)
 
 
 
@@ -133,11 +131,8 @@ dag_civ_wis <- dagitty::dagitty(
   WIS [outcome]
 
   }")
-set.seed(104)
-ggdag::ggdag(dag_civ_wis, 
-             edge_type = 'link_arc', 
-             text_size = 3.5, text_col = "#0072B2", node = F) + ggdag::theme_dag()
-ggdag::ggdag_adjustment_set(dag_civ_wis, text_size = 4,node = F, text_col = "#0072B2") + ggdag::theme_dag()
+ggdag_custom(dag_civ_wis)
+ggdag_adjustment_set_custom(dag_civ_wis)
 adjustmentSets(dag_civ_wis)
 
 # Adjust and Plot
@@ -147,7 +142,7 @@ ggdag::tidy_dagitty(dag_civ) %>%
                             'PTSD', 
                             'Sex')
   ) %>% 
-  ggdag::ggdag_adjustment_set(text_size = 4,node = F, text_col = "#0072B2") + ggdag::theme_dag()
+  ggdag_adjustment_set_custom()
 
 
 
@@ -205,10 +200,8 @@ dag_mcarm <- dagitty::dagitty(
 
   }")
 set.seed(104)
-ggdag::ggdag(dag_mcarm, 
-             edge_type = 'link_arc', 
-             text_size = 3.5, text_col = "#0072B2", node = F) + ggdag::theme_dag()
-ggdag::ggdag_adjustment_set(dag_mcarm,text_size = 4,node = F, text_col = "#0072B2") + ggdag::theme_dag()
+ggdag_custom(dag_mcarm)
+ggdag_adjustment_set_custom(dag_mcarm)
 
 
   
@@ -230,7 +223,7 @@ ggdag::tidy_dagitty(dag_mcarm) %>%
                             'PTSD', 
                             'Sex')
   ) %>% 
-  ggdag::ggdag_adjustment_set(text_size = 4,node = F, text_col = "#0072B2") + ggdag::theme_dag()
+  ggdag_adjustment_set_custom(text_size = 4)
 
 
 ## Adjust the model and plot the DAG to look for precision paths
@@ -239,7 +232,7 @@ ggdag::tidy_dagitty(dag_civ_wis) %>%
                             'PTSD', 
                             'Sex')
   ) %>% 
-  ggdag::ggdag_adjustment_set(text_size = 4,node = F, text_col = "#0072B2") + ggdag::theme_dag()
+  ggdag_adjustment_set_custom(text_size = 4)
 
 ## Not for MCARM. Nothing going only into Y except the mediators
 ##   and IV. 

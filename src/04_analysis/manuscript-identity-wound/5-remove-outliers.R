@@ -10,17 +10,35 @@
 ### from the data.
 
 
+
+# Account 1 -----------------------------------------------------------------
+n_original <- nrow(data)
+
 # Filter ------------------------------------------------------------------
 data <-
   data %>% 
   filter(
     
     # Only 2 US Public Health Service
-    ## Can affect interpretation of Brannch coefficients:
+    ## Can affect interpretation of Branch coefficients:
     branch_public_health == 0,
     
-    # Only 
-         service_era_korea == 0)
+    # Only 1 korean war vet 
+    service_era_korea == 0,
+    
+    # Remove MIOS outliers
+    mios_total <= 43,
+    
+    # Remove WIS Outliers
+    wis_total >= 58
+    
+    )
 
 # Race can be added to model as dichotomouc white/non-white
 # Will not put branch_multiple in the model
+
+## Message:
+message(paste(n_original - nrow(data),'cases removed as outliers.'))
+
+## Clean up:
+rm(n_original)

@@ -1,7 +1,7 @@
 
 # Analyze regression diagnostics
 
-
+source(here::here('src/01_config/functions/function-plot-lm.R'))
 
 # Diagnostics -------------------------------------------------------------
 

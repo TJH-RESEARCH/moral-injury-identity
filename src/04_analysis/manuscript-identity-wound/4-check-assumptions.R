@@ -21,6 +21,8 @@ data %>%
          military_family) %>%
   GGally::ggpairs()
 
+
+
 ### Similar distributions for WIS, MIOS across gender
 ### PTSD is the most dissimilar across genders, although not so extreme
 
@@ -101,9 +103,9 @@ data %>%
     wis_public_regard_total - median(wis_public_regard_total) ) %>% 
   ggplot(aes(wis_public_regard_total^1/3)) +
   geom_histogram(color = 'green') #+
-  geom_density(aes(wis_public_regard_total ^2), color = 'red') +
-  geom_density(aes(wis_public_regard_total ^1/2), color = 'orange') +
-  geom_density(aes(wis_public_regard_total ^1/4), color = 'blue')
+  #geom_density(aes(wis_public_regard_total ^2), color = 'red') +
+  #geom_density(aes(wis_public_regard_total ^1/2), color = 'orange') +
+  #geom_density(aes(wis_public_regard_total ^1/4), color = 'blue')
 
 ## get median
 data %>% 

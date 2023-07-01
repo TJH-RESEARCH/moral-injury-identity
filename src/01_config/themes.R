@@ -33,7 +33,7 @@ theme_fonts <-
 # Maps --------------------------------------------------------------------
 
 
-theme_maps <-
+#theme_maps <-
   ggplot2::theme(
     
     # Title font and color.:
@@ -69,7 +69,7 @@ theme_maps <-
 
 # Graphs ------------------------------------------------------------------
 
-theme_graphs <-
+#theme_graphs <-
   ggplot2::theme(
     
     # Title font and color.:

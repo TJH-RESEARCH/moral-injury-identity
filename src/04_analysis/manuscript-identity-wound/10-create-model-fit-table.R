@@ -2,7 +2,8 @@
 
 # Write table containing model fit statistics
 
-model_stats %>% 
+table_model_fit <-
+  model_stats %>% 
   arrange(DV, desc(r_squared)) %>% 
   select(!c(IV, model)) %>% 
   mutate(f = paste(model_stats$f, "(", model_stats$numdf, ",", model_stats$dendf, ")",
@@ -19,9 +20,20 @@ model_stats %>%
          RMSE = rmse,
          F = f, 
          `p-value` = p.value) %>% 
-  filter(DV != 'total') %>% 
-  write_csv(here::here('output/tables/model-fit-table.csv'))
+  filter(DV != 'total')
 
+## Print:
+table_model_fit %>% print()
+
+## Save:
+table_model_fit %>% 
+  write_csv(here::here('output/tables/identity-wound-model-fit.csv'))
+
+## Message
+if(exists('table_model_fit')) message('Model fit table saved to `output/results/identity-wound-model-fit.csv`')
+
+## Clean Up:
+rm(table_model_fit)
 
 
     

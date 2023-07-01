@@ -158,7 +158,7 @@ get_model_stats <- function(x){
            model = str_remove(model, 'fit_'),
            ) %>% 
     mutate(p.value = pf(f, df1 = numdf, df2 = dendf, lower.tail = F)) %>% 
-    mutate(across(where(is.numeric), round, 3)) %>% 
+    mutate(across(where(is.numeric), \(x) round(x, digits = 3))) %>% 
     select(DV, model, r_squared, adj_r_squared, rmse,
            f, p.value, everything())
     

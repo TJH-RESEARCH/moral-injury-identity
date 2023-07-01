@@ -1,8 +1,6 @@
-
 library(dagitty)
 library(ggdag)
-
-set.seed(100)
+source(here::here('src/01_config/dag-themes.R'))
 
 
 # -------------------------------------------------------------------------
@@ -38,10 +36,10 @@ dag_full <- dagitty::dagitty(
   WIS [outcome]
 
   }")
-ggdag::ggdag(dag_full) + ggdag::theme_dag_blank()
+ggdag_custom(dag_full)
 ggdag::tidy_dagitty(dag_full)
-ggdag::ggdag_adjustment_set(dag_full) + ggdag::theme_dag_blank()
-ggdag::tidy_dagitty(dag_full)
+ggdag_adjustment_set_custom(dag_full)
+
 
 # Adjustment Sets
 dagitty::adjustmentSets(dag_full)
@@ -77,3 +75,5 @@ ggdag::ggdag(dag_full) + ggdag::theme_dag_blank()
 # Trauma, Combat, PMIE, MilFam, MI, Era, Branch
 
 # -------------------------------------------------------------------------
+
+rm(dag_full)

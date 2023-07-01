@@ -271,7 +271,14 @@ data <-
                            labels = c('No MIOS or PTSD Event',
                                      'PTSD Event without MIOS Event',
                                      'MIOS Event without PTSD Event',
-                                     'MIOS and PTSD Event'))
+                                     'MIOS and PTSD Event')),
+
+
+# Dichotomize PTSD Symptoms -----------------------------------------------
+  
+       mios_ptsd_symptoms = (mios_ptsd_symptoms_none - 1) * -1
+
+
 )
 
 

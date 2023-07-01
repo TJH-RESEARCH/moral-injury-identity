@@ -1,0 +1,7 @@
+contrast,null.value,estimate,conf.low,conf.high,adj.p.value
+Separated-Integrated,0,7.01,2.94,11.07,1e-4
+Assimilated-Integrated,0,2.67,-0.7,6.03,0.1731
+Marginalized-Integrated,0,10.59,7.26,13.91,0
+Assimilated-Separated,0,-4.34,-8.2,-0.48,0.0205
+Marginalized-Separated,0,3.58,-0.25,7.4,0.0759
+Marginalized-Assimilated,0,7.92,4.85,10.99,0

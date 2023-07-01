@@ -157,6 +157,7 @@ table_military_civilian_clusters %>% print()
 ## Save
 table_military_civilian_clusters %>% 
   write_csv('output/tables/table-military-civilian-clusters.csv')
+rm(table_military_civilian_clusters)
 
 
 # Plot Groups: Bar --------------------------------------------------------------------
@@ -195,5 +196,5 @@ figure_military_civilian_cluster_means
 ggsave(plot = figure_military_civilian_cluster_means, 
        filename = 'output/figures/figure-military-civilian-cluster-means.png',
        device = 'png')
-
+rm(figure_military_civilian_cluster_means)
        

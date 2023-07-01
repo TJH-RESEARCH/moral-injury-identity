@@ -386,20 +386,20 @@ data_scrubbed_both_research_qualtrics <-
 currentDate <- Sys.Date()
 
 data %>% 
-  write_csv(file = here::here(paste('data/processed/data_clean_', currentDate, '.csv')))
+  write_csv(file = here::here(paste('data/processed/data_clean.csv')))
 
 data_original %>% 
-  write_csv(file = here::here(paste('data/processed/data_unclean_', currentDate, '.csv')))
+  write_csv(file = here::here(paste('data/processed/data_unclean.csv')))
 
 data_scrubbed_researcher_not_qualtrics %>% 
   select(ResponseId, exclusion_reason) %>% 
-  write_csv(file = here::here(paste('data/processed/IDs_to_have_Qualtrics_scrub_', currentDate, '.csv')))
+  write_csv(file = here::here('data/processed/IDs_to_have_Qualtrics_scrub.csv'))
 
 data_scrubbed_researcher_not_qualtrics %>% 
-  write_csv(file = here::here(paste('data/processed/scrubbed_researcher_not_qualtrics_', currentDate, '.csv')))
+  write_csv(file = here::here('data/processed/scrubbed_researcher_not_qualtrics.csv'))
 
 data_scrubbed_qualtrics_not_researcher %>% 
-  write_csv(file = here::here(paste('data/processed/scrubbed_qualtrics_not_researcher_', currentDate, '.csv')))
+  write_csv(file = here::here('data/processed/scrubbed_qualtrics_not_researcher.csv'))
 
 
 

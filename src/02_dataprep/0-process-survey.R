@@ -7,7 +7,7 @@
 # Load Packages -----------------------------------------------------------
 library(tidyverse)
 
-data_path <- here::here('data/raw/Dissertation_May 30, 2023_20.49 after Qualtrics scrub 4.csv')
+data_path <- here::here('data/raw/data-raw.csv')
 
 
 # DATA IMPORT -------------------------------------------------------------

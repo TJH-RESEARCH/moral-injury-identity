@@ -65,51 +65,51 @@ data %>%
   facet_grid(~mil_civ_cluster)
 
 ## Normality
-x <- data %>%
+temp <- data %>%
   select(
     biis_blendedness,
     biis_harmony, 
     mil_civ_cluster) %>% 
   filter(mil_civ_cluster == 'Assimilated')
-nortest::cvm.test(x$biis_blendedness)   # Non-normal
-shapiro.test(x$biis_blendedness)        # Non-normal
-nortest::cvm.test(x$biis_harmony)
-shapiro.test(x$biis_harmony)
+nortest::cvm.test(temp$biis_blendedness)   # Non-normal
+shapiro.test(temp$biis_blendedness)        # Non-normal
+nortest::cvm.test(temp$biis_harmony)
+shapiro.test(temp$biis_harmony)
 
-x <- data %>%
+temp <- data %>%
   select(
     biis_blendedness,
     biis_harmony, 
     mil_civ_cluster) %>% 
   filter(mil_civ_cluster == 'Marginalized')
-nortest::cvm.test(x$biis_blendedness)
-shapiro.test(x$biis_blendedness)
-nortest::cvm.test(x$biis_harmony)       # Non-normal
-shapiro.test(x$biis_harmony)            # Non-normal
+nortest::cvm.test(temp$biis_blendedness)
+shapiro.test(temp$biis_blendedness)
+nortest::cvm.test(temp$biis_harmony)       # Non-normal
+shapiro.test(temp$biis_harmony)            # Non-normal
 
-x <- data %>%
+temp <- data %>%
   select(
     biis_blendedness,
     biis_harmony, 
     mil_civ_cluster) %>% 
   filter(mil_civ_cluster == 'Integrated')
-nortest::cvm.test(x$biis_blendedness)
-shapiro.test(x$biis_blendedness)
-nortest::cvm.test(x$biis_harmony)
-shapiro.test(x$biis_harmony)
+nortest::cvm.test(temp$biis_blendedness)
+shapiro.test(temp$biis_blendedness)
+nortest::cvm.test(temp$biis_harmony)
+shapiro.test(temp$biis_harmony)
 
-x <- data %>%
+temp <- data %>%
   select(
     biis_blendedness,
     biis_harmony, 
     mil_civ_cluster) %>% 
   filter(mil_civ_cluster == 'Separated')
-nortest::cvm.test(x$biis_blendedness)   # Non-normal
-shapiro.test(x$biis_blendedness)        # Non-normal
-nortest::cvm.test(x$biis_harmony)
-shapiro.test(x$biis_harmony)            # Non-normal
+nortest::cvm.test(temp$biis_blendedness)   # Non-normal
+shapiro.test(temp$biis_blendedness)        # Non-normal
+nortest::cvm.test(temp$biis_harmony)
+shapiro.test(temp$biis_harmony)            # Non-normal
 
-
+rm(temp)
 
 # Equivariance ------------------------------------------------------------
 car::leveneTest(data$biis_harmony, 

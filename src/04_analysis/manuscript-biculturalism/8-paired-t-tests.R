@@ -19,7 +19,7 @@ results_hsd_blendedness %>%
   select(!term) %>% 
   mutate(across(!c(contrast, adj.p.value), ~ round(.x, digits = 2))) %>% 
   mutate(adj.p.value = round(adj.p.value, digits = 4)) %>% 
-  write_csv('output/tables/tukeyhsd-blendedness.csv')
+  write_csv('output/results/tukeyhsd-blendedness.csv')
 
 # Harmony -----------------------------------------------------------------
 results_hsd_harmony <- TukeyHSD(aov(biis_harmony ~ mil_civ_cluster, data))  
@@ -33,5 +33,5 @@ results_hsd_harmony %>%
   select(!term) %>% 
   mutate(across(!c(contrast, adj.p.value), ~ round(.x, digits = 2))) %>% 
   mutate(adj.p.value = round(adj.p.value, digits = 4)) %>% 
-  write_csv('output/tables/tukeyhsd-harmony.csv')
+  write_csv('output/results/tukeyhsd-harmony.csv')
 

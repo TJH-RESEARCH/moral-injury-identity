@@ -42,7 +42,7 @@ figure_civilian_cluster_init
 ggsave(plot = figure_civilian_cluster_init, 
        filename = 'output/figures/figure-civilian-custer-init.png',
        device = 'png')
-
+rm(figure_civilian_cluster_init)
 
 
 # Group Size --------------------------------------------------------------

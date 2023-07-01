@@ -43,22 +43,76 @@ data %>%
 
 
 # Plot Clusters -----------------------------------------------------------
-data %>% 
+
+figure_mil_civ_clusters <-
+  data %>% 
   ggplot(aes(x = wis_total, 
              y = civilian_commit_total,
-             color = mil_civ_cluster)) +
-  geom_point(position = 'jitter')
+             color = mil_civ_cluster,
+             shape = mil_civ_cluster)) +
+  geom_point(position = 'jitter') +
+  theme_bw() +
+  scale_color_viridis(discrete = T, direction = -1) +
+  labs(title = 'Military-Civilian Clusters', 
+       subtitle = '',
+       x = 'Military Identity',
+       y = 'Civilian Identity') +
+  guides(shape = guide_legend(title = "Cluster"),
+         color = guide_legend(title = "Cluster")) +
+  theme_fonts
+
+## Print:
+figure_mil_civ_clusters
+
+## Save:
+ggsave(plot = figure_mil_civ_clusters, 
+       filename = 'output/figures/figure-mil-civ-clusters.png',
+       device = 'png')
+rm(figure_mil_civ_clusters)
 
 
 # Box Plot: Blendedness -------------------------------------------------------------------------
-data %>% 
+figure_boxplot_blended <-
+  data %>% 
   ggplot(aes(biis_blendedness, mil_civ_cluster)) +
-  geom_boxplot()
+  geom_boxplot() +
+  labs(title = 'Box Plot: Identity Blendedness by Cluster', 
+       subtitle = '',
+       x = 'Identity Blendedness',
+       y = 'Cluster') +
+  theme_fonts +
+  theme_bw()
+
+## Print:
+figure_boxplot_blended
+
+## Save:
+ggsave(plot = figure_boxplot_blended, 
+       filename = 'output/figures/figure-boxplot-blendedness.png',
+       device = 'png')
+rm(figure_boxplot_blended)
+  
 
 # Box Plot: Harmony -------------------------------------------------------------------------
-data %>% 
+figure_boxplot_harmony <-
+  data %>% 
   ggplot(aes(biis_harmony, mil_civ_cluster)) +
-  geom_boxplot()
+  geom_boxplot() +
+  labs(title = 'Box Plot: Identity Harmony by Cluster', 
+       subtitle = '',
+       x = 'Identity Harmony',
+       y = 'Cluster') +
+  theme_fonts +
+  theme_bw()
+
+## Print:
+figure_boxplot_harmony
+
+## Save:
+ggsave(plot = figure_boxplot_harmony, 
+       filename = 'output/figures/figure-boxplot-harmony.png',
+       device = 'png')
+rm(figure_boxplot_harmony)
 
 
 # Table: Military x Civilian Clusters ------------------------------------------------------------
@@ -98,10 +152,11 @@ table_military_civilian_clusters <-
     Skills_sd = wis_skills_total.y)
 
 ## Print:  
-table_military_civilian_clusters %>% view()
+table_military_civilian_clusters %>% print()
 
 ## Save
-table_military_civilian_clusters %>% write_csv('output/tables/table-military-civilian-clusters.csv')
+table_military_civilian_clusters %>% 
+  write_csv('output/tables/table-military-civilian-clusters.csv')
 
 
 # Plot Groups: Bar --------------------------------------------------------------------
@@ -136,7 +191,7 @@ figure_military_civilian_cluster_means <-
 ## Print:
 figure_military_civilian_cluster_means
 
-## Save::
+## Save:
 ggsave(plot = figure_military_civilian_cluster_means, 
        filename = 'output/figures/figure-military-civilian-cluster-means.png',
        device = 'png')

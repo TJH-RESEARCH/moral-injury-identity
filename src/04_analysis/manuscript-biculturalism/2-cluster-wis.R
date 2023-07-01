@@ -72,7 +72,7 @@ data <-
         wis_cluster_lower = ifelse(wis_cluster == 'lower', 1, 0),
         wis_cluster_higher = ifelse(wis_cluster == 'higher', 1, 0))
          
-#data %>% count(wis_cluster)
+data %>% count(wis_cluster)
 
 
 
@@ -145,5 +145,9 @@ table_wis_cluster <-
       `Public Regard_sd` = wis_public_regard_total.y, 
       Skills_sd = wis_skills_total.y)
 
+## Print
+table_wis_cluster
+
+## Save
 table_wis_cluster %>% write_csv('output/tables/table-wis-cluster.csv')
 rm(table_wis_cluster)

@@ -1460,6 +1460,18 @@
       ],
       "Hash": "4b68aa51edd89a0e044a66e75ae3cc6c"
     },
+    "evd": {
+      "Package": "evd",
+      "Version": "2.3-6.1",
+      "Source": "Repository",
+      "Repository": "CRAN",
+      "Requirements": [
+        "grDevices",
+        "graphics",
+        "stats"
+      ],
+      "Hash": "14872523c118b47b6f4faae02dc23c02"
+    },
     "factoextra": {
       "Package": "factoextra",
       "Version": "1.0.7",
@@ -1797,6 +1809,24 @@
         "withr"
       ],
       "Hash": "a06503f54e227f79b45a72df2946a2d2"
+    },
+    "ggfortify": {
+      "Package": "ggfortify",
+      "Version": "0.4.16",
+      "Source": "Repository",
+      "Repository": "CRAN",
+      "Requirements": [
+        "dplyr",
+        "ggplot2",
+        "grid",
+        "gridExtra",
+        "methods",
+        "scales",
+        "stringr",
+        "tibble",
+        "tidyr"
+      ],
+      "Hash": "ae0e011aa23b95682e2872fd7a7e5682"
     },
     "ggplot2": {
       "Package": "ggplot2",
@@ -2686,6 +2716,18 @@
         "xtable"
       ],
       "Hash": "09e504a5f457860795f70739bba15a3e"
+    },
+    "lmboot": {
+      "Package": "lmboot",
+      "Version": "0.0.1",
+      "Source": "Repository",
+      "Repository": "CRAN",
+      "Requirements": [
+        "R",
+        "evd",
+        "stats"
+      ],
+      "Hash": "3e0fb14dd295e60a26d2ba6d6a305f33"
     },
     "lme4": {
       "Package": "lme4",

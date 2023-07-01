@@ -5,6 +5,10 @@
 ## Contains themes for ggplot2 graphs, maps, and other visuals. 
 
 
+# Library -----------------------------------------------------------------
+library(ggplot2)
+
+
 # Fonts -------------------------------------------------------------------
 
 theme_fonts <-

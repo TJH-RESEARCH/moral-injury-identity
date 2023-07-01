@@ -5,7 +5,6 @@
 # Bicultural Identity and the Adjustment of Separated Service Members
 
 
-
 # Load Package ---------------------------------------------------------------
 library(infer)
 
@@ -107,3 +106,22 @@ null_fit_harmony %>%
         axis.text.y = element_blank())
 
 
+
+
+# Bootstrap ---------------------------------------------------------------
+
+library(lmboot)
+
+results_boot_blendedness <- 
+  lmboot::ANOVA.boot(as.vector(biis_blendedness) ~ 
+                     civilian_cluster +
+                     wis_cluster +
+                     civilian_cluster * wis_cluster,
+                   B = 1000,
+                   type = 'residual',
+                   wild.dist = 'normal',
+                   seed = 1,
+                   data = data
+                    )
+
+results_boot_blendedness$`p-values`

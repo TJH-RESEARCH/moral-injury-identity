@@ -38,12 +38,7 @@ results_aov_harmony$coefficients
 
 
 
-# Non-Parametric ----------------------------------------------------------
-
-data %>% 
-  rename(Civilian = civilian_cluster, 
-         Military = wis_cluster) %>% 
-  kruskal.test(biis_blendedness ~ Civilian * Military, .)
+# Non-Parametric ANOVA----------------------------------------------------------
 
 kruskal.test(biis_blendedness ~ 
                mil_civ_cluster, data)

@@ -8,7 +8,7 @@
 
 
 
-# 1. Linearity ---------------------------------------------------------------
+# ---------------------------------------------------------------
 
 data %>%
   select(
@@ -118,5 +118,10 @@ car::leveneTest(data$biis_harmony,
 car::leveneTest(data$biis_blendedness, 
                 group = data$mil_civ_cluster)
 
+
+## There are some minor violations of the assumptions
+## nonparametric methods do not change the anova results
+## bootstrapped p-values are similar
+## Residual plots look excellent
 
 

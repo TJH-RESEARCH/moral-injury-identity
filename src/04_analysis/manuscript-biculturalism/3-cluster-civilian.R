@@ -2,6 +2,8 @@
 # CLUSTER CIVILIAN IDENTITY
 
 
+# Library -----------------------------------------------------------------
+library(viridis)
 
 # Visualize 1 ---------------------------------------------------------------
 ## Visually, you can see three clusters, some above 12, some at 12, some below:
@@ -46,7 +48,7 @@ ggsave(plot = figure_civilian_cluster_init,
 # Group Size --------------------------------------------------------------
 ## these natural groups have unbalanced sizes
 data %>% 
-  mutate(civilian_cluster = case_when( civilian_commit_total > 12 ~ 'high_civ', civilian_commit_total == 12 ~ 'med_civ', .default = 'low_civ'),
+  mutate(civilian_cluster = case_when(civilian_commit_total > 12 ~ 'high_civ', civilian_commit_total == 12 ~ 'med_civ', .default = 'low_civ'),
          civilian_cluster = factor(civilian_cluster)
   ) %>% 
   count(civilian_cluster)
@@ -68,7 +70,7 @@ data <-
   mutate(civilian_cluster = civ_kmeans$cluster,
          civilian_cluster = factor(civilian_cluster,
                                    levels = c(2,1),
-                                   labels = c('Lower Identity', 'Higher Identity')
+                                   labels = c('Lower Civilian Identity', 'Higher Civilian Identity')
          )
   )
 
@@ -105,7 +107,7 @@ figure_civilian_cluster_final
 ggsave(plot = figure_civilian_cluster_final, 
        filename = 'output/figures/figure-civilian-custer-final.png',
        device = 'png')
-frm(figure_civilian_cluster_final)
+rm(figure_civilian_cluster_final)
 
 
 # Table: Group Differences ------------------------------------------------

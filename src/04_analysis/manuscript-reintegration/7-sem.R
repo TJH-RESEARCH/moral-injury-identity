@@ -41,12 +41,25 @@ fit_sem_direct <- lavaan::sem(model_sem_direct,
                               meanstructure = F, 
                               data = data)
 
-fit_sem_direct %>% lavaan::summary()
+fit_sem_direct %>% lavaan::summary(fit.measures = TRUE, rsquare = T)
 fit_sem_direct %>% semPlot::semPaths(layout = 'tree2', 
                                      whatLabels = 'est',
                                      residuals = F,
                                      rotation = 2
 )
+fit_sem_direct %>% lavaan::fitMeasures(c('chisq', 
+                                        'df', 
+                                        'pvalue', 
+                                        'cfi',
+                                        'agfi',
+                                        'gfi',
+                                        'nnfi',
+                                        'nfi',
+                                        'rmsea',
+                                        'rmesea.ci.upper',
+                                        'rmesea.ci.lower',
+                                        'srmr', 
+                                        'AIC'))
 
 
 # Coefficients ------------------------------------------------------------
@@ -54,10 +67,8 @@ fit_sem_direct %>% semPlot::semPaths(layout = 'tree2',
 fit_sem_direct_sum <- fit_sem_direct %>% broom::tidy()
 fit_sem_direct_sum
 
-# Model G -----------------------------------------------------------------
 
-
-# Total Effect
+# Total Effect -----------------------------------------------------------------
 
 model_sem_total <- 
   
@@ -74,11 +85,23 @@ model_sem_total <-
 fit_sem_total <- lavaan::sem(model_sem_total,  
                              meanstructure = F, 
                              data = data)
-fit_sem_total %>% lavaan::summary()
+fit_sem_total %>% lavaan::summary(fit.measures = TRUE, rsquare = T)
 fit_sem_total %>% semPlot::semPaths(layout = 'tree2')
-fit_sem_total %>% lavaan::fitMeasures(c('chisq', 'df', 'pvalue', 'cfi', 'rmsea', 'srmr', 'AIC'))
+fit_sem_total %>% lavaan::fitMeasures(c('chisq', 
+                                        'df', 
+                                        'pvalue', 
+                                        'cfi',
+                                        'gfi',
+                                        'nnfi',
+                                        'nfi',
+                                        'rmsea',
+                                        'rmesea.ci.upper',
+                                        'rmesea.ci.lower',
+                                        'srmr', 
+                                        'AIC'))
+fit_sem_total %>% lavaan::fitMeasures()
 
-fit_sem_total_sum <- fit_sem_total %>% broom::tidy()
+ffit_sem_total_sum <- fit_sem_total %>% broom::tidy()
 
 fit_sem_total_sum %>% filter(
   term ==  "mcarm_total ~ mios_total"
@@ -86,7 +109,7 @@ fit_sem_total_sum %>% filter(
 
 # Inspect Path ------------------------------------------------------------
 
-results <- 
+results_brief <- 
   fit_sem_direct_sum %>% 
     filter(
       term ==  "mcarm_total ~ mios_total" |
@@ -105,6 +128,21 @@ results <-
       ) %>% mutate(model = 'total')
     ) %>% select(model, everything())
 
+results_brief %>% mutate(p.value = round(p.value, digits =2))
+
+
+# Results -----------------------------------------------------------------
+
+
+results <- 
+  fit_sem_direct_sum %>% 
+  mutate(model = 'direct') %>% 
+  bind_rows(
+    fit_sem_total_sum %>% filter(
+      term ==  "mcarm_total ~ mios_total"
+    ) %>% mutate(model = 'total')
+  ) %>% select(model, everything())
+
 results %>% mutate(p.value = round(p.value, digits =2))
 
 
@@ -122,7 +160,7 @@ ggdag::tidy_dagitty(dag_basic) %>%
   mutate(index = c(7,5,2,1,NA,9,3,8,6,4)) %>% 
   arrange(index)
 
-results %>% 
+results_brief %>% 
   filter(model != 'total') %>% 
   mutate(
   to = str_split_fixed(term, 
@@ -165,12 +203,12 @@ lavaanToGraph(fit_sem_total) %>%
 # Percent of MI->MCARM effect that is indirect:
 
 (1 - (
-  results %>% 
+  results_brief %>% 
     filter(model == 'direct' & 
              term == 'mcarm_total ~ mios_total') %>% 
     select(estimate)
   /
-    results %>% 
+    results_brief %>% 
     filter(model == 'total' & 
              term == 'mcarm_total ~ mios_qtotal') %>% 
     select(estimate)
@@ -196,13 +234,13 @@ fit_sem_direct %>%
   mutate(model = 'direct') %>% 
   bind_rows(
     fit_sem_total %>% 
-      standardizedsolution() %>% 
+      lavaan::standardizedsolution() %>% 
       filter(
         lhs ==  'mcarm_total' & rhs == 'mios_total'
     ) %>% mutate(model = 'total')
   ) %>% select(model, everything())
 
-results %>% mutate(p.value = round(p.value, digits =2))
+results_brief %>% mutate(p.value = round(p.value, digits =2))
 
 
 
@@ -233,3 +271,193 @@ tibble(
                           'nfi', 'nnfi', 'AIC')) %>% as.numeric()
   ) %>% mutate(model = 'fit_sem_total')
 )
+
+
+
+
+
+# Save Output -------------------------------------------------------------
+
+
+results <- 
+  fit_sem_direct_sum %>% 
+  mutate(model = 'direct') %>% 
+  bind_rows(
+    fit_sem_total_sum %>% filter(
+      term ==  "mcarm_total ~ mios_total"
+    ) %>% mutate(model = 'total')
+  ) %>% select(model, everything()) %>% 
+  select(!c(model, op)) %>% 
+  bind_cols(
+
+  fit_sem_direct %>% 
+    standardizedsolution() %>% 
+    tibble() %>% 
+  mutate(model = 'direct') %>% 
+  bind_rows(
+    fit_sem_total %>% 
+      lavaan::standardizedsolution() %>% 
+      filter(
+        lhs ==  'mcarm_total' & rhs == 'mios_total'
+      ) %>% mutate(model = 'total')
+  ) %>% select(model, everything())
+
+) %>% select(term, lhs, op, rhs, 
+             estimate, est.std, 
+             ci.lower,
+             ci.upper,
+             std.error, 
+             se, 
+             statistic,
+             z,
+             everything()) %>% 
+  select(!std.all) %>% 
+  rename(est = estimate, 
+         se.std = se, 
+         se = std.error,
+         z.std = z,
+         z = statistic, 
+         ci.upper.std = ci.upper,
+         ci.lower.std = ci.lower,
+         p.value.std = pvalue)
+
+results %>% names()
+results
+
+
+
+
+
+
+
+
+
+# Total Simple -----------------------------------------------------------------
+
+model_sem_simple <- 
+  
+  "
+ # Regression Equations:
+ 
+  mcarm_total ~ mios_total + mios_ptsd_symptoms + biis_harmony + biis_blendedness
+  biis_harmony + biis_blendedness ~ wis_total + civilian_commit_total
+  wis_total ~ mios_total + mios_ptsd_symptoms
+  civilian_commit_total ~ mios_total + mios_ptsd_symptoms
+  
+  "
+
+fit_sem_simple <- lavaan::sem(model_sem_simple,  
+                             meanstructure = F, 
+                             data = data)
+fit_sem_simple %>% lavaan::summary(fit.measures = TRUE, rsquare = T)
+fit_sem_simple %>% semPlot::semPaths(layout = 'tree2',whatLabels = 'est')
+fit_sem_simple %>% lavaan::fitMeasures(c('chisq', 
+                                             'df', 
+                                             'pvalue', 
+                                             'cfi',
+                                             'agfi',
+                                             'gfi',
+                                             'nnfi',
+                                             'nfi',
+                                             'rmsea',
+                                             'rmesea.ci.upper',
+                                             'rmesea.ci.lower',
+                                             'srmr', 
+                                             'AIC'))
+
+fit_sem_simple_sum <- fit_sem_simple %>% broom::tidy()
+
+fit_sem_simple_sum %>% filter(
+  term ==  "mcarm_total ~ mios_total"
+)
+
+
+
+
+
+
+
+# Total Simple -----------------------------------------------------------------
+
+model_sem_reduced <- 
+  
+  "
+ # Regression Equations:
+ 
+  mcarm_total ~ mios_total + mios_ptsd_symptoms + biis_harmony
+  biis_harmony  ~ wis_total + civilian_commit_total
+  biis_blendedness ~ wis_total
+  wis_total ~ mios_total + mios_ptsd_symptoms
+  civilian_commit_total ~ mios_total + mios_ptsd_symptoms
+  
+  "
+
+fit_sem_reduced <- lavaan::sem(model_sem_reduced,  
+                              meanstructure = F, 
+                              data = data)
+fit_sem_reduced %>% lavaan::summary(fit.measures = TRUE, rsquare = T)
+fit_sem_reduced %>% semPlot::semPaths(layout = 'tree2',whatLabels = 'est')
+fit_sem_reduced %>% lavaan::fitMeasures(c('chisq', 
+                                         'df', 
+                                         'pvalue', 
+                                         'cfi',
+                                         'agfi',
+                                         'gfi',
+                                         'nnfi',
+                                         'nfi',
+                                         'rmsea',
+                                         'rmesea.ci.upper',
+                                         'rmesea.ci.lower',
+                                         'srmr', 
+                                         'AIC'))
+
+fit_sem_simple_sum <- fit_sem_simple %>% broom::tidy()
+
+fit_sem_simple_sum %>% filter(
+  term ==  "mcarm_total ~ mios_total"
+)
+
+
+
+
+
+
+
+model_sem_direct_reduced <- 
+  
+  "
+  
+ # Regression Equations:
+ mcarm_total ~ biis_harmony + mios_total + mios_ptsd_symptoms + service_era_persian_gulf + service_era_post_911 + service_era_vietnam + sex_male + disability
+ biis_harmony ~ wis_total + civilian_commit_total
+ biis_blendedness ~ wis_total
+ wis_total ~ mios_total + mios_ptsd_symptoms + service_era_persian_gulf + service_era_post_911 + service_era_vietnam + sex_male + branch_air_force + branch_marines + branch_navy + race_white + military_family + years_service + years_separation + rank_e1_e3 + rank_e7_e9 + nonenlisted
+ civilian_commit_total ~ mios_total + mios_ptsd_symptoms + years_separation + service_era_persian_gulf + service_era_post_911 + service_era_vietnam + sex_male + military_family + worship 
+ 
+  "
+
+fit_sem_direct_reduced <- lavaan::sem(model_sem_direct_reduced,  
+                              meanstructure = F, 
+                              data = data)
+
+fit_sem_direct_reduced %>% lavaan::summary(fit.measures = TRUE, rsquare = T)
+fit_sem_direct_reduced %>% semPlot::semPaths(layout = 'tree2', 
+                                     whatLabels = 'est',
+                                     residuals = F,
+                                     rotation = 2
+)
+fit_sem_direct_reduced %>% lavaan::fitMeasures(c('chisq', 
+                                         'df', 
+                                         'pvalue', 
+                                         'cfi',
+                                         'agfi',
+                                         'gfi',
+                                         'nnfi',
+                                         'nfi',
+                                         'rmsea',
+                                         'rmesea.ci.upper',
+                                         'rmesea.ci.lower',
+                                         'srmr', 
+                                         'AIC'))
+## removing the non-significant paths doesn't explain more
+## it explains about the same. 

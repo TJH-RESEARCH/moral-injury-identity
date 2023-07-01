@@ -414,6 +414,21 @@
       ],
       "Hash": "929e3524e31287dab487e63018c5dab7"
     },
+    "TSP": {
+      "Package": "TSP",
+      "Version": "1.2-4",
+      "Source": "Repository",
+      "Repository": "CRAN",
+      "Requirements": [
+        "R",
+        "foreach",
+        "grDevices",
+        "graphics",
+        "stats",
+        "utils"
+      ],
+      "Hash": "7fba3f587b0f3cb3232d03d540dbf772"
+    },
     "V8": {
       "Package": "V8",
       "Version": "4.3.0",
@@ -708,6 +723,16 @@
       ],
       "Hash": "a7fbf03946ad741129dc81098722fca1"
     },
+    "ca": {
+      "Package": "ca",
+      "Version": "0.71.1",
+      "Source": "Repository",
+      "Repository": "CRAN",
+      "Requirements": [
+        "R"
+      ],
+      "Hash": "392f13bb4dfd3c07259ecdeba6aa71f9"
+    },
     "caTools": {
       "Package": "caTools",
       "Version": "1.18.2",
@@ -810,6 +835,19 @@
         "utils"
       ],
       "Hash": "ca9c113196136f4a9ca9ce6079c2c99e"
+    },
+    "clValid": {
+      "Package": "clValid",
+      "Version": "0.7",
+      "Source": "Repository",
+      "Repository": "CRAN",
+      "Requirements": [
+        "R",
+        "class",
+        "cluster",
+        "methods"
+      ],
+      "Hash": "b266ced2f4629c9bfb37552e1f211994"
     },
     "class": {
       "Package": "class",
@@ -982,6 +1020,24 @@
       "Repository": "CRAN",
       "Hash": "fcf11a91936fd5047b2ee9bc00595e36"
     },
+    "corrr": {
+      "Package": "corrr",
+      "Version": "0.4.4",
+      "Source": "Repository",
+      "Repository": "CRAN",
+      "Requirements": [
+        "R",
+        "dplyr",
+        "ggplot2",
+        "ggrepel",
+        "glue",
+        "purrr",
+        "rlang",
+        "seriation",
+        "tibble"
+      ],
+      "Hash": "2fb521ffc0592c3c47d1d7e3b0cba2d0"
+    },
     "cowplot": {
       "Package": "cowplot",
       "Version": "1.1.1",
@@ -1111,6 +1167,18 @@
         "withr"
       ],
       "Hash": "d24305b92db333726aed162a2c23a147"
+    },
+    "dbscan": {
+      "Package": "dbscan",
+      "Version": "1.1-11",
+      "Source": "Repository",
+      "Repository": "CRAN",
+      "Requirements": [
+        "Rcpp",
+        "graphics",
+        "stats"
+      ],
+      "Hash": "1363f02b54d086ace5af19f590697f90"
     },
     "dendextend": {
       "Package": "dendextend",
@@ -1630,6 +1698,17 @@
         "survival"
       ],
       "Hash": "77c36d4d16a167e301137f4c1da6ec9d"
+    },
+    "gclus": {
+      "Package": "gclus",
+      "Version": "1.3.2",
+      "Source": "Repository",
+      "Repository": "CRAN",
+      "Requirements": [
+        "R",
+        "cluster"
+      ],
+      "Hash": "8f905e7f70ac42e5b0e39d6ba360dd44"
     },
     "generics": {
       "Package": "generics",
@@ -3431,6 +3510,13 @@
       ],
       "Hash": "adfa41db3678b41bf9235c514c51799a"
     },
+    "qap": {
+      "Package": "qap",
+      "Version": "0.1-2",
+      "Source": "Repository",
+      "Repository": "CRAN",
+      "Hash": "21c4fc168ebf32add2db6a358ce4714c"
+    },
     "qgraph": {
       "Package": "qgraph",
       "Version": "1.9.5",
@@ -3581,6 +3667,17 @@
         "withr"
       ],
       "Hash": "eb53ffc9674dc9a52c3a7e22d96d3f56"
+    },
+    "registry": {
+      "Package": "registry",
+      "Version": "0.5-1",
+      "Source": "Repository",
+      "Repository": "CRAN",
+      "Requirements": [
+        "R",
+        "utils"
+      ],
+      "Hash": "1c9935f4f14c6c096c9c9072ddee59f1"
     },
     "rematch": {
       "Package": "rematch",
@@ -4035,6 +4132,27 @@
         "webp"
       ],
       "Hash": "27f33ffecde1b78776c66d54065e9acf"
+    },
+    "seriation": {
+      "Package": "seriation",
+      "Version": "1.4.2",
+      "Source": "Repository",
+      "Repository": "CRAN",
+      "Requirements": [
+        "MASS",
+        "R",
+        "TSP",
+        "ca",
+        "cluster",
+        "colorspace",
+        "gclus",
+        "grDevices",
+        "grid",
+        "qap",
+        "registry",
+        "stats"
+      ],
+      "Hash": "2c3fa1e95487bf222afa82cd8b3dbd03"
     },
     "settings": {
       "Package": "settings",

@@ -1,0 +1,5 @@
+term,sumsq,meansq,F,p,df,Eta2_partial,CI,CI_low,CI_high
+Civilian,23.64,23.64,1.15,0.285,1,0.01,0.95,0,1
+Military,732.6,732.6,35.68,0,1,0.15,0.95,0.08,1
+Civilian:Military,73.31,73.31,3.57,0.06,1,0.02,0.95,0,1
+Residuals,9602.75,46.39,NA,NA,207,NA,NA,NA,NA

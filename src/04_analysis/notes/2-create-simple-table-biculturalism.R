@@ -103,8 +103,9 @@ data %>%
   pivot_longer(civ_high)
 
 ) %>% 
- group_by(name) %>% 
-  summarise()
+ select(name, value, everything()) %>% 
+  rename(variable = name,
+         var_yes = value)
 
 
             

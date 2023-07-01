@@ -12,7 +12,7 @@ data_cluster_wis <-
 library(clValid)
 
 intern <- clValid::clValid(as.matrix(data_cluster_wis), 
-                nClust =  2:6, 
+                nClust =  2:10, 
                 clMethods= c("hierarchical",
                               "kmeans",
                               "diana",
@@ -27,7 +27,7 @@ summary(intern)
 
 
 stab <- clValid(as.matrix(data_cluster_wis), 
-                nClust =  2:6, 
+                nClust =  2:10, 
                 clMethods = c("hierarchical",
                               "kmeans",
                               "diana",
@@ -77,7 +77,7 @@ data %>% count(wis_cluster)
 data %>% 
   select(starts_with('wis') & ends_with('total') | wis_cluster) %>% 
   group_by(wis_cluster) %>% 
-  summarise(n = n(), across(everything(), ~ mean(.x)))
+  summarise(n = n(), across(everything(), ~ mean(.x))) %>% view()
 
 data %>% 
   select(starts_with('wis') & ends_with('total') | wis_cluster) %>% 

@@ -10,6 +10,7 @@ dag_basic <- dagitty::dagitty(
   Conflict -> MCARM
   Compart -> MCARM
   
+  MI -> MCARM
   MI -> WIS
   MI -> CivilianID
   
@@ -23,6 +24,7 @@ dag_basic <- dagitty::dagitty(
 
   }")
 set.seed(20)
+ggdag::tidy_dagitty(dag_basic)
 ggdag::ggdag(dag_basic, edge_type = 'link_arc', text_size = 4, text_col = "#0072B2", node = F) + ggdag::theme_dag()
 ggdag::ggdag_adjustment_set(dag_basic,text_size = 4,node = F, text_col = "#0072B2") + ggdag::theme_dag()
 
@@ -38,6 +40,7 @@ dag_b <- dagitty::dagitty(
   Conflict -> MCARM
   Compart -> MCARM
   
+  MI -> MCARM
   MI -> WIS
   MI -> CivilianID
   
@@ -86,6 +89,7 @@ dag_civ_wis <- dagitty::dagitty(
   Conflict -> MCARM
   Compart -> MCARM
   
+  MI -> MCARM
   MI -> WIS
   MI -> CivilianID
   
@@ -157,6 +161,7 @@ dag_mcarm <- dagitty::dagitty(
   Conflict -> MCARM
   Compart -> MCARM
   
+  MI -> MCARM
   MI -> WIS
   MI -> CivilianID
   
@@ -227,6 +232,14 @@ ggdag::tidy_dagitty(dag_mcarm) %>%
   ) %>% 
   ggdag::ggdag_adjustment_set(text_size = 4,node = F, text_col = "#0072B2") + ggdag::theme_dag()
 
+
+## Adjust the model and plot the DAG to look for precision paths
+ggdag::tidy_dagitty(dag_civ_wis) %>% 
+  ggdag::adjust_for(var = c('Era', 
+                            'PTSD', 
+                            'Sex')
+  ) %>% 
+  ggdag::ggdag_adjustment_set(text_size = 4,node = F, text_col = "#0072B2") + ggdag::theme_dag()
 
 ## Not for MCARM. Nothing going only into Y except the mediators
 ##   and IV. 

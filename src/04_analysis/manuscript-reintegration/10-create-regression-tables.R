@@ -5,8 +5,7 @@
 
 # Get regression results and bind them by rows -------------------------------------------------------
 
-get_results(fit_set_1_controls_precision) %>% 
-  filter(DV != 'total') %>% 
+results %>% 
 
 # Add significance stars --------------------------------------------------
 
@@ -23,30 +22,30 @@ get_results(fit_set_1_controls_precision) %>%
 # Set numeric to character ------------------------------------------------
 ## We need to combine columns of different types when we 'pivot' the data
   
-  mutate(estimate = str_c(as.character(estimate), p.stars ),
-         std_estimate = str_c( '(', as.character(std_estimate), ')')
+  mutate(estimate = str_c(as.character(est), p.stars ),
+         std_estimate = str_c( '(', as.character(est.std), ')')
          ) %>% 
-  select(term, estimate, std_estimate, DV) %>% #print(n = 100) 
+  select(term, est, est.std, lhs) %>% #print(n = 100) 
   
 
 # Pivot longer ------------------------------------------------------------
 ## Combine standardized and non-standardized coefficients in one column:
 
-pivot_longer(cols = -c(term, DV)) %>% 
+pivot_longer(cols = -c(term, lhs)) %>% 
   
 
 # Add an abbreviation of standard to the IVs ------------------------------
   mutate(
     
     term = if_else(
-      name == "std_estimate", str_c(term, '_std'), term)
+      name == "est.std", str_c(term, '.std'), term)
   ) %>% 
 
 # Widen the data ------------------------------------------------------------
-## expand to make one column per DV
-  pivot_wider(id_cols = c(term), 
-              names_from = DV,
-              values_from = value) %>% 
+## expand to make one column per lhs
+  pivot_wider(id_cols = c(lhs), 
+              names_from = term,
+              values_from = value) %>% print()
   
   
 # Remove the redundant IV names -------------------------------------------

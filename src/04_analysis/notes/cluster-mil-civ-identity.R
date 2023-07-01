@@ -112,6 +112,6 @@ data %>%
 
 # dbscan ------------------------------------------------------------------
 
-libray(dbscan)
+library(dbscan)
 dbscan::dbscan(as.matrix(data_cluster_wis), minPts=5, eps=32)
 # not a good tool for this data. unable to separate the data.

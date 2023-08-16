@@ -70,3 +70,9 @@ rm(data_original,
    labels_new,
    cut,
    longstring_cut)
+
+
+data %>% 
+  select(
+    mios_total,
+    biis_harmony,)

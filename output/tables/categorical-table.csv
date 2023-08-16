@@ -1,0 +1,20 @@
+variable,n,perc
+Male,150,70.75471698113208
+Female,62,29.245283018867923
+White,181,85.37735849056604
+Non-White,31,14.622641509433961
+Enlisted,192,90.56603773584906
+Officer,20,9.433962264150944
+Negative screening,193,91.0377358490566
+Positive PTSD screening,19,8.962264150943396
+No combat deployment,157,74.05660377358491
+Prior combat deployment,55,25.943396226415093
+Another family member in military,165,77.83018867924528
+Only family member who served,47,22.169811320754718
+Service Completed,138,65.09433962264151
+Voluntary Discharge,39,18.39622641509434
+Medical Discharge,22,10.377358490566039
+Other,11,5.188679245283019
+Not yet discharged,2,0.9433962264150944
+Does not recieve benefits,155,73.11320754716981
+Recieved VA disability benefits,57,26.88679245283019

@@ -40,10 +40,35 @@ model_b <-
 ## a path
 model_a <- data %>% lm(biis_harmony ~ mios_total, .)
 
+## a path with covariates
+model_a_cov <- 
+  data %>% 
+  lm(biis_harmony ~ 
+       mios_total +
+       race_white +
+       sex_male +
+       officer +
+       branch +
+       years_service +
+       years_separation, 
+     .)
+
+
+
 # Results -----------------------------------------------------------------
 model_c %>% lm.beta::lm.beta() %>% summary()
 model_b %>% lm.beta::lm.beta() %>% summary()
 model_a %>% lm.beta::lm.beta() %>% summary()
+model_a_cov %>% lm.beta::lm.beta() %>% summary()
+
+
+# Full or Partial Mediation -----------------------------------------------
+tibble(
+  c = coef(model_c)[2],
+  c_prime = coef(model_b)[2],
+  diff = as.numeric(c - c_prime),
+  perc_indirect = diff / c * 100
+)
 
 
 # Save Results: Coefficients -------------------------------------------------------------------------

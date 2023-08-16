@@ -64,6 +64,22 @@ model_1_results <- model_1 %>% lm.beta::lm.beta() %>% summary()
 model_2_results <- model_2 %>% lm.beta::lm.beta() %>% summary()
 model_3_results <- model_3 %>% lm.beta::lm.beta() %>% summary()
 
+
+
+
+# Predictions -------------------------------------------------------------
+
+tibble(
+  no_symptoms = coef(model_3)[1] + (0 * coef(model_3)[2]),
+  low_symptoms = coef(model_3)[1] + (6.75 * coef(model_3)[2]),
+  medium_symptoms = coef(model_3)[1] + (14 * coef(model_3)[2]),
+  high_symptoms = coef(model_3)[1] + (23 * coef(model_3)[2]),
+  very_high_symptoms = coef(model_3)[1] + (55 * coef(model_3)[2]),
+)
+
+1.57 / .375
+3.23 / .375
+
 # Compare Models ----------------------------------------------------------
 hierarchical_comparison <- anova(model_0, model_1, model_2, model_3)
 

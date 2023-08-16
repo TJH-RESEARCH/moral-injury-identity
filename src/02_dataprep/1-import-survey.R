@@ -6,8 +6,7 @@ library(tidyverse)
 # Import Data ----------------------------------------------------------------
 
 data <- 
-  readr::read_csv(data_path, na = 'NA')
-rm(data_path)
+  readr::read_csv(here::here('data/raw/data-raw.csv'), na = 'NA')
 
 # Save the Labels ------------------------------------------------------------
 labels <- tibble::tibble(variable = names(data), label = as.character(data[1,]))
@@ -17,9 +16,9 @@ data <- data[3:nrow(data),]
 
 # Data Types -----------------------------------------------------------------
 ## Write a temporary CSV and read the data back in with the correct types.
-data %>% readr::write_csv(file = 'temp.csv')
-data <- readr::read_csv(here::here('temp.csv'))
-file.remove(here::here('temp.csv'))
+data %>% readr::write_csv(file = here::here('data/temp.csv'))
+data <- readr::read_csv(here::here('data/temp.csv'))
+file.remove(here::here('data/temp.csv'))
 
 # Re-label the data ----------------------------------------------------------
 labelled::var_label(data) <- as.character(labels$label)
@@ -139,5 +138,6 @@ data <-
          is.na(term)
   )
 
-
+if(exists('data')) message('Survey data imported')
+  
 # ---------------------------------------------------------------------------- #

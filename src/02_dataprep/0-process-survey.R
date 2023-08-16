@@ -43,22 +43,18 @@ source(here::here('src/02_dataprep/6-score-scales.R'))
 ## Calculate indices of invalidity and inattentive or careless responding, then remove cases.
 source(here::here('src/02_dataprep/7-screen-data.R'))
 
-## View Exclusion Reasons
-exclusions <-
-  data_scrubbed_researcher %>% 
-  group_by(exclusion_reason) %>% 
-  count() %>% 
-  arrange(desc(n))
-exclusions
 # Save a copy that includes the results scrubbed by Qualtrics
 data <- anti_join(data, data_scrubbed_qualtrics, by = c('ResponseId' = 'ResponseId'))
+
+# Create a table of exclusion reasons
+source(here::here('src/04_appendix/exclusion-reasons.R'))
 
 # Update Codebook
 ## Add labels to the R variables to update the codebook.
 source(here::here('src/02_dataprep/0-update-codebook.R'))
 
 # Reorder the data for further analysis
-source(here::here('src/02_dataprep/reorder-data.R'))
+source(here::here('src/02_dataprep/8-reorder-data.R'))
 
 rm(data_original, 
    data_scrubbed_both_research_qualtrics, 
@@ -69,10 +65,6 @@ rm(data_original,
    labels,
    labels_new,
    cut,
-   longstring_cut)
-
-
-data %>% 
-  select(
-    mios_total,
-    biis_harmony,)
+   longstring_cut,
+   data_path,
+   `%+%`)

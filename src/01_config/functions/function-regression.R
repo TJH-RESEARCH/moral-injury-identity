@@ -18,7 +18,8 @@ lm_custom <-
     
     tidy <- model %>% 
       lm.beta::lm.beta() %>% 
-      broom::tidy() %>% 
+      broom::tidy(conf.int = TRUE, 
+                  conf.level = 0.95) %>% 
       mutate(p.value = round(p.value, 3),
              std_estimate = round(std_estimate, 3),
              std.error = round(std.error, 3),

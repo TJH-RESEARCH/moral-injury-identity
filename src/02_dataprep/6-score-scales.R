@@ -165,6 +165,16 @@ data <-
           mios_ptsd_symptoms_numb +
           mios_ptsd_symptoms_guilty,
 
+
+# PTSD Screener -----------------------------------------------------------
+ptsd_positive_screen = 
+  ifelse(mios_criterion_a == 1 &
+           mios_ptsd_symptoms_avoid +
+           mios_ptsd_symptoms_guilty +
+           mios_ptsd_symptoms_nightmares +
+           mios_ptsd_symptoms_numb +
+           mios_ptsd_symptoms_vigilant >= 3, 1, 0),
+
 # SCC: Total ---------------------------------------------------------------
         scc_total =
           scc_1 +

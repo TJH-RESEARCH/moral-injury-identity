@@ -26,3 +26,18 @@ plot_lm <- function(data, DV, IVs){
 #x$summary$terms
 
 #attr(x$summary$terms, "variables")
+
+
+# Create a custom plot function -------------------------------------------
+plot_lm_base <- function(lm){
+ 
+  x <- lm
+
+  autoplot(x, 
+           which = c(1:6),
+           label.size = 3) + 
+    theme_bw() +
+    theme_fonts
+  
+}
+

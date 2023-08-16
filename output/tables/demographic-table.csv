@@ -1,0 +1,76 @@
+category,n,perc
+"(18,34.5]",9,4.2 %
+"(34.5,54.5]",53,25 %
+"(54.5,64.5]",39,18.4 %
+"(64.5,74.5]",53,25 %
+"(74.5,100]",58,27.4 %
+Army,93,43.9 %
+Navy,57,26.9 %
+Air Force,37,17.5 %
+Marines,20,9.4 %
+Multiple,3,1.4 %
+Public Health Service,2,0.9 %
+0,155,73.1 %
+1,57,26.9 %
+Service Completed,138,65.1 %
+Voluntary Discharge,39,18.4 %
+Medical Discharge,22,10.4 %
+Other,11,5.2 %
+Not yet discharged,2,0.9 %
+High school diploma or equivalent,30,14.2 %
+Some college,60,28.3 %
+Associates degree,33,15.6 %
+Bachelors degree,51,24.1 %
+Masters degree,32,15.1 %
+Applied or professional doctorate,4,1.9 %
+Doctorate,2,0.9 %
+military_exp_combat,55,25.9 %
+military_exp_noncombat,106,50 %
+military_exp_none,71,33.5 %
+military_exp_peacekeeping,30,14.2 %
+military_exp_support,48,22.6 %
+military_family,165,77.8 %
+military_family_child,27,12.7 %
+military_family_none,47,22.2 %
+military_family_other,47,22.2 %
+military_family_parents,101,47.6 %
+military_family_sibling,68,32.1 %
+military_family_spouse,32,15.1 %
+White,174,82.1 %
+Black or African American,17,8 %
+Multiple,8,3.8 %
+"Hispanic, Latino, or Spanish origin",7,3.3 %
+"Some other race, ethnicity, or origin",3,1.4 %
+Asian,2,0.9 %
+American Indian or Alaska Native,1,0.5 %
+rank_e1_e3,36,17 %
+rank_e4_e6,133,62.7 %
+rank_e7_e9,20,9.4 %
+rank_o1_o3,12,5.7 %
+rank_o4_o6,8,3.8 %
+rank_w1_cw5,3,1.4 %
+service_era_cold_war,146,68.9 %
+service_era_korea,1,0.5 %
+service_era_multiple,132,62.3 %
+service_era_persian_gulf,61,28.8 %
+service_era_post_911,58,27.4 %
+service_era_post_wwii,0,0 %
+service_era_vietnam,88,41.5 %
+male,150,70.8 %
+female,62,29.2 %
+straight,199,93.9 %
+gay,7,3.3 %
+bisexual,4,1.9 %
+NA,2,0.9 %
+"(0,4.9]",95,44.8 %
+"(4.9,9.9]",70,33 %
+"(9.9,14.9]",15,7.1 %
+"(14.9,19.9]",2,0.9 %
+"(19.9,30]",30,14.2 %
+"(0,9.9]",20,9.4 %
+"(9.9,19.9]",29,13.7 %
+"(19.9,29.9]",33,15.6 %
+"(29.9,39.9]",44,20.8 %
+"(39.9,49.9]",37,17.5 %
+"(49.9,100]",47,22.2 %
+NA,2,0.9 %

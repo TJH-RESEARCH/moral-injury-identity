@@ -1,14 +1,19 @@
 
 # Load Functions ----------------------------------------------------------
-source(here::here('src/02_dataprep/function-select-scales.R'))
-source(here::here('src/02_dataprep/function-reorder-data.R'))
-source(here::here('src/02_dataprep/function-undo-reverse-codes.R'))
-source(here::here('src/02_dataprep/function-calculate-longstring.R'))
-source(here::here('src/02_dataprep/function-calculate-longstring-again.R'))
+source(here::here('src/01_config/functions/function-select-scales.R'))
+source(here::here('src/01_config/functions/function-reorder-data.R'))
+source(here::here('src/01_config/functions/function-undo-reverse-codes.R'))
+source(here::here('src/01_config/functions/function-calculate-longstring.R'))
+source(here::here('src/01_config/functions/function-calculate-longstring-again.R'))
 
 
-# Additional Screening Criteria: Air Force Warrant Officer -------------------
+# Additional Screening Criteria  -------------------
+
+## Air Force Warrant Officer
 data <- data %>% mutate(air_force_warrant_officer = ifelse(branch == 'Air Force' & warrant_officer == 1, 1, 0)) # Air Force Warrant Officers
+
+## Warrant Officer with too few years of service
+data <- data %>% mutate(warrant_officer_years = ifelse(warrant_officer == 1 & years_service < 8, 1, 0))
 
 # Calculate Inconsistency Indices ----------------------------------------
 
@@ -99,6 +104,7 @@ data <-
     branch_none == 0,                     # Branch: Did not serve
     validity_check_1 == 1,                # Failed Validity checks
     air_force_warrant_officer == 0,       # No warrant officers in the Air Force
+    warrant_officer_years == 0,           # Becoming a warrant officer takes longer than 5 years
     
     ## Instructed Items
     attention_check_biis == 1,        # Failed attention checks (i.e., instructed items)

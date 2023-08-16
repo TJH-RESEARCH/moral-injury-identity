@@ -26,6 +26,8 @@ data <-
            ~ dplyr::if_else(. == -99, NA, .)))
 
 
+## Message:
+message('NA values fixed')
 
 
 

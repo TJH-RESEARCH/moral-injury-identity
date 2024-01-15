@@ -31,7 +31,13 @@ demographic_table <-
     discharge_reason = data %>% group_by(discharge_reason) %>% count_perc(T),
     
     # Education ----------------------------------------------------------------
-    education_sample = data %>% group_by(education) %>% count_perc(F),
+    education_sample = 
+      data %>% 
+      group_by(education) %>% 
+      count(sort = F) %>% 
+      ungroup() %>% 
+      mutate(perc = n / sum(n)) %>% 
+      rename(category = 1),
     
     # Military Experiences ----------------------------------------------------
     military_experiences =
@@ -90,7 +96,7 @@ demographic_table <-
       select(years_separation) %>% 
       mutate(group = 
                cut(data$years_separation, 
-                   breaks = c(0, 9.9, 19.9, 29.9, 39.9, 49.9, 100))) %>% 
+                   breaks = c(-1, 9.9, 19.9, 29.9, 39.9, 49.9, 100))) %>% 
       count(group) %>% 
       ungroup() %>% 
       mutate(perc = n / sum(n) * 100,
@@ -107,7 +113,12 @@ demographic_table <-
 demographic_table %>% print(n = 100)
 
 # Save --------------------------------------------------------------------
-demographic_table %>% readr::write_csv(here::here('output/tables/demographic-table.csv'))
+demographic_table %>% readr::write_csv(here::here('output/tables/c3-c4-demographic-table.csv'))
 
 # Message -----------------------------------------------------------------
-message('Demographic table saved to `output/tables/demographic-table.csv`')
+message('Demographic table saved to `output/tables/c3-c4-demographic-table.csv`')
+
+# Clean -------------------------------------------------------------------
+rm(count_perc, create_percentage_table, demographic_table)
+
+   

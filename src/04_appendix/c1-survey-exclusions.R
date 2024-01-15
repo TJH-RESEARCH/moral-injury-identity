@@ -28,10 +28,10 @@ exclusions %>% print()
 
 ## Save
 exclusions %>% 
-  write_csv(here::here('output/tables/survey-exclusions.csv'))
+  write_csv(here::here('output/tables/c1-exclusion-reasons.csv'))
 
 ## Message:
-if(exists('exclusions')) message('Exclusion reasons saved to `output/tables/survey-exclusions.csv`')
+if(exists('exclusions')) message('Exclusion reasons saved to `output/tables/c1-exclusion-reasons.csv`')
 
 ## Clean up
 rm(exclusions)

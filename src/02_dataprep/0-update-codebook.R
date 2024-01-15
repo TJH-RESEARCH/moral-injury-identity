@@ -199,14 +199,13 @@ labelled::var_label(data$longstr_no_reverse) <- "Longest String Length: Entire S
 labelled::var_label(data$avgstr_no_reverse) <- "Average String Length: Entire Survey with reverse scoring" 
 labelled::var_label(data$longstr_reverse) <- "Longest String Length: Entire Survey with reverse scoring" 
 labelled::var_label(data$avgstr_reverse) <- "Average String Length: Entire Survey with reverse scoring" 
-labelled::var_label(data$d_sq) <- "Mahalanobis distance squared (D-sqaured)" 
-labelled::var_label(data$d_sq_flagged) <- "D: Multivariate Outlier" 
+#labelled::var_label(data$d_sq) <- "Mahalanobis distance squared (D-sqaured)" 
+#labelled::var_label(data$d_sq_flagged) <- "D: Multivariate Outlier" 
 
 # Honeypot ----------------------------------------------------------------
 labelled::var_label(data$honeypot1) <- "Item not display to valid users. To catch bots."  
 labelled::var_label(data$honeypot2) <- "Item not display to valid users. To catch bots."
 labelled::var_label(data$honeypot3) <- "Item not display to valid users. To catch bots."
-
 
 
 # -------------------------------------------------------------------------

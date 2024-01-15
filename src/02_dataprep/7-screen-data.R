@@ -1,4 +1,7 @@
 
+
+message('Screening invalid responses...')
+
 # Load Functions ----------------------------------------------------------
 source(here::here('src/01_config/functions/function-select-scales.R'))
 source(here::here('src/01_config/functions/function-reorder-data.R'))
@@ -18,6 +21,9 @@ data <- data %>% mutate(warrant_officer_years = ifelse(warrant_officer == 1 & ye
 # Calculate Inconsistency Indices ----------------------------------------
 
 ## Even-Odd Consistency ------------------------------------------------
+
+suppressWarnings({
+  
 data <-
   data %>% 
   select_scales() %>% 
@@ -46,7 +52,7 @@ data <-
                                   4,  # WIS Public Regard
                                   3)  # WIS Skills
               )) %>% bind_cols(data) # Add the results back to the original data. 
-
+}) # End warning suppression. ℹ In argument: `evenodd = careless::evenodd(...)`.Caused by warning in `careless::evenodd()`: ! Computation of even-odd has changed for consistency of interpretation with other indices. This change occurred in version 1.2.0. A higher score now indicates a greater likelihood of careless responding. If you have previously written code to cut score based on the output of
 
 ## Psychometric Synonyms/Antonyms ------------------------------------------------
 data <-
@@ -100,7 +106,7 @@ data <-
     ## Duplicates
     Q_RelevantIDDuplicateScore < 75,   # A score of greater than or equal to 75 means the response is likely a duplicate. https://www.qualtrics.com/support/survey-platform/survey-module/survey-checker/fraud-detection/#RelevantID
     
-    ## Exlcusion Criteria
+    ## Exclusion Criteria
     branch_none == 0,                     # Branch: Did not serve
     validity_check_1 == 1,                # Failed Validity checks
     air_force_warrant_officer == 0,       # No warrant officers in the Air Force
@@ -138,7 +144,7 @@ data_scrubbed_researcher <-
              
              Q_RelevantIDDuplicateScore >= 75 ~ 'Failed duplicate check',
              
-             branch_none == 1 | validity_check_1 == 0 | air_force_warrant_officer == 1 ~ "Failed validity check",
+             branch_none == 1 | validity_check_1 == 0 | air_force_warrant_officer == 1 | warrant_officer_years == 1 ~ "Failed validity check",
              
              attention_check_biis == 0 | attention_check_wis == 0 ~ "Failed instructed items",
              
@@ -158,25 +164,21 @@ data_scrubbed_researcher <-
 
 
 ## Mahalanobis Distance (D) ---- 
-## If the data is not multivariate normal, then excluding outliers is not good
-data <-
-  data %>% # Recalculate the indices with the partially cleaned data
-  select_scales() %>% 
-  select(!starts_with('scc')) %>% # Including the SCC produces an era for singularity 
-  transmute(careless::mahad(x = ., 
-                            plot = FALSE, 
-                            flag = TRUE, 
-                            confidence = 0.999, 
-                            na.rm = TRUE)) %>% 
-  rename(d_sq_flagged = flagged) %>%
-  bind_cols(data)
+#data <-
+#  data %>% # Recalculate the indices with the partially cleaned data
+#  select_scales() %>% 
+#  #select(!starts_with('scc')) %>% # Including the SCC produces an era for singularity 
+#  mutate(careless::mahad(x = ., 
+#                            plot = FALSE, 
+#                            flag = TRUE, 
+#                            confidence = 0.999, 
+#                            na.rm = TRUE)) %>% 
+#  rename(d_sq_flagged = flagged) %>%
+#  bind_cols(data)
 
-data %>% 
-  ggplot(aes(d_sq)) + geom_histogram()
 
 
 ## Longstring ---- 
-
 data <- data %>% calculate_longstring_again()
 
 
@@ -260,8 +262,8 @@ data_scrubbed_researcher <-
 
 
 # Screen 4 -------------------------------------------
-data <- data %>% 
-  filter(d_sq_flagged == FALSE)
+#data <- data %>% 
+#  filter(d_sq_flagged == FALSE)
 
 data_scrubbed_researcher <- 
   anti_join(data_original, data, by = c('ResponseId' = 'ResponseId')) %>%
@@ -388,9 +390,6 @@ data_scrubbed_both_research_qualtrics <-
 
 
 
-# get the date
-currentDate <- Sys.Date()
-
 data %>% 
   write_csv(file = here::here(paste('data/processed/data_clean.csv')))
 
@@ -407,18 +406,22 @@ data_scrubbed_researcher_not_qualtrics %>%
 data_scrubbed_qualtrics_not_researcher %>% 
   write_csv(file = here::here('data/processed/scrubbed_qualtrics_not_researcher.csv'))
 
+# Save to env data that excludes the results scrubbed by Qualtrics
+data <- anti_join(data, data_scrubbed_qualtrics, by = c('ResponseId' = 'ResponseId'))
 
 
-rm(currentDate, 
-   calculate_longstring, 
+rm(calculate_longstring, 
    calculate_longstring_again, 
    reorder_data_scales, 
    undo_reverse_codes, 
    data_scales_reordered,
-   select_scales)
+   select_scales,
+   cut,
+   longstring_cut)
 #   data_scrubbed_qualtrics, 
 #   data_scrubbed_researcher, 
 #   data_scrubbed_qualtrics_not_researcher, 
 #   data_scrubbed_researcher_not_qualtrics)
 
 
+message('Done.')

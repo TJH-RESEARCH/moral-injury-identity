@@ -1,3 +1,6 @@
+
+message('Scoring scales...')
+
 # Save this plus operator that ignores NA to the env
 `%+%` <- function(x, y)  mapply(sum, x, y, MoreArgs = list(na.rm = TRUE))
 
@@ -262,3 +265,7 @@ ptsd_positive_screen =
 )
 
 
+rm(`%+%`)
+
+
+message('Done.')

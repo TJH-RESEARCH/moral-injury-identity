@@ -4,11 +4,9 @@
 # Process the Survey data.
 
 
+
 # Load Packages -----------------------------------------------------------
 library(tidyverse)
-
-data_path <- here::here('data/raw/data-raw.csv')
-
 
 # DATA IMPORT -------------------------------------------------------------
 
@@ -43,28 +41,20 @@ source(here::here('src/02_dataprep/6-score-scales.R'))
 ## Calculate indices of invalidity and inattentive or careless responding, then remove cases.
 source(here::here('src/02_dataprep/7-screen-data.R'))
 
-# Save a copy that includes the results scrubbed by Qualtrics
-data <- anti_join(data, data_scrubbed_qualtrics, by = c('ResponseId' = 'ResponseId'))
-
 # Create a table of exclusion reasons
-source(here::here('src/04_appendix/exclusion-reasons.R'))
+source(here::here('src/04_appendix/c1-survey-exclusions.R'))
+
+# Save the median response time
 
 # Update Codebook
 ## Add labels to the R variables to update the codebook.
 source(here::here('src/02_dataprep/0-update-codebook.R'))
 
-# Reorder the data for further analysis
-source(here::here('src/02_dataprep/8-reorder-data.R'))
+# Make a copy of some data to share for replication
+source(here::here('src/02_dataprep/make-replication-data.R'))
 
-rm(data_original, 
-   data_scrubbed_both_research_qualtrics, 
-   data_scrubbed_qualtrics,
-   data_scrubbed_qualtrics_not_researcher,
-   data_scrubbed_researcher,
-   data_scrubbed_researcher_not_qualtrics,
-   labels,
-   labels_new,
-   cut,
-   longstring_cut,
-   data_path,
-   `%+%`)
+# Clean environment
+source(here::here('src/02_dataprep/clean-environment.R'))
+
+
+message("Survey processing complete.")

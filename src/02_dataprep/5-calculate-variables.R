@@ -3,6 +3,8 @@
 # Calculate new variables including categorical variables from multi-response
 # Create factor variables
 
+message('Calculating new variables...')
+
 data <-
   data %>% 
   dplyr::mutate(
@@ -41,7 +43,8 @@ data <-
                                          'Other'), 
                               ordered = F),
     discharge_reason = if_else(is.na(discharge_reason), 'Not yet discharged', discharge_reason),
-
+    discharge_other = ifelse(discharge_reason == 'Other', 1, 0),
+    discharge_medical = ifelse(discharge_reason == 'Medical Discharge', 1, 0),
 
 ## Education -------------------------------------------------------------
     education = factor(education, 
@@ -97,6 +100,7 @@ data <-
                                        'O-4 to O-6',
                                        'O-7 to O-10'),
                             ordered = T),
+      highest_rank_numeric = as.numeric(highest_rank),
 
 ## Marital Status ---------------------------------------------------------
       never_married = dplyr::if_else(marital == 0, 1, 0),
@@ -114,7 +118,8 @@ data <-
         military_exp_support + 
         military_exp_peacekeeping,
 
-      military_exp_none = if_else(military_exp_total == 0, 1, 0), 
+      military_exp_none = if_else(military_exp_total == 0, 1, 0),
+      military_exp_any  = if_else(military_exp_none == 1, 0, 1),
 
 ## Military Family ---------------------------------------------------------
       military_family_total = 
@@ -123,6 +128,7 @@ data <-
         military_family_sibling +
         military_family_child +
         military_family_other,
+      military_family_any = ifelse(military_family_none == 1, 0, 1),
     
 ## MIOS Event Type ---------------------------------------------------------
       mios_event_type_multiple = if_else(mios_event_type_self +
@@ -136,10 +142,9 @@ data <-
         mios_event_type_betrayal == 1 ~ "Betrayal",
         .default = "None"),
       mios_event_type = factor(mios_event_type),
-      military_family = (military_family_none - 1) * -1,
-
-## Politics ----------------------------------------------------------------
-
+      mios_event_any = ifelse(mios_event_type == "None", 0, 1),
+      mios_event_none = ifelse(mios_event_any == 1, 0, 1),
+     
 
 ## Race --------------------------------------------------------------------
       race_multiple = if_else(
@@ -274,14 +279,12 @@ data <-
                                      'MIOS and PTSD Event')),
 
 
-# Dichotomize PTSD Symptoms -----------------------------------------------
-  
-       mios_ptsd_symptoms = (mios_ptsd_symptoms_none - 1) * -1
-
+       unmet_needs_any = ifelse(unmet_needs_none == 1, 0, 1)
+      
 
 )
 
-
+message('Done.')
 
 
 

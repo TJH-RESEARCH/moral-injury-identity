@@ -1,0 +1,7 @@
+lhs,rhs,label,est,std_estimate,se.boot,z.boot,p.boot,ci.lower.boot.025,ci.upper.boot.975,perc_of_total
+biis_harmony,mios_total,a,-0.322,-0.437,0.054, (6.00), 0.0000 , (0.424), (0.214),0
+m2cq_mean,biis_harmony,b,-0.021,-0.203,0.007, (2.79), 0.0052 , (0.035), (0.005),0
+m2cq_mean,mios_total,c,0.037,0.486,0.006, 6.27 , 0.0000 , 0.025 , 0.048 ,0
+direct,c,direct,0.037,0.486,0.006, 6.27 , 0.0000 , 0.025 , 0.048 ,0.845217391
+indirect,a*b,indirect,0.007,0.089,0.003, 2.43 , 0.0153 , 0.002 , 0.012 ,0.154782609
+total,c+(a*b),total,0.043,0.575,0.005, 8.61 , -   , 0.033 , 0.053 ,0

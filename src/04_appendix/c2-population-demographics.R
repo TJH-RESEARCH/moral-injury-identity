@@ -81,4 +81,4 @@ population_demographics %>% print(n = 50)
 
 ## Save
 population_demographics %>% 
-  write_csv(here::here('output/tables/population-demographics.csv'))
+  write_csv(here::here('output/tables/c2-population-demographics.csv'))

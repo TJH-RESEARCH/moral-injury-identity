@@ -24,8 +24,9 @@ theme_fonts <-
     plot.title = element_text(size = 16),
     plot.subtitle = element_text(size = 12),
     plot.caption = element_text(family = "Arial",
+                                face = "italic",
                                 size = 10,
-                                hjust = .13)
+                                hjust = 0)
     )
     
 

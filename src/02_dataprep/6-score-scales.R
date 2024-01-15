@@ -26,6 +26,8 @@ data <-
           biis_8 +
           biis_9 +
           biis_10,
+
+        biis_conflict = 60 - biis_harmony,
         
         biis_blendedness = 
           biis_11 +
@@ -161,22 +163,22 @@ data <-
           mios_trust,
 
 # MIOS PTSD Symptoms ------------------------------------------------------
-        mios_ptsd_symptoms_total = 
-          mios_ptsd_symptoms_nightmares + 
-          mios_ptsd_symptoms_avoid +
-          mios_ptsd_symptoms_vigilant +
-          mios_ptsd_symptoms_numb +
-          mios_ptsd_symptoms_guilty,
+        pc_ptsd_symptoms_total = 
+          pc_ptsd_symptoms_nightmares + 
+          pc_ptsd_symptoms_avoid +
+          pc_ptsd_symptoms_vigilant +
+          pc_ptsd_symptoms_numb +
+          pc_ptsd_symptoms_guilty,
 
 
-# PTSD Screener -----------------------------------------------------------
-ptsd_positive_screen = 
+# Primary Care Screener for PTSD -------------------------------------------
+pc_ptsd_positive_screen = 
   ifelse(mios_criterion_a == 1 &
-           mios_ptsd_symptoms_avoid +
-           mios_ptsd_symptoms_guilty +
-           mios_ptsd_symptoms_nightmares +
-           mios_ptsd_symptoms_numb +
-           mios_ptsd_symptoms_vigilant >= 3, 1, 0),
+           pc_ptsd_symptoms_avoid +
+           pc_ptsd_symptoms_guilty +
+           pc_ptsd_symptoms_nightmares +
+           pc_ptsd_symptoms_numb +
+           pc_ptsd_symptoms_vigilant >= 3, 1, 0),
 
 # SCC: Total ---------------------------------------------------------------
         scc_total =

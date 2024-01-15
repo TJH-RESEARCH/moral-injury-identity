@@ -1,0 +1,358 @@
+name,value
+psychant,Psychometric Antonym Correlation
+psychsyn,Psychometric Synonym Correlation
+evenodd,Even-Odd Consistency
+longstr_no_reverse,Longest String Length: Entire Survey without reverse scoring
+avgstr_no_reverse,Average String Length: Entire Survey with reverse scoring
+longstr_no_reverse_scc,Longest String Length: Self-Concept Clarity Scale without reverse scoring
+avgstr_no_reverse_scc,Average String Length: Self-Concept Clarity Scale without reverse scoring
+longstr_no_reverse_mcarm,Longest String Length: Military-Civilian Adjustment and Reintegration Measure without reverse scoring
+avgstr_no_reverse_mcarm,Average String Length: Military-Civilian Adjustment and Reintegration Measure without reverse scoring
+longstr_no_reverse_biis,Longest String Length: Bicultural Identity Integration Scale-2 without reverse scoring
+avgstr_no_reverse_biis,Average String Length: Bicultural Identity Integration Scale-2 without reverse scoring
+longstr_reverse_scc,Longest String Length: Self-Concept Clarity Scale with reverse scoring
+avgstr_reverse_scc,Average String Length: Self-Concept Clarity Scale with reverse scoring 
+longstr_mios,Longest String Length: Moral Injury Outcomes Scale
+avgstr_mios,Average String Length: Moral Injury Outcomes Scale
+longstr_reverse_mcarm,Longest String Length: Military-Civilian Adjustment and Reintegration Measure with reverse scoring
+avgstr_reverse_mcarm,Average String Length: Military-Civilian Adjustment and Reintegration Measure with reverse scoring
+longstr_m2cq,Longest String Length: Military to Civilian Questionnaire with revese scoring
+avgstr_m2cq,Average String Length: Military to Civilian Questionnaire with revese scoring
+longstr_reverse_biis,Longest String Length: Bicultural Identity Integration Scale-2 with reverse scoring
+avgstr_reverse_biis,Average String Length: Bicultural Identity Integration Scale-2 with reverse scoring
+longstr_reverse,Longest String Length: Entire Survey with reverse scoring
+avgstr_reverse,Average String Length: Entire Survey with reverse scoring
+StartDate,Start Date
+EndDate,End Date
+Status,Response Type
+Progress,Progress in survey in percentage. Less than 100 indicates incomplete survey.
+Duration (in seconds),Duration (in seconds)
+Finished,Finished
+RecordedDate,Recorded Date
+ResponseId,Response ID: Survey host meta data
+DistributionChannel,Distribution Channel
+UserLanguage,User Language
+Q_RecaptchaScore,Q_RecaptchaScore
+Q_RelevantIDDuplicate,Q_RelevantIDDuplicate
+Q_RelevantIDDuplicateScore,Q_RelevantIDDuplicateScore
+Q_RelevantIDFraudScore,Q_RelevantIDFraudScore
+Q_RelevantIDLastStartDate,Q_RelevantIDLastStartDate
+birth_year,What year were you born?
+at_least_18,Are you at least 18 years old?
+served,Did you serve in the United States military?
+separated,"Are you now separated from the military? (e.g., discharged, released from active duty, transferred to the Inactive Ready Reserve)"
+highest_rank,What is the highest pay grade you have achieved?
+phone,Are you taking the survey on a phone?
+Informed Consent,Signed the informed consent
+active_duty,Did you ever serve on active duty?
+years_active,How many years were you on active duty?
+reserve,"Are you still serving in any capacity (e.g., Reserve or Guard)?"
+years_since_sep,How many years has it been since you left active duty?
+years_reserve_hidden,How many years did you serve in the military?
+years_service,How many years in total did/have you served in the military?
+years_separation,How many years since you were discharged from the military?
+discharge_reason,What was your reason for discharge?
+branch_air_force,What branch(s) did you serve in? - Air Force
+branch_army,What branch(s) did you serve in? - Army
+branch_coast_guard,What branch(s) did you serve in? - Coast Guard
+branch_marines,What branch(s) did you serve in? - Marines
+branch_navy,What branch(s) did you serve in? - Navy
+branch_space_force,What branch(s) did you serve in? - Space Force
+branch_public_health,What branch(s) did you serve in? - U.S. Public Health Service
+branch_none,What branch(s) did you serve in? - I have not served in the military
+military_exp_combat,"During your military service, did you ever?: (select all that apply) - Serve in Combat"
+military_exp_noncombat,"During your military service, did you ever?: (select all that apply) - Deploy (non-combat)"
+military_exp_support,"During your military service, did you ever?: (select all that apply) - Engage in combat support"
+military_exp_peacekeeping,"During your military service, did you ever?: (select all that apply) - Deploy to a peacekeeping or humanitarian mission"
+mos,What was your military occupation specialty?
+n_deploy,How many times did you deploy?
+disability,Do you receive Veterans Affairs (VA) disability?
+disability_percent,What is your VA disability percentage?
+validity_check_1,Which military pay grade is higher?
+unmet_needs_job,Unmet needs at discharge: not having a job (select all that apply)
+unmet_needs_housing,Unmet needs at discharge: not having a place to live (select all that apply)
+unmet_needs_healthcare,Unmet needs at discharge: no access to health care (select all that apply)
+unmet_needs_education,Unmet needs at discharge: no access to educational benefits (select all that apply)
+unmet_needs_records,Unmet needs at discharge: no access to medical or service records (select all that apply)
+unmet_needs_physical,Unmet needs at discharge: unmet physical health needs (select all that apply)
+unmet_needs_mental,Unmet needs at discharge: unmet mental health needs (select all that apply)
+unmet_needs_legal,Unmet needs at discharge: unresolved legal issues (select all that apply)
+unmet_needs_financial,Unmet needs at discharge: financial problems (select all that apply)
+unmet_needs_none,Unmet needs at discharge: I didn't have any of these unmet needs  (select all that apply)
+military_family_spouse,Has anyone else in your immediate family served in the military? (select all that apply) - Spouse/Partner
+military_family_parents,Has anyone else in your immediate family served in the military? (select all that apply) - Parent
+military_family_sibling,"Has anyone else in your immediate family served in the military? (select all that apply) - Sibling (i.e., sister, brother)"
+military_family_child,Has anyone else in your immediate family served in the military? (select all that apply) - Child
+military_family_other,Has anyone else in your immediate family served in the military? (select all that apply) - Other close family member
+military_family_none,Has anyone else in your immediate family served in the military? (select all that apply) - No one in my immediate family served in the military.
+honeypot1,To what extent do you enjoy retirement?
+mios_screener,Have you had an experience (or experiences) as described above?
+mios_event_type_self,The event involved: (select all that apply) - myself
+mios_event_type_other,The event involved: (select all that apply) - an other person
+mios_event_type_betrayal,The event involved: (select all that apply) - a betrayal
+mios_worst,"For events that had multiple features, which aspect was the worst?"
+mios_criterion_a,"Did the event involve actual or threatened death, serious injury, or sexual violence?"
+pc_ptsd_symptoms_nightmares,"In the past month, have you… (select all that apply) - nightmares"
+pc_ptsd_symptoms_avoid,"In the past month, have you… (select all that apply) - avoid"
+pc_ptsd_symptoms_vigilant,"In the past month, have you… (select all that apply) - vigilant"
+pc_ptsd_symptoms_numb,"In the past month, have you… (select all that apply) - numb"
+pc_ptsd_symptoms_guilty,"In the past month, have you… (select all that apply) - guilty"
+pc_ptsd_symptoms_none,"In the past month, have you… (select all that apply) - none of the above"
+mios_1,I blame myself.
+mios_2,I have lost faith in humanity.
+mios_3,People would hate me if they really knew me.
+mios_4,I have trouble seeing goodness in others.
+mios_5,People don’t deserve second chances.
+mios_6,I am disgusted by what happened.
+mios_7,I feel like I don’t deserve a good life.
+mios_8,I keep myself from having success.
+mios_9,There is no higher power.
+mios_10,I lost trust in others.
+mios_11,I am angry all the time.
+mios_12,I am not the good person I thought I was.
+mios_13,I have lost pride in myself.
+mios_14,I cannot be honest with other people.
+bipf_spouse,Romantic relationship with my spouse or partner.
+bipf_children,Relationship with my children
+bipf_family,Family relationships
+bipf_friends,Friendships or socializing
+bipf_work,Work
+bipf_education,Training or education
+bipf_daily,"Day to day activities such as chores, errands, or managing medical care"
+biis_1,I find it easy to harmonize Military and Civilian cultures.
+biis_2,I rarely feel conflicted about being both a citizen in the civilian world and a Service Member.
+biis_13,I relate better to a combined culture than to Military or Civilian culture alone.
+biis_3,I find it easy to balance both my Military and Civilian cultures.
+biis_10,I feel caught between the Military and Civilian cultures.
+biis_16,I do not blend my Military and Civilian cultures.
+biis_15,I feel part of a combined culture.
+biis_11,I cannot ignore the Military or Civilian side of me.
+biis_9,I feel like someone moving between two cultures.
+biis_12,I feel like a Service Member and a Civilian at the same time.
+biis_5,I feel torn between Military and Civilian cultures.
+attention_check_biis,Please answer this question with the response Somewhat Agree.
+biis_14,I feel like a Service Member-Civilian.
+biis_4,I do not feel trapped between Military culture and Civilian culture.
+biis_17,I keep Military and Civilian cultures separate.
+biis_6,Being both a citizen in the civilian world and a Service Member means having two cultural forces pulling on me at the same time.
+biis_7,I feel that my Military and Civilian cultures are incompatible.
+biis_8,I feel conflicted between the Military and Civilian ways of doing things.
+difi_distance,"The diagram below is designed to represent your relationship with a group (""American""). Please indicate your relationship by clicking and dragging the smaller ""Me"" circle to the position that best captures your relationship with this group. - Distance"
+difi_overlap,"The diagram below is designed to represent your relationship with a group (""American""). Please indicate your relationship by clicking and dragging the smaller ""Me"" circle to the position that best captures your relationship with this group. - Overlap"
+difi_us,"The diagram below is designed to represent your relationship with a group (""American""). Please indicate your relationship by selecting the choice where the smaller ""Me"" circle is in the position that best captures your relationship with this group."
+civilian_commit_1,I am clear about what being a civilian means to me.
+civilian_commit_2,I understand how I feel about being a civilian.
+civilian_commit_3,I know what being a civilian means to me.
+civilian_commit_4,I have a clear sense of what being a civilian means to me.
+wis_interdependent_11,My fate and future are bound up with that of veterans.
+wis_private_1,I am happy that I am a veteran.
+wis_family_19,I wish I could go back into the military.
+wis_private_4,I believe that I have many strengths due to my military service.
+wis_skills_30,The work I do at home has more meaning for me than the work I did for the military.
+wis_connection_15,During my time within my unit in the military I always felt like an outsider.
+wis_private_5,I often regret my military service.
+wis_centrality_24,Being a veteran is not a major factor in my social relationships.
+wis_private_7,I am ashamed of my military service.
+wis_connection_17,Throughout my time in the military I resisted believing in military rituals and norms.
+wis_skills_31,I miss the job related aspects of my time in the military.
+wis_interdependent_10,I become friends with other veterans more quickly than with non-veterans.
+wis_private_2,I feel good about my military service.
+wis_private_6,I am proud to have served in the military.
+wis_public_28,Society views veterans as an asset.
+wis_public_27,"In general, other groups view veterans in a positive manner."
+wis_interdependent_12,"Regarding other veterans, it is accurate to say, “United we stand, divided we fall.”"
+wis_family_18,I miss my military friends.
+wis_public_26,"In general, others respect veterans and members of the military."
+wis_interdependent_9,When I meet other veterans I can trust them more quickly than other people.
+wis_skills_29,I appreciate the skills I learned in the military.
+wis_family_20,By leaving the military I lost a family.
+wis_centrality_23,Being a veteran is unimportant to my sense of what kind of person I am.
+wis_centrality_21,"Overall, having served in the military has very little to do with how I feel about myself."
+wis_interdependent_13,The most important things that have happened in my life involve my military service.
+attention_check_wis,"For this question, respond with the answer Agree."
+wis_centrality_22,"In general, being a veteran is an important part of my self-image."
+wis_interdependent_8,Only other veterans can truly understand me.
+wis_connection_16,I never felt emotionally connected to my military unit.
+wis_public_25,"Overall, veterans are highly thought of."
+wis_interdependent_14,"When I talk about the military, I usually say ‘we’ rather than ‘they.’"
+wis_private_3,I am proud of the things that veterans have accomplished.
+scc_1,My beliefs about myself often conflict with one another.
+scc_2,On one day I might have one opinion of myself and on another day I might have a different opinion.
+scc_3,I spend a lot of time wondering about what kind of person I really am.
+scc_4,Sometimes I feel that I am not really the person that I appear to be.
+scc_5,"When I think about the kind of person I have been in the past, I'm not sure what I was really like."
+scc_6,I seldom experience conflict between the different aspects of my personality.
+scc_7,Sometimes I think I know other people better than I know myself.
+scc_8,My beliefs about myself seem to change very frequently.
+scc_9,"If I were asked to describe my personality, my description might end up being different from one day to another day."
+scc_10,"Even if I wanted to, I don't think I"
+scc_11,"In general, I have a clear sense of who I am and what I am."
+scc_12,It is often hard for me to make up my mind about things because I don't really know what I want.
+honeypot2,Did you serve in a military unit? - Yes
+mcarm_5,I feel I don’t belong anywhere.
+mcarm_12,"Despite all my experience in the military, I am undervalued by civilians."
+mcarm_3,I have a sense of purpose.
+mcarm_9,I find it difficult to ask for help if I’m struggling.
+mcarm_20,I am a flexible person and I don’t mind changing to suit others when required.
+mcarm_21,Some of my military habits cause problems for me.
+mcarm_11,Civilians seem to be concerned with trivial matters.
+mcarm_8,I would never seek help from a mental health professional.
+mcarm_2,I have interests and hobbies that are enjoyable or meaningful.
+mcarm_6,"Outside of the military, I have found people that I connect with through shared interests or beliefs."
+mcarm_19,I find it difficult to change once I have a set routine.
+mcarm_16,The military broke me and then kicked me out.
+mcarm_10,I know how to access professional support for my health.
+mcarm_1,"I have things that give me a sense of purpose, outside of paid employment."
+mcarm_13,Civilians are disrespectful and rude.
+mcarm_4,I am fulfilled.
+mcarm_14,I don’t think society puts much value on military service and experience.
+mcarm_18,I am more regimented than flexible.
+mcarm_17,I have a lot of regrets about my service.
+mcarm_7,I would ask for help if I needed it.
+mcarm_15,I’m angry about the way I was treated during my service.
+m2cq_1,Dealing with people you do not know well (such as acquaintances or strangers)?
+m2cq_2,Making new friends?
+m2cq_3,Keeping up friendships with people who have no military experience?
+m2cq_4,Keeping up friendships with people who have military experiences (including friends who are active duty or veterans)?
+m2cq_5,"Getting along with relatives (such as siblings, parents, grandparents, in-laws and children not living at home)?"
+m2cq_6,"Getting along with your spouse or partner (such as communicating, doing things together, enjoying his or her company)?"
+m2cq_7,"Getting along with your child or children (such as communicating, doing things together, enjoying his or her company)?"
+m2cq_8,Finding or keeping a job (paid or nonpaid or self-employment)?
+m2cq_9,Doing what you need to do for work or school?
+m2cq_10,"Taking care of your chores at home (such as housework, yard work, cooking, cleaning, shopping, errands)?"
+m2cq_11,"Taking care of your health (such as exercising, sleeping, bathing, eating well, taking medications as needed)?"
+m2cq_12,Enjoying or making good use of free time?
+m2cq_13,"Taking part in community events or celebrations (for example, festivals, PTA meetings, religious or other activities)?"
+m2cq_14,Feeling like you belong in “civilian” society?
+m2cq_15,Confiding or sharing personal thoughts and feelings?
+m2cq_16,Finding meaning or purpose in life?
+honeypot3,What is 2 + 2?
+race_asian,What categories describe you? (select all that apply) - asian
+race_native,What categories describe you? (select all that apply) - native
+race_black,What categories describe you? (select all that apply) - black
+race_latino,What categories describe you? (select all that apply) - latino
+race_mena,What categories describe you? (select all that apply) - mena
+race_pacific,What categories describe you? (select all that apply) - pacific
+race_white,What categories describe you? (select all that apply) - white
+race_other,What categories describe you? (select all that apply) - other
+sex,What is your sex/gender? - Selected Choice
+sex_4_TEXT,What is your sex/gender? - Other - Text
+sexual_orientation,What is your sexual orientation?
+sexual_orientation_6_TEXT,What is your sexual orientation? - A sexuality not listed above - Text
+religious,"Do you consider yourself religious/spiritual? (Yes = 1, No = 0, Not Sure = NA"
+worship,"How often do you attend a place of worship? (e.g., church, temple, mosque)"
+politics,What best describes your political affiliation?
+marital,What is your marital status?
+employment_full_time,What is your employment status? (select all that apply) - Full-Time
+employment_part_time,What is your employment status? (select all that apply) - Part-Time
+employment_irregular,What is your employment status? (select all that apply) - Irregular
+employment_unemployed,What is your employment status? (select all that apply) - Unemployed
+employment_retired,What is your employment status? (select all that apply) - Retired
+employment_student,What is your employment status? (select all that apply) - Student
+education,What is the highest level of school you have completed?
+job_like_military,How similar is your current job to the military?
+SC0,Meta Data: Score
+opp,Meta Data: opp
+ID,Meta Data: ID
+rid,Meta Data: rid
+RISN,Meta Data: RISN
+transaction_id,Meta Data: transaction_id
+SVID,Meta Data: SVID
+Q_BallotBoxStuffing,Meta Data: Q_BallotBoxStuffing
+gc,Meta Data: gc
+term,The label given by the embedded survey logic. Indicates the way that someone screened out or was removed from the survey host quota
+V,Meta Data: V
+Response Type,Meta Data: Response Type. Test responses will indicate here
+LS,Meta Data: LS
+PS,Meta Data: PS
+branch_multiple,
+branch,What branch(s) did you serve in? (Select all that apply)
+discharge_other,
+discharge_medical,
+discharge_unexpected,Reported either 'medical' or 'other' for discharge reasons. Calculated variable. Dichotomous.
+employment_multiple,
+employment,
+officer,Military Officer
+enlisted,Enlisted Personnel
+warrant_officer,Warrant Officer
+nonenlisted,
+rank_e1_e3,Highest Paygrade Achieved: E-1 to E-3
+rank_e4_e6,Highest Paygrade Achieved: E-4 to E-6
+rank_e7_e9,Highest Paygrade Achieved: E-7 to E-9
+rank_w1_cw5,Highest Paygrade Achieved: W-1 to CW-5
+rank_o1_o3,Highest Paygrade Achieved: O-1 to O-3
+rank_o4_o6,Highest Paygrade Achieved: O-4 to O-6
+highest_rank_numeric,Highest Paygrade Achieved: Converted to numeric ranging from 1 (E-1 to E-3) to 6 (O-4 to O-6)
+never_married,Marital Status: Never Married
+married,Marital Status: Married or living with a Partner
+divorced,Marital Status: Divorced or Separated
+widowed,Marital Status: Widowed
+military_exp_total,Number of different types of military experiences reported
+military_exp_none,"No combat, deployments, or combat support"
+military_exp_any,
+military_family_total,
+military_family_any,
+mios_event_type_multiple,
+mios_event_type,
+mios_event_any,
+mios_event_none,
+race_multiple,
+race,
+sex_female,Sex: Female
+sex_male,Sex: Male
+sex_nonbinary,Sex: Nonbinary
+sex_other,Sex: Other
+sexual_orientation_straight,Sexual Orientation: Straight or Heterosexual
+sexual_orientation_gay,Sexual Orientation: Gay or Homosexual
+sexual_orientation_bi,Sexual Orientation: Bisexual
+sexual_orientation_other,Sexual Orientation: Other
+years_of_age,
+Duration (in minutes),
+year_entered_military,
+year_left_military,
+service_era_post_wwii,Served in the post-WWII era
+service_era_korea,Served in the Korean era
+service_era_cold_war,Served in the Cold War era
+service_era_vietnam,Served in the Vietnam era
+service_era_persian_gulf,Served in the Persian Gulf (pre-9/11) era
+service_era_post_911,Served in the post-9/11 era
+service_era_multiple,Served in multiple service eras
+service_era,Service Era
+validity_years,"Years of Age minus 17, years of service, and years of separation"
+invalid_years,Are validity years less than 0?
+age_enlisted,?
+age_separated,Age separated from the military. Calculated by years separated.
+trauma_type,Combination of moral injury event and PTSD criterion A event
+pc_ptsd_symptoms_any,One or more PTSD symptom reported on PC-PTSD-5
+unmet_needs_any,Had at least one unmet need at discharge
+biis_harmony,BIIS-2 Harmony Subscale Score (10 items). Higher scores indicate greater identity harmony and less identity conflict.
+biis_conflict,BIIS-2 Harmoney Subscale Score reversed (10 items). Higher scores indicate grat identity conflict and less identity harmony. 
+biis_blendedness,BIIS-2 Blendedness Subscale Score (7 items)
+biis_total,BIIS-2 Total Score (17 items)
+bipf_total,b-IPF Total Score (7 items)
+bipf_none,Score of 0 on the b-IPF
+civilian_commit_total,Civilian Identity Commitment Total Score (4 items)
+m2cq_mean,Military to Civilian Questionnaire Mean Score (16 items; some can be scored as NA)
+mcarm_purpose_connection,M-CARM Purpose Subscale Score (6 items)
+mcarm_help_seeking,M-CARM Help Seeking Subscale Score (4 items)
+mcarm_beliefs_about_civilians,M-CARM Beliefs About Civilians Subscale Score (3 items)
+mcarm_resentment_regret,M-CARM Resentment and Regret Subscale Score (3 items)
+mcarm_regimentation,M-CARM Regimentation Subscale Score (5) items
+mcarm_total,M-CARM Total Score (21 items)
+mios_shame,Moral Injury Outcomes Scale Shame Subscale Score (7 items)
+mios_trust,Moral Injury Outcomes Scale Total Trust Violation Subscale Score (7 items)
+mios_total,Moral Injury Outcomes Scale Shame Subscale Score (14 items)
+pc_ptsd_symptoms_total,Score on the PC-PTSD-5
+pc_ptsd_positive_screen,Probable PTSD based on scoring of PC-PTSD-5
+scc_total,Self-Concept Consistency Scale Total Score (12 items)
+unmet_needs_total,Number of Unmet Needs when leaving the military (9 items)
+wis_private_regard_total,WIS Private Regard Subscale Score (7 items)
+wis_interdependent_total,WIS Independent Subscale Score (7 itmes)
+wis_connection_total,WIS Connection Subscale Score (3 items)
+wis_family_total,WIS Family Subscale Score (3 items)
+wis_centrality_total,WIS Centrality Subscale Score (4 items)
+wis_public_regard_total,WIS Public Regard Subscale Score (4 items)
+wis_skills_total,WIS Skills Subscale Score (3 items)
+wis_total,WIS Sum Score across all subscales
+air_force_warrant_officer,Warrant officer in the Air Force
+warrant_officer_years,

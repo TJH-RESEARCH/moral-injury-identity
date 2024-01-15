@@ -1,0 +1,333 @@
+variable,label
+StartDate,Start Date
+EndDate,End Date
+Status,Response Type
+Progress,Progress
+Duration (in seconds),Duration (in seconds)
+Finished,Finished
+RecordedDate,Recorded Date
+ResponseId,Response ID
+DistributionChannel,Distribution Channel
+UserLanguage,User Language
+Q_RecaptchaScore,Q_RecaptchaScore
+Q_RelevantIDDuplicate,Q_RelevantIDDuplicate
+Q_RelevantIDDuplicateScore,Q_RelevantIDDuplicateScore
+Q_RelevantIDFraudScore,Q_RelevantIDFraudScore
+Q_RelevantIDLastStartDate,Q_RelevantIDLastStartDate
+birth_year,What year were you born?
+at_least_18,Are you at least 18 years old?
+served,Did you serve in the United States military?
+separated,"Are you now separated from the military? (e.g., discharged, released from active duty, transferred to the Inactive Ready Reserve)"
+highest_rank,What is the highest pay grade you have achieved?
+phone,Are you taking the survey on a phone?
+Informed Consent,"Title of Research Study: Morality, Identity, and the Military: Moral Injury and Post-Military Identity Integration
+
+
+
+Researcher's Contact Information:  
+
+Thomas J. Hodges, 470-418-4810, thodges7@students.kennesaw.edu
+
+
+
+You are being asked to take part in a research study. The information in this form will help you decide if you want to be in the study. Please ask the researcher if there is anything that is not clear or if you need more information. 
+
+
+
+Description of Project
+
+The reason for the research is to learn the extent to which moral injuries affect reintegration. Although there will be no direct benefit to you for taking part in this study, the researcher may learn more about how to help veterans who will have the most difficulty post-service and target assistance appropriately. The findings of this research will be published and presented to people working to improve veteran health and well-being.
+
+
+
+Explanation of Procedures
+
+If you agree to participate in this study:
+
+
+
+You will complete a survey online which contains a series of questionnaires that ask about your military background, including experiences with moral injury, identity, military service, and other aspects of your psychology, health, social life, and demographics. In total, this will take about 15 minutes. 
+
+
+
+Participation is voluntary. You can refuse to take part or stop at any time without penalty. There is no consequence for choosing not to participate or for stopping the survey. You will not be required to provide any personal identification information, and the results of your participation will be anonymous.
+
+
+
+Risks or Discomforts
+
+Overall, this study has minimal risks. There are no physical, legal, or reputational risks from participating. Participation is anonymous. No personally identifiable information will be collected by the researcher.
+
+
+
+There is a possibility of minor psychological discomfort or stress from participating in this research. You will be asked about your experiences in the military and after leaving the military, including incidents which may have caused psychological wounds and extreme stress. However, to minimize this discomfort, you can choose not to participate, and if you do decide to participate, you can pause or stop the survey at any time without any penalty whatsoever. You are not under orders to participate in the study or complete the survey.
+
+
+
+Additionally, here are some free services that you can contact at any point:
+
+	If you or someone you know is struggling or in crisis, help is available. Call or text 988 or chat 988lifeline.org
+	SAMHSA’s National Helpline is a free, confidential, 24/7, 365-day-a-year treatment referral and information service (in English and Spanish) for individuals and families facing mental and/or substance use disorders. Also, visit the online treatment locator. Call: 1-800-662-HELP (4357)
+
+These resources will be provided again at the end of the survey, regardless of how you answer the survey questions.
+
+
+
+Benefits
+
+Although there will be no direct benefit to you for taking part in this study, the researcher may learn more about how to help veterans who will have the most difficulty post-service and target assistance appropriately. The findings of this research will be published and presented to people working to improve veteran health and well-being.
+
+
+
+Confidentiality
+
+The results of participation will be anonymous, and no personally identifiable information will be collected by the researcher.
+
+
+
+The information gained from the study will be shared with other researchers upon request to contribute to scientific transparency, and it may also be used for future studies. In either instance, no additional consent will be sought from you. 
+
+
+
+Research at Kennesaw State University that involves human participants is carried out under the oversight of an Institutional Review Board.  Questions or problems regarding these activities should be addressed to the Institutional Review Board, Kennesaw State University, irb@kennesaw.edu. This email address will be provided to you again at the end of the survey.
+
+
+
+PLEASE SAVE A COPY OF THIS FORM FOR YOUR RECORDS
+
+
+
+Do you agree to participate according to the terms above?"
+active_duty,Did you ever serve on active duty?
+years_active,How many years were you on active duty?
+reserve,"Are you still serving in any capacity (e.g., Reserve or Guard)?"
+years_since_sep,How many years has it been since you left active duty?
+years_reserve_hidden,How many years did you serve in the military?
+years_service,How many years in total did/have you served in the military?
+years_separation,How many years since you were discharged from the military?
+discharge_reason,What was your reason for discharge?
+branch_1,What branch(s) did you serve in? - Air Force
+branch_2,What branch(s) did you serve in? - Army
+branch_3,What branch(s) did you serve in? - Coast Guard
+branch_4,What branch(s) did you serve in? - Marines
+branch_5,What branch(s) did you serve in? - Navy
+branch_6,What branch(s) did you serve in? - Space Force
+branch_7,What branch(s) did you serve in? - U.S. Public Health Service
+branch_8,What branch(s) did you serve in? - I have not served in the military
+military_experiences_1,"During your military service, did you ever?: (select all that apply) - Serve in Combat"
+military_experiences_2,"During your military service, did you ever?: (select all that apply) - Deploy (non combat)"
+military_experiences_3,"During your military service, did you ever?: (select all that apply) - Engage in combat support"
+military_experiences_4,"During your military service, did you ever?: (select all that apply) - Deploy to a peacekeeping or humanitarian mission"
+mos,What was your military occupation speciality?
+n_deploy,How many times did you deploy?
+disability,Do you receive Veterans Affairs (VA) disability?
+disability_percent,What is your VA disability percentage?
+validity_check_1,Which military pay grade is higher?
+unmet_needs_1,Check all the following unmet needs you had when you left the military: (select all that apply) - not having a job
+unmet_needs_2,Check all the following unmet needs you had when you left the military: (select all that apply) - not having a place to live
+unmet_needs_3,Check all the following unmet needs you had when you left the military: (select all that apply) - no access to health care
+unmet_needs_4,Check all the following unmet needs you had when you left the military: (select all that apply) - no access to educational benefits
+unmet_needs_5,Check all the following unmet needs you had when you left the military: (select all that apply) - no access to medical or service records
+unmet_needs_6,Check all the following unmet needs you had when you left the military: (select all that apply) - unmet physical health needs
+unmet_needs_7,Check all the following unmet needs you had when you left the military: (select all that apply) - unmet mental health needs
+unmet_needs_8,Check all the following unmet needs you had when you left the military: (select all that apply) - unresolved legal issues
+unmet_needs_9,Check all the following unmet needs you had when you left the military: (select all that apply) - financial problems
+unmet_needs_0,Check all the following unmet needs you had when you left the military: (select all that apply) - I didn't have any of these unmet needs
+military_family_1,Has anyone else in your immediate family served in the military? (select all that apply) - Spouse/Partner
+military_family_2,Has anyone else in your immediate family served in the military? (select all that apply) - Parent
+military_family_3,"Has anyone else in your immediate family served in the military? (select all that apply) - Sibling (i.e., sister, brother)"
+military_family_4,Has anyone else in your immediate family served in the military? (select all that apply) - Child
+military_family_5,Has anyone else in your immediate family served in the military? (select all that apply) - Other close family member
+military_family_0,Has anyone else in your immediate family served in the military? (select all that apply) - No one in my immediate family served in the military.
+honeypot1,To what extent do you enjoy retirement?
+mios_screener,Have you had an experience (or experiences) as described above?
+mios_event_type_1,"Please answer the following questions while thinking about the worst event that currently bothers you the most. This could be one of the examples above, or some other very stressful experience that went against your core values.
+
+
+
+The event involved: (select all that apply) - self"
+mios_event_type_2,"Please answer the following questions while thinking about the worst event that currently bothers you the most. This could be one of the examples above, or some other very stressful experience that went against your core values.
+
+
+
+The event involved: (select all that apply) - other"
+mios_event_type_3,"Please answer the following questions while thinking about the worst event that currently bothers you the most. This could be one of the examples above, or some other very stressful experience that went against your core values.
+
+
+
+The event involved: (select all that apply) - betrayal"
+mios_worst,"For events that had multiple features, which aspect was the worst?"
+mios_criterion_a,"Did the event involve actual or threatened death, serious injury, or sexual violence?"
+mios_ptsd_symptoms_1,"In the past month, have you… (select all that apply) - nightmares"
+mios_ptsd_symptoms_2,"In the past month, have you… (select all that apply) - avoid"
+mios_ptsd_symptoms_3,"In the past month, have you… (select all that apply) - vigilant"
+mios_ptsd_symptoms_4,"In the past month, have you… (select all that apply) - numb"
+mios_ptsd_symptoms_5,"In the past month, have you… (select all that apply) - guilty"
+mios_ptsd_symptoms_0,"In the past month, have you… (select all that apply) - none of the above"
+mios_1,I blame myself.
+mios_2,I have lost faith in humanity.
+mios_3,People would hate me if they really knew me.
+mios_4,I have trouble seeing goodness in others.
+mios_5,People don’t deserve second chances.
+mios_6,I am disgusted by what happened.
+mios_7,I feel like I don’t deserve a good life.
+mios_8,I keep myself from having success.
+mios_9,There is no higher power.
+mios_10,I lost trust in others.
+mios_11,I am angry all the time.
+mios_12,I am not the good person I thought I was.
+mios_13,I have lost pride in myself.
+mios_14,I cannot be honest with other people.
+bipf_spouse,Romantic relationship with my spouse or partner.
+bipf_children,Relationship with my children
+bipf_family,Family relationships
+bipf_friends,Friendships or socializing
+bipf_work,Work
+bipf_education,Training or education
+bipf_daily,"Day to day activities such as chores, errands, or managing medical care"
+biis_1,I find it easy to harmonize Military and Civilian cultures.
+biis_2,I rarely feel conflicted about being both a citizen in the civilian world and a Service Member.
+biis_13,I relate better to a combined culture than to Military or Civilian culture alone.
+biis_3,I find it easy to balance both my Military and Civilian cultures.
+biis_10,I feel caught between the Military and Civilian cultures.
+biis_16,I do not blend my Military and Civilian cultures.
+biis_15,I feel part of a combined culture.
+biis_11,I cannot ignore the Military or Civilian side of me.
+biis_9,I feel like someone moving between two cultures.
+biis_12,I feel like a Service Member and a Civilian at the same time.
+biis_5,I feel torn between Military and Civilian cultures.
+attention_check_biis,Please answer this question with the response Somewhat Agree.
+biis_14,I feel like a Service Member-Civilian.
+biis_4,I do not feel trapped between Military culture and Civilian culture.
+biis_17,I keep Military and Civilian cultures separate.
+biis_6,Being both a citizen in the civilian world and a Service Member means having two cultural forces pulling on me at the same time.
+biis_7,I feel that my Military and Civilian cultures are incompatible.
+biis_8,I feel conflicted between the Military and Civilian ways of doing things.
+difi_us_slide_1,"The diagram below is designed to represent your relationship with a group (""American""). Please indicate your relationship by clicking and dragging the smaller ""Me"" circle to the position that best captures your relationship with this group. - Distance"
+difi_us_slide_2,"The diagram below is designed to represent your relationship with a group (""American""). Please indicate your relationship by clicking and dragging the smaller ""Me"" circle to the position that best captures your relationship with this group. - Overlap"
+difi_us,"The diagram below is designed to represent your relationship with a group (""American""). Please indicate your relationship by selecting the choice where the smaller ""Me"" circle is in the position that best captures your relationship with this group."
+civilian_commit_1,I am clear about what being a civilian means to me.
+civilian_commit_2,I understand how I feel about being a civilian.
+civilian_commit_3,I know what being a civilian means to me.
+civilian_commit_4,I have a clear sense of what being a civilian means to me.
+wis_interdependent11,My fate and future are bound up with that of veterans.
+wis_private_1,I am happy that I am a veteran.
+wis_family_19,I wish I could go back into the military.
+wis_private_4,I believe that I have many strengths due to my military service.
+wis_skills_30,The work I do at home has more meaning for me than the work I did for the military.
+wis_connection_15,During my time within my unit in the military I always felt like an outsider.
+wis_private_5,I often regret my military service.
+wis_centrality_24,Being a veteran is not a major factor in my social relationships.
+wis_private_7,I am ashamed of my military service.
+wis_connection_17,Throughout my time in the military I resisted believing in military rituals and norms.
+wis_skills_31,I miss the job related aspects of my time in the military.
+wis_interdependent10,I become friends with other veterans more quickly than with non-veterans.
+wis_private_2,I feel good about my military service.
+wis_private_6,I am proud to have served in the military.
+wis_public_28,Society views veterans as an asset.
+wis_public_27,"In general, other groups view veterans in a positive manner."
+wis_interdependent12,"Regarding other veterans, it is accurate to say, “United we stand, divided we fall.”"
+wis_family_18,I miss my military friends.
+wis_public_26,"In general, others respect veterans and members of the military."
+wis_interdependent_9,When I meet other veterans I can trust them more quickly than other people.
+wis_skills_29,I appreciate the skills I learned in the military.
+wis_family_20,By leaving the military I lost a family.
+wis_centrality_23,Being a veteran is unimportant to my sense of what kind of person I am.
+wis_centrality_21,"Overall, having served in the military has very little to do with how I feel about myself."
+wis_interdependent13,The most important things that have happened in my life involve my military service.
+attention_check_wis,"For this question, respond with the answer Agree."
+wis_centrality_22,"In general, being a veteran is an important part of my self-image."
+wis_interdependent_8,Only other veterans can truly understand me.
+wis_connection_16,I never felt emotionally connected to my military unit.
+wis_public_25,"Overall, veterans are highly thought of."
+wis_interdependent14,"When I talk about the military, I usually say ‘we’ rather than ‘they.’"
+wis_private_3,I am proud of the things that veterans have accomplished.
+scc_1,My beliefs about myself often conflict with one another.
+scc_2,On one day I might have one opinion of myself and on another day I might have a different opinion.
+scc_3,I spend a lot of time wondering about what kind of person I really am.
+scc_4,Sometimes I feel that I am not really the person that I appear to be.
+scc_5,"When I think about the kind of person I have been in the past, I'm not sure what I was really like."
+scc_6,I seldom experience conflict between the different aspects of my personality.
+scc_7,Sometimes I think I know other people better than I know myself.
+scc_8,My beliefs about myself seem to change very frequently.
+scc_9,"If I were asked to describe my personality, my description might end up being different from one day to another day."
+scc_10,"Even if I wanted to, I don't think I would tell someone what I'm really like."
+scc_11,"In general, I have a clear sense of who I am and what I am."
+scc_12,It is often hard for me to make up my mind about things because I don't really know what I want.
+honeypot2_1,Did you serve in a military unit? - Yes
+mcarm_5,I feel I don’t belong anywhere.
+mcarm_12,"Despite all my experience in the military, I am undervalued by civilians."
+mcarm_3,I have a sense of purpose.
+mcarm_9,I find it difficult to ask for help if I’m struggling.
+mcarm_20,I am a flexible person and I don’t mind changing to suit others when required.
+mcarm_21,Some of my military habits cause problems for me.
+mcarm_11,Civilians seem to be concerned with trivial matters.
+mcarm_8,I would never seek help from a mental health professional.
+mcarm_2,I have interests and hobbies that are enjoyable or meaningful.
+mcarm_6,"Outside of the military, I have found people that I connect with through shared interests or beliefs."
+mcarm_19,I find it difficult to change once I have a set routine.
+mcarm_16,The military broke me and then kicked me out.
+mcarm_10,I know how to access professional support for my health.
+mcarm_1,"I have things that give me a sense of purpose, outside of paid employment."
+mcarm_13,Civilians are disrespectful and rude.
+mcarm_4,I am fulfilled.
+mcarm_14,I don’t think society puts much value on military service and experience.
+mcarm_18,I am more regimented than flexible.
+mcarm_17,I have a lot of regrets about my service.
+mcarm_7,I would ask for help if I needed it.
+mcarm_15,I’m angry about the way I was treated during my service.
+m2cq_1,Dealing with people you do not know well (such as acquaintances or strangers)?
+m2cq_2,Making new friends?
+m2cq_3,Keeping up friendships with people who have no military experience?
+m2cq_4,Keeping up friendships with people who have military experiences (including friends who are active duty or veterans)?
+m2cq_5,"Getting along with relatives (such as siblings, parents, grandparents, in-laws and children not living at home)?"
+m2cq_6,"Getting along with your spouse or partner (such as communicating, doing things together, enjoying his or her company)?"
+m2cq_7,"Getting along with your child or children (such as communicating, doing things together, enjoying his or her company)?"
+m2cq_8,Finding or keeping a job (paid or nonpaid or self-employment)?
+m2cq_9,Doing what you need to do for work or school?
+m2cq_10,"Taking care of your chores at home (such as housework, yard work, cooking, cleaning, shopping, errands)?"
+m2cq_11,"Taking care of your health (such as exercising, sleeping, bathing, eating well, taking medications as needed)?"
+m2cq_12,Enjoying or making good use of free time?
+m2cq_13,"Taking part in community events or celebrations (for example, festivals, PTA meetings, religious or other activities)?"
+m2cq_14,Feeling like you belong in “civilian” society?
+m2cq_15,Confiding or sharing personal thoughts and feelings?
+m2cq_16,Finding meaning or purpose in life?
+honeypot3,What is 2 + 2?
+race_1,What categories describe you? (select all that apply) - asian
+race_2,What categories describe you? (select all that apply) - native
+race_3,What categories describe you? (select all that apply) - black
+race_4,What categories describe you? (select all that apply) - latino
+race_5,What categories describe you? (select all that apply) - mena
+race_6,What categories describe you? (select all that apply) - pacific
+race_7,What categories describe you? (select all that apply) - white
+race_8,What categories describe you? (select all that apply) - other
+sex,What is your sex/gender? - Selected Choice
+sex_4_TEXT,What is your sex/gender? - Other - Text
+sexual_orientation,What is your sexual orientation? - Selected Choice
+sexual_orientation_6_TEXT,What is your sexual orientation? - A sexuality not listed above - Text
+religious,Do you consider yourself religious/spiritual?
+worship,"How often do you attend a place of worship? (e.g., church, temple, mosque)"
+politics,What best describes your political affiliation?
+marital,What is your marital status?
+employment_1,What is your employment status? (select all that apply) - Full-Time
+employment_2,What is your employment status? (select all that apply) - Part-Time
+employment_3,What is your employment status? (select all that apply) - Irregular
+employment_4,What is your employment status? (select all that apply) - Unemployed
+employment_5,What is your employment status? (select all that apply) - Retired
+employment_6,What is your employment status? (select all that apply) - Student
+education,What is the highest level of school you have completed?
+job_like_military,How similar is your current job to the military?
+SC0,Score
+opp,opp
+ID,ID
+rid,rid
+RISN,RISN
+transaction_id,transaction_id
+SVID,SVID
+Q_BallotBoxStuffing,Q_BallotBoxStuffing
+gc,gc
+term,term
+V,V
+Response Type,Response Type
+LS,LS
+PS,PS

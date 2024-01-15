@@ -1,0 +1,132 @@
+---
+title: "Directed Acyclical Graphs"
+output: html_document
+date: "2024-01-14"
+---
+
+```{r setup, include = FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+
+library(dagitty)
+library(ggdag)
+
+```
+
+
+
+
+Directed acyclical graphs (DAGs) encode hypotheses about the relationship between variables into graphs. DAGs can be analyzed to determine the appropriate variables to include in a model in order to isolate the effect of interest from the effects of other variables. 
+
+My approach is to build several different DAGs, each of which represents a different general model. I will also build some DAGs that are appendages to or variables of the overall model.
+
+The point is to fit several plausible models, perhaps with different implications, or with some more parsimonious while others more detailed. 
+
+## Bivariate
+
+I am interested in the relationship between military identity and reintegration difficulty.
+
+This could be modeled as a normally distributed outcome that is a function of a linear input:
+
+$$ \text{y} \sim Normal(\mu, \sigma) \\ \mu = \beta x + \alpha$$
+
+```{r}
+
+dag_bivariate <- 
+  
+  dagify('RD' ~ 'Mil_ID',
+         exposure = 'Mil_ID', 
+         outcome = 'RD')
+
+
+ggdag::tidy_dagitty(dag_bivariate)
+```
+
+
+Add coordinates.
+
+``` {r}
+coordinates(dag_bivariate) <- list(
+  x = c(Mil_ID = 0, RD = 1),
+  y = c(Mil_ID = 1, RD = 1)
+)
+```
+
+Now plot the model.
+
+``` {r}
+ggdag(dag_bivariate)
+```
+
+
+## Mediation Model
+
+Now I will incorporate attitudes toward help seeking. In this case, I would expect "inconsistent mediation."
+
+$$ y \sim Normal(\mu, \sigma) \\ \mu_y = \beta_1 x_1 + \beta_2 m_1 + \alpha \\ 
+m_1 \sim Normal(\mu, \sigma) \\ \mu_{m} = \beta_1 x_1 + \alpha $$
+
+
+```{r}
+
+dag_mediation <- 
+  
+  dagify('RD' ~ 'Mil_ID' + 'HS',
+         'HS' ~ 'Mil_ID',
+         exposure = 'Mil_ID', 
+         outcome = 'RD')
+
+coordinates(dag_mediation) <- list(
+  x = c(Mil_ID = 0, RD = 1, HS = .5),
+  y = c(Mil_ID = 1, RD = 1, HS = 1.1)
+)
+ggdag::tidy_dagitty(dag_mediation)
+ggdag(dag_mediation) +
+  geom_dag_point(colour = 'white') +
+  geom_dag_edges() +
+  geom_dag_text(color = 'black', size = 6) +
+  theme_dag()
+```
+
+## Moderation Model
+
+When I first told my colleague about my "inconsistent mediation" thesis, he suggested what I really meant was moderation, not mediation. 
+
+The assumption would be that strength of military identity is not associated with attitudes toward seeking help. 
+
+
+```{r}
+
+dag_moderation <- 
+  
+  dagify('RD' ~ 'Mil_ID' + 'HS' + 'HSxMil_ID',
+         exposure = 'Mil_ID', 
+         outcome = 'RD')
+
+coordinates(dag_moderation) <- list(
+  x = c(Mil_ID = 0, RD = 1, HS = .25, HSxMil_ID = .5),
+  y = c(Mil_ID = 1, RD = 1, HS = 1.125, HSxMil_ID = 1.25)
+)
+ggdag::tidy_dagitty(dag_moderation)
+ggdag(dag_moderation) +   
+  geom_dag_point(colour = 'white') +
+  geom_dag_edges() +
+  geom_dag_text(color = 'black', size = 6) +
+  theme_dag()
+
+  
+```
+
+
+
+
+### Adjustment Sets
+``` {r}
+ggdag_adjustment_set(dag_1_basic) +
+ggplot2::labs(caption = 'Mil_ID = Military Identity; RD = Reintegration Difficulties; HS = Attitude toward help seeking')
+
+
+```
+
+
+
+`

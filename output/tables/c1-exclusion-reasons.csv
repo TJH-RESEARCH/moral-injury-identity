@@ -1,12 +1,8 @@
 exclusion_reason,n
-Not Excluded,207
-Straightlining,55
-Psychometric synonym/antonym inconsistency,25
-Average String,23
-Removed by survey host,15
-Failed bot check,12
-Even odd inconsistency,6
-Failed validity check,6
-Other inconsistency or improbability,6
-Failed instructed items,5
-Semantic Inconsistency,1
+Not Excluded,251
+Longstring,50
+Removed by Survey Host,42
+Failed validity checks,8
+Bots and Duplicates,6
+Pyschometrics Synonyms/Antonym Inconsistency,3
+Even-Odd Inconsistency,1

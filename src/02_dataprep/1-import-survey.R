@@ -36,11 +36,10 @@ data %>%
   count()
 
 # Incomplete responses.
-data %>% filter(Progress < 100) %>% print()
+data %>% filter(Progress < 100)
 
 # Survey ended early
-screened_out_reasons <-
-  data %>% 
+data %>% 
   filter(Progress == 100,
            term == 'air force warrant ' |
            term == 'attention check' |
@@ -55,11 +54,66 @@ screened_out_reasons <-
   count() %>% 
   arrange(desc(n))
 
-screened_out_reasons %>% print()
-screened_out_reasons %>% write_csv('output/screened_out_reasons.csv')
+# Qualtrics Scrubbed
+data %>% 
+  filter(Progress == 100,
+         term == 'Scrubbed' |
+         term == 'Scrubbed Out' |
+         term == 'scrubbed'
+         ) %>% 
+  group_by(term) %>% 
+  count() %>% 
+  arrange(desc(n))
 
 
-# Save a copy of retained results, including those labeled for removal during the first and second stage of data collection 
+# Previously Removed
+data %>% 
+  filter(Progress == 100,
+         term == 'Average String' |
+         term == 'Even odd inconsistency' |
+         term == 'Failed bot check' |
+         term == 'Failed validity check' |
+         term == 'Multivariate Outlier' |
+         term == 'Other inconsistency or improbability' |
+         term == 'Psychometric synonym/antonym inconsistency' |
+         term == 'Straightlining' |
+         term == 'Scrubbed' |
+         term == 'Scrubbed Out' |
+         term == 'scrubbed'
+         ) %>% 
+  group_by(term) %>% 
+  count() %>% 
+  arrange(desc(n))
+
+# Retained Results
+data %>% 
+  filter(Progress == 100,
+         is.na(term)
+  ) %>% 
+  group_by(term) %>% 
+  count()
+
+# Retained and Previously Removed Results
+data %>% 
+  filter(Progress == 100,
+         is.na(term) |
+         term == 'Average String' |
+         term == 'Even odd inconsistency' |
+         term == 'Failed bot check' |
+         term == 'Failed validity check' |
+         term == 'Multivariate Outlier' |
+         term == 'Other inconsistency or improbability' |
+         term == 'Psychometric synonym/antonym inconsistency' |
+         term == 'Straightlining' |
+         term == 'Scrubbed' |
+         term == 'Scrubbed Out' |
+         term == 'scrubbed'
+  ) %>% 
+  group_by(term) %>% 
+  count() %>% 
+  arrange(desc(n))
+
+# Save a copy of retained and previously removed
 data <-
   data %>% 
   filter(Progress == 100,
@@ -86,7 +140,4 @@ data <-
 
 if(exists('data')) message('Survey data imported')
   
-  
-rm(screened_out_reasons)
-
 # ---------------------------------------------------------------------------- #

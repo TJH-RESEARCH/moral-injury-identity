@@ -17,6 +17,7 @@ data <-
                 starts_with('military_exp') |
                 starts_with('military_family_') |
                 starts_with('mios_') | 
+                starts_with('pc_') | 
                 starts_with('race_') | 
                 starts_with('unmet_needs_'),
                 ~ dplyr::if_else(is.na(.), 0, .))) %>% 

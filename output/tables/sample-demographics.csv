@@ -25,6 +25,17 @@ Bachelors degree,61,0.2 %
 Masters degree,37,0.1 %
 Applied or professional doctorate,4,0 %
 Doctorate,2,0 %
+Retired,133,0.5 %
+Full Time,73,0.3 %
+Unemployed,21,0.1 %
+Part Time,17,0.1 %
+Irregular,3,0 %
+Student,3,0 %
+Multiple,1,0 %
+Married,157,0.6 %
+Divorced,43,0.2 %
+Never married,35,0.1 %
+Widowed,16,0.1 %
 military_exp_any,172,68.5 %
 military_exp_combat,70,27.9 %
 military_exp_noncombat,123,49 %
@@ -52,26 +63,26 @@ rank_o1_o3,15,6 %
 rank_o4_o6,9,3.6 %
 rank_w1_cw5,3,1.2 %
 service_era_cold_war,168,66.9 %
-service_era_korea,1,0.4 %
-service_era_multiple,154,61.4 %
-service_era_persian_gulf,73,29.1 %
-service_era_post_911,77,30.7 %
-service_era_post_wwii,0,0 %
-service_era_vietnam,98,39 %
-male,180,71.7 %
-female,71,28.3 %
-straight,231,92 %
-bisexual,10,4 %
-gay,8,3.2 %
-Other sexuality,2,0.8 %
-0 to 4 years of service,103,41 %
-5 to 9 years of service,93,37.1 %
-10 to 15 years of service,17,6.8 %
-15 to 20 years of service,3,1.2 %
-20+ years of service,35,13.9 %
-0 to 9  years since separation,32,12.7 %
-10 to 19  years since separation,37,14.7 %
-20 to 29  years since separation,39,15.5 %
-30 to 39  years since separation,51,20.3 %
-40 to 49 years since separation,41,16.3 %
-50+ years since separation,51,20.3 %
+Other sexuality,1,0.4 %
+0 to 4 years of service,154,61.4 %
+5 to 9 years of service,73,29.1 %
+10 to 15 years of service,77,30.7 %
+15 to 20 years of service,0,0 %
+20+ years of service,98,39 %
+0 to 9  years since separation,180,71.7 %
+10 to 19  years since separation,71,28.3 %
+20 to 29  years since separation,231,92 %
+30 to 39  years since separation,10,4 %
+40 to 49 years since separation,8,3.2 %
+50+ years since separation,2,0.8 %
+"(0,4.9]",103,41 %
+"(4.9,9.9]",93,37.1 %
+"(9.9,14.9]",17,6.8 %
+"(14.9,19.9]",3,1.2 %
+"(19.9,30]",35,13.9 %
+"(-1,9.9]",32,12.7 %
+"(9.9,19.9]",37,14.7 %
+"(19.9,29.9]",39,15.5 %
+"(29.9,39.9]",51,20.3 %
+"(39.9,49.9]",41,16.3 %
+"(49.9,100]",51,20.3 %

@@ -7,12 +7,6 @@
 exclusions <-
   data_scrubbed_researcher %>% 
   bind_rows(
-  anti_join(data_scrubbed_qualtrics,
-            data_scrubbed_researcher,
-            by = c('ResponseId' = 'ResponseId')) %>% 
-  mutate(exclusion_reason = 'Removed by survey host')
-  ) %>% 
-  bind_rows(
   data %>% 
     mutate(exclusion_reason = 'Not Excluded')
   ) %>% 

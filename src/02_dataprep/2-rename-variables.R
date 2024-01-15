@@ -59,12 +59,12 @@ data <-
         mios_event_type_self = mios_event_type_1,
         mios_event_type_other = mios_event_type_2,
         mios_event_type_betrayal = mios_event_type_3,
-        mios_ptsd_symptoms_nightmares= mios_ptsd_symptoms_1,
-        mios_ptsd_symptoms_avoid = mios_ptsd_symptoms_2,
-        mios_ptsd_symptoms_vigilant = mios_ptsd_symptoms_3,
-        mios_ptsd_symptoms_numb = mios_ptsd_symptoms_4,
-        mios_ptsd_symptoms_guilty = mios_ptsd_symptoms_5,
-        mios_ptsd_symptoms_none = mios_ptsd_symptoms_0,
+        pc_ptsd_symptoms_nightmares= mios_ptsd_symptoms_1,
+        pc_ptsd_symptoms_avoid = mios_ptsd_symptoms_2,
+        pc_ptsd_symptoms_vigilant = mios_ptsd_symptoms_3,
+        pc_ptsd_symptoms_numb = mios_ptsd_symptoms_4,
+        pc_ptsd_symptoms_guilty = mios_ptsd_symptoms_5,
+        pc_ptsd_symptoms_none = mios_ptsd_symptoms_0,
         
         ## Race
         race_asian = race_1,

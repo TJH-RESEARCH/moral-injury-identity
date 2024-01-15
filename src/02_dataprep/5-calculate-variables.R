@@ -45,6 +45,7 @@ data <-
     discharge_reason = if_else(is.na(discharge_reason), 'Not yet discharged', discharge_reason),
     discharge_other = ifelse(discharge_reason == 'Other', 1, 0),
     discharge_medical = ifelse(discharge_reason == 'Medical Discharge', 1, 0),
+    discharge_unexpected = ifelse(discharge_reason == 'Medical Discharge' | discharge_reason == 'Other', 1, 0),
 
 ## Education -------------------------------------------------------------
     education = factor(education, 
@@ -279,6 +280,9 @@ data <-
                                      'MIOS and PTSD Event')),
 
 
+# Dichotomize PTSD Symptoms -----------------------------------------------
+  
+       pc_ptsd_symptoms_any = (pc_ptsd_symptoms_none - 1) * -1,
        unmet_needs_any = ifelse(unmet_needs_none == 1, 0, 1)
       
 

@@ -1,5 +1,5 @@
 ---
-title: "Directed Acyclical Graphs"
+title: "Directed Acyclical Graphs: Military Identity and Post-Service Readjustment - The Role of Help Seeking Attitudes and Regimentation"
 output: html_document
 date: "2024-01-14"
 ---
@@ -27,7 +27,7 @@ I am interested in the relationship between military identity and reintegration 
 
 This could be modeled as a normally distributed outcome that is a function of a linear input:
 
-$$ \text{y} \sim Normal(\mu, \sigma) \\ \mu = \beta x + \alpha$$
+$$ y_i \sim Normal(\mu_i, \sigma) \\ \mu_i = \alpha + \beta x_i $$
 
 ```{r}
 
@@ -62,8 +62,8 @@ ggdag(dag_bivariate)
 
 Now I will incorporate attitudes toward help seeking. In this case, I would expect "inconsistent mediation."
 
-$$ y \sim Normal(\mu, \sigma) \\ \mu_y = \beta_1 x_1 + \beta_2 m_1 + \alpha \\ 
-m_1 \sim Normal(\mu, \sigma) \\ \mu_{m} = \beta_1 x_1 + \alpha $$
+$$ y_i \sim Normal(\mu_i, \sigma) \\ \mu_i = \alpha + \beta_1 x_i + \beta_2 m_i \\ 
+m_i \sim Normal(\mu_i, \sigma) \\ \mu_{i} = \alpha + \beta_1 x_i $$
 
 
 ```{r}
@@ -91,8 +91,17 @@ ggdag(dag_mediation) +
 
 When I first told my colleague about my "inconsistent mediation" thesis, he suggested what I really meant was moderation, not mediation. 
 
-The assumption would be that strength of military identity is not associated with attitudes toward seeking help. 
+The assumption would be that strength of military identity is not associated with attitudes toward seeking help. From, X:
 
+> "A potential moderating variable, $Mo_i$, which is either some stable individual difference variable, assumed not to be affected by the treatment, or else some measure of the context or situation under which the treatment is delivered. We presume it is measured prior to the delivery of the treatment, and therefore, given random assignment to $X_i$, it is assumed that $Mo_i$ and $X_i$ are independent of each other (Muller et al, 2005, p. 853)."
+
+Is help seeking a moderator? An individual condition that is not associated with military identity, but that would affect the strength of the associated between military identity and reintegration difficulty?
+
+Or is it just a variable that should be controlled for. That is, are military identity and help seeking not associated at all?
+
+Theoretically, I do not think this makes sense. 
+
+$$ y_i \sim Normal(\mu_i, \sigma) \\ \mu_i = \alpha + \beta_1 x_i + \beta_2 m_i + \beta_3 x_i m_i $$
 
 ```{r}
 
@@ -116,8 +125,60 @@ ggdag(dag_moderation) +
   
 ```
 
+## Dual Mediation
 
 
+```{r}
+
+dag_mediation_dual <- 
+   
+  dagify('RD' ~ 'Mil_ID' + 'HS' + 'Reg',
+         'HS' ~ 'Mil_ID',
+         'Reg' ~ 'Mil_ID',
+         exposure = 'Mil_ID', 
+         outcome = 'RD')
+
+coordinates(dag_mediation_dual) <- list(
+  x = c(Mil_ID = 0, RD = 1, HS = .5, Reg = .5),
+  y = c(Mil_ID = 1, RD = 1, HS = 1.1, Reg =1.2)
+)
+ggdag::tidy_dagitty(dag_mediation_dual)
+ggdag(dag_mediation_dual) +
+  geom_dag_point(colour = 'white') +
+  geom_dag_edges() +
+  geom_dag_text(color = 'black', size = 6) +
+  theme_dag()
+```
+
+
+
+
+
+## Dual Mediation
+
+
+```{r}
+
+dag_antecedents <- 
+   
+  dagify('RD' ~ 'Race' + 'Sex' + 'Era' + 'Officer' + 'Age',
+         'Mil_ID' ~ 'Race' + 'Sex' + 'Era' + 'Officer' + 'Age',
+         exposure = 'Mil_ID', 
+         outcome = 'RD')
+
+
+coordinates(dag_antecedents) <- list(
+  x = c(Mil_ID = 0, RD = 1, HS =  .5, Reg = .5, Race = .75, Sex = .25, Era = .3, Officer = .7, Age = .5),
+  y = c(Mil_ID = 1, RD = 1, HS = 1.1, Reg = 1.2, Race = .87, Sex = .87, Era = .91, Officer =.91, Age = .95)
+)
+
+ggdag::tidy_dagitty(dag_antecedents)
+ggdag(dag_antecedents) +
+  geom_dag_point(colour = 'white') +
+  geom_dag_edges() +
+  geom_dag_text(color = 'black', size = 6) +
+  theme_dag()
+```
 
 ### Adjustment Sets
 ``` {r}

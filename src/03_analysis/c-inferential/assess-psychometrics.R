@@ -19,14 +19,6 @@ results_biis <-
 results_biis  %>% print()
 
 
-# M2C-Q -------------------------------------------------------------------
-results_m2cq <-
-  data %>% 
-  select(starts_with('m2c') & !ends_with('mean') & !ends_with('category')) %>%
-  psych::alpha()
-
-results_m2cq %>% print()
-
 # Moral Injury ------------------------------------------------------------
 results_mios <- data %>% select(mios_1:mios_14) %>% psych::alpha()
 
@@ -35,25 +27,22 @@ results_mios %>% print()
 cronbachs_alpha <-
   tibble(
     measure = c('BIIS-2',
-                'M2C-Q',
                 'MIOS'),
     variable = c('Identity Dissonance', 
-                 'Reintegration Challenges',
                  'Moral Injury Symptoms'),
     cronbachs_alpha =   c(
       round(results_biis$total[,'raw_alpha'], 2), 
-      round(results_m2cq$total[,'raw_alpha'], 2), 
       round(results_mios$total[,'raw_alpha'], 2))
   )
+cronbachs_alpha
 
-# WIS Ce -------------------------------------------------------------------
+# WIS Centrality -------------------------------------------------------------------
 results_wis_centrality <-
   data %>% 
   select(starts_with('wis_centr') & !ends_with('total')) %>%
   psych::alpha()
 
 results_wis_centrality %>% print()
-
 
 # WIS Connection -------------------------------------------------------------------
 results_wis_connection <-
@@ -62,14 +51,6 @@ results_wis_connection <-
   psych::alpha()
 
 results_wis_connection %>% print()
-
-# WIS Family -------------------------------------------------------------------
-results_wis_family <-
-  data %>% 
-  select(starts_with('wis_family') & !ends_with('total')) %>%
-  psych::alpha()
-
-results_wis_family %>% print()
 
 # WIS Interdependence -------------------------------------------------------------------
 results_wis_interdependent <-

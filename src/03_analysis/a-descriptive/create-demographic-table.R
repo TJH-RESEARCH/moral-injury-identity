@@ -139,24 +139,53 @@ demographic_table[6,1] <- "75 years and older"
 demographic_table[13,1] <- "Does not recieve VA Disability"
 demographic_table[14,1] <- "Recieves VA Disability"
 
-demographic_table[65,1] <- "Other sexuality"
+demographic_table[39,1] <- "Prior combat deployment"
+demographic_table[40,1] <- "Prior non-combat deployment"
+demographic_table[42,1] <- "Prior peacekeeping deployment"
+demographic_table[43,1] <- "Supported combat operations"
 
-demographic_table[66,1] <- "0 to 4 years of service"
-demographic_table[67,1] <- "5 to 9 years of service"
-demographic_table[68,1] <- "10 to 15 years of service"
-demographic_table[69,1] <- "15 to 20 years of service"
-demographic_table[70,1] <- "20+ years of service"
+demographic_table[44,1] <- "Has a close family member who served"
+demographic_table[45,1] <- "Has a child who serves or served"
+demographic_table[46,1] <- "Does not have a close family member who served"
+demographic_table[47,1] <- "Has an other close family member who served"
+demographic_table[48,1] <- "Has a parent who served"
+demographic_table[49,1] <- "Has a sibling who serves or served"
+demographic_table[50,1] <- "Has a spouse who serves or served"
 
-demographic_table[71,1] <- "0 to 9  years since separation"
-demographic_table[72,1] <- "10 to 19  years since separation"
-demographic_table[73,1] <- "20 to 29  years since separation"
-demographic_table[74,1] <- "30 to 39  years since separation"
-demographic_table[75,1] <- "40 to 49 years since separation"
-demographic_table[76,1] <- "50+ years since separation"
+demographic_table[58,1] <- "E-1 to E-3"
+demographic_table[59,1] <- "E-4 to E-6"
+demographic_table[60,1] <- "E-7 to E-9"
+demographic_table[61,1] <- "O-1 to O-3"
+demographic_table[62,1] <- "O-4 to O-6"
+demographic_table[63,1] <- "W-1 to CW-5"
+
+demographic_table[64,1] <- "Cold War"
+demographic_table[65,1] <- "Korea"
+demographic_table[66,1] <- "Multiple eras"
+demographic_table[67,1] <- "Persian Gulf (pre-9/11)"
+demographic_table[68,1] <- "Persian Gulf (post-9/11)"
+demographic_table[69,1] <- "Post-WWII"
+demographic_table[70,1] <- "Vietnam"
+
+demographic_table[76,1] <- "Other sexuality"
+
+demographic_table[77,1] <- "0 to 4 years of service"
+demographic_table[78,1] <- "5 to 9 years of service"
+demographic_table[79,1] <- "10 to 15 years of service"
+demographic_table[80,1] <- "15 to 20 years of service"
+demographic_table[81,1] <- "20+ years of service"
+
+demographic_table[82,1] <- "0 to 9  years since separation"
+demographic_table[83,1] <- "10 to 19  years since separation"
+demographic_table[84,1] <- "20 to 29  years since separation"
+demographic_table[85,1] <- "30 to 39  years since separation"
+demographic_table[86,1] <- "40 to 49 years since separation"
+demographic_table[87,1] <- "50+ years since separation"
 
 
 # Print -------------------------------------------------------------------
-demographic_table %>% print()
+demographic_table %>% print(n = 100)
+
 demographic_table %>% 
   kableExtra::kbl(
     caption = "Table 1: Sample Demographics",

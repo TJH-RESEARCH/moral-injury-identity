@@ -45,7 +45,17 @@ source(here::here('src/02_dataprep/reorder-data.R'))
 message("Survey processing complete.")
 
 
-# DESCRIPTIVE ANALYSIS --------------------------------------------------------
 source(here::here('src/03_analysis/a-descriptive/sample-size.R'))
+
+
+# ASSESS PSYCHOMETRICS ----------------------------------------------------
+source(here::here('src/03_analysis/a-inferential/create-demographic-table.R'))
+
+
+# DESCRIPTIVE ANALYSIS --------------------------------------------------------
 source(here::here('src/03_analysis/a-descriptive/create-demographic-table.R'))
+
+# INFERENTIAL ANALYSIS ----------------------------------------------------
+
+
 

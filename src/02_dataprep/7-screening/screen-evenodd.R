@@ -1,58 +1,69 @@
 
-data_start <- data
+source(here::here('src/01_config/functions/function-calculate-evenodd.R'))
+
+
+
+data_start_main <- data_main
+data_start_strict <- data_strict
+data_start_lenient <- data_lenient
+
 
 # Screen:Even-Odd Consistency ------------------------------------------------
+## Anything above 0 indicates no to negative correlation on even vs odd questions
+## Of the same scales
 
-suppressWarnings({
-  
-  data <-
-    data %>% 
-    select_scales() %>% 
-    reorder_data_scales() %>% 
-    transmute(evenodd = 
-                careless::evenodd(x =., 
-                                  # nItems in each subscale in order:
-                                  factors = c(
-                                    10, # BIIS Harmony
-                                    7,  # BIIS Blended
-                                    4,  # Civilian Commitment
-                                    16, # M2C-Q
-                                    6,  # MCARM Purpose 
-                                    4,  # MCARM Help
-                                    3,  # MCARM Civilians
-                                    3,  # MCARM Resentment
-                                    5,  # MCARM Regimentation
-                                    7,  # MIOS Shame
-                                    7,  # MIOS Trust
-                                    12, # SCC 
-                                    7,  # WIS Private Regard
-                                    7,  # WIS Interdependent
-                                    3,  # WIS Connection
-                                    3,  # WIS Family
-                                    4,  # WIS Centrality
-                                    4,  # WIS Public Regard
-                                    3)  # WIS Skills
-                )) %>% bind_cols(data) # Add the results back to the original data. 
-}) # End warning suppression. ℹ In argument: `evenodd = careless::evenodd(...)`.Caused by warning in `careless::evenodd()`: ! Computation of even-odd has changed for consistency of interpretation with other indices. This change occurred in version 1.2.0. A higher score now indicates a greater likelihood of careless responding. If you have previously written code to cut score based on the output of
+data_main <-
+  data_main %>% 
+  calculate_evenodd()
+
+data_strict <-
+  data_strict %>% 
+  calculate_evenodd()
+
+data_lenient <-
+  data_lenient %>% 
+  calculate_evenodd()
 
 
-# The most conservative even-odd cut, to make the "low bar approach" is anything
-# above 0. This indicates going in the opposite direction of everyone else
-data %>% ggplot(aes(evenodd)) + geom_histogram()
-data <- data %>% filter(evenodd < 0)
+# Visualize -------------------------------------------------------------------------
+(plot_main_evenodd <- data_main %>% ggplot(aes(evenodd)) + geom_histogram())
+(plot_lenient_evenodd <- data_lenient %>% ggplot(aes(evenodd)) + geom_histogram())
+(plot_strict_evenodd <- data_strict %>% ggplot(aes(evenodd)) + geom_histogram())
+
+# Save Plots --------------------------------------------------------------
+ggsave(here::here('output/figure/plot_strict_evenodd.jpeg'),plot = plot_strict_evenodd)
+ggsave(here::here('output/figure/plot_main_evenodd.jpeg'),plot = plot_main_evenodd)
+ggsave(here::here('output/figure/plot_lenient_evenodd.jpeg'),plot = plot_lenient_evenodd)
+
+rm(plot_lenient_evenodd, plot_main_evenodd, plot_strict_evenodd)
 
 
+
+# Filter ------------------------------------------------------------------
+data_main <- data_main %>% filter(evenodd < 0)
+data_lenient <- data_lenient %>% filter(evenodd < 0)
+data_strict <- data_strict %>% filter(evenodd < -0.4)
 
 
 
 # Label Exclusion Reasons -------------------------------------------------
 
-data_new_exclusions <- 
-  anti_join(data_start, data, by = c('ResponseId' = 'ResponseId')) %>% 
-  mutate(exclusion_reason = 'Even-Odd Inconsistency')
+data_exclusions_main <-
+  update_exclusions(data_start = data_start_main,
+                    data = data_main,
+                    data_exclusions = data_exclusions_main,
+                    exclusion_reason_string = 'Even-Odd Inconsistency')
 
-data_scrubbed_researcher <-
-  data_scrubbed_researcher %>% 
-  bind_rows(data_new_exclusions)
+data_exclusions_strict <-
+  update_exclusions(data_start = data_start_strict,
+                    data = data_strict,
+                    data_exclusions = data_exclusions_strict,
+                    exclusion_reason_string = 'Even-Odd Inconsistency')
 
-rm(data_new_exclusions, data_start)
+data_exclusions_lenient <-
+  update_exclusions(data_start = data_start_lenient,
+                    data = data_lenient,
+                    data_exclusions = data_exclusions_lenient,
+                    exclusion_reason_string = 'Even-Odd Inconsistency')
+
+rm(data_start_main, data_start_strict, data_start_lenient)

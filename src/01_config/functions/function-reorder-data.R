@@ -3,9 +3,8 @@
 
 
 ## Reorder items to be sequential per unidimensional measure ------------------
-data_scales_reordered <- 
   
-reorder_data_scales <- function(data_scales){
+reorder_data <- function(data_scales){
   data_scales %>% 
   select(
     biis_1, biis_2, biis_3, biis_4, biis_5, biis_6, biis_7, biis_8,

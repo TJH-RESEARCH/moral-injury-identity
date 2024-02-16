@@ -1,28 +1,59 @@
 
-
+# Attention checks: 2 items
 
 data_start <- data
 
 
-data <-
+# Cutoffs -----------------------------------------------------------------
+attention_cutoff_main <- 2
+attention_cutoff_robust <- 1
+
+
+# Filter ------------------------------------------------------------------
+data_main <-
   data %>% 
   filter(    
-    attention_check_biis == 1,
-    attention_check_wis == 1,
+    attention_check_biis + attention_check_wis >= attention_cutoff_main
 )
+
+data_lenient <-
+  data %>% 
+  filter(    
+    attention_check_biis + attention_check_wis >= attention_cutoff_robust
+)
+
+data_strict <-
+  data %>% 
+  filter(    
+    attention_check_biis + attention_check_wis == attention_cutoff_main
+  )
+
+data_simple <-
+  data %>% 
+  filter(    
+    attention_check_biis + attention_check_wis >= attention_cutoff_robust
+  )
 
 
 # Label Exclusion Reasons -------------------------------------------------
 
-data_new_exclusions <- 
-  anti_join(data_start, data, by = c('ResponseId' = 'ResponseId')) %>% 
-  mutate(exclusion_reason = 'Failed attention checks')
+data_exclusions_main <-
+  update_exclusions(data_start, data_main, data_exclusions, 
+                        exclusion_reason_string = 'Failed attention check')
 
-data_scrubbed_researcher <-
-  data_scrubbed_researcher %>% 
-  bind_rows(data_new_exclusions)
+data_exclusions_lenient <-
+  update_exclusions(data_start, data_strict, data_exclusions, 
+                        exclusion_reason_string = 'Failed attention check')
 
-rm(data_new_exclusions, data_start)
+data_exclusions_strict <-
+  update_exclusions(data_start, data_lenient, data_exclusions, 
+                        exclusion_reason_string = 'Failed attention check')
+
+data_exclusions_simple <-
+  update_exclusions(data_start, data_simple, data_exclusions, 
+                        exclusion_reason_string = 'Failed attention check')
 
 
 
+
+rm(attention_cutoff_main, attention_cutoff_robust)

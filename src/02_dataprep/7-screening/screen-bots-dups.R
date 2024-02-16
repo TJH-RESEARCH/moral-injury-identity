@@ -1,3 +1,4 @@
+# Honeypot quesitons; Qualtrics bot, fraud, and duplicates metrics
 
 data_start <- data
 
@@ -21,12 +22,8 @@ data <-
 
 # Label Exclusion Reasons -------------------------------------------------
 
-data_new_exclusions <- 
-  anti_join(data_start, data, by = c('ResponseId' = 'ResponseId')) %>% 
-  mutate(exclusion_reason = 'Bots and Duplicates')
-
-data_scrubbed_researcher <-
-  data_scrubbed_researcher %>% 
-  bind_rows(data_new_exclusions)
-
-rm(data_new_exclusions, data_start)
+data_exclusions <-
+  update_exclusions(data_start,
+                    data = data,
+                    data_exclusions = data_exclusions,
+                    exclusion_reason_string = 'Bots and Duplicates')

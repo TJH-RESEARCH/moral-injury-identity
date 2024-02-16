@@ -1,50 +1,81 @@
 
+source(here::here('src/01_config/functions/function-calculate-longstring.R'))
 
-data_start <- data
+data_start_main <- data_main
+data_start_strict <- data_strict
+data_start_lenient <- data_lenient
+
+
+# Longstring by scale
+# BIIS = 17 items: 13 (75%) - 15 (90%) - 17 (100%)
+biis_longstring_cut_main <- round(17 * .9, 0)
+biis_longstring_cut_strict <- round(17 * .75, 0)
+biis_longstring_cut_lenient <- 17
+
+# MCARM = 21 items: 16 (75%) - 19 (90%) - 21 (100%)
+mcarm_longstring_cut_main <- round(16 * .9, 0)
+mcarm_longstring_cut_strict <- round(19 * .75, 0)
+mcarm_longstring_cut_lenient <- 21
+
+# SCC = 12 items: 9 (75%) - 11 (90%) - 12 (100%)
+scc_longstring_cut_main <- round(12 * .9, 0)
+scc_longstring_cut_strict <- round(12 * .75, 0)
+scc_longstring_cut_lenient <- 12
 
 
 # Screen: Longstring ----------------------------------------------------------------
 ## Now screen the really obvious and aggregriuos instances of straightlining, 
 ## which is the main threat on an online survey, along with answering in a random pattern
 
-data <- data %>% calculate_longstring()
+data_main <-  
+  data_main %>% 
+  calculate_longstring() %>% 
+  screen_longstring(biis_cut = biis_longstring_cut_main, 
+                    mcarm_cut = mcarm_longstring_cut_main, 
+                    scc_cut = scc_longstring_cut_main)
 
+data_strict <- 
+  data_strict %>% 
+  calculate_longstring() %>% 
+  screen_longstring(biis_cut = biis_longstring_cut_strict, 
+                    mcarm_cut = mcarm_longstring_cut_strict, 
+                    scc_cut = scc_longstring_cut_strict)
 
-## Straightlined the MIOS with score higher more than 0
-data <-
-  data %>% 
-  filter(longstr_mios == 14, mios_total == 0) %>% 
-  bind_rows(data %>% filter(longstr_mios != 14))
-
-## Straightlined the M2CQ with a score more than 0
-data <-
-  data %>% 
-  filter(longstr_m2cq == 16, m2cq_mean == 0) %>% 
-  bind_rows(data %>% filter(longstr_m2cq != 16))
-
-
-data <-
-  data %>% 
-  filter(
-    ## Longstring by scale
-    longstr_reverse_biis < 17,         # BIIS = 17 items total
-    longstr_no_reverse_biis < 17,
-    longstr_reverse_mcarm < 19,        # MCARM = 21 items - <19
-    longstr_no_reverse_mcarm < 19,
-    longstr_reverse_scc < 12,          # SCC = 12 items - <10
-    longstr_no_reverse_scc < 12)
-
-
+data_lenient <- 
+  data_lenient %>% 
+  calculate_longstring() %>% 
+  screen_longstring(biis_cut = biis_longstring_cut_lenient, 
+                    mcarm_cut = mcarm_longstring_cut_lenient, 
+                    scc_cut = scc_longstring_cut_lenient)
 
 
 # Label Exclusion Reasons -------------------------------------------------
 
-data_new_exclusions <- 
-  anti_join(data_start, data, by = c('ResponseId' = 'ResponseId')) %>% 
-  mutate(exclusion_reason = 'Longstring')
+data_exclusions_main <-
+  update_exclusions(data_start = data_start_main,
+                        data = data_main,
+                        data_exclusions = data_exclusions,
+                        exclusion_reason_string = 'Invariance (Long String)')
 
-data_scrubbed_researcher <-
-  data_scrubbed_researcher %>% 
-  bind_rows(data_new_exclusions)
+data_exclusions_strict <-
+  update_exclusions(data_start = data_start_strict,
+                        data = data_strict,
+                        data_exclusions = data_exclusions,
+                        exclusion_reason_string = 'Invariance (Long String)')
 
-rm(data_new_exclusions, data_start)
+data_exclusions_lenient <-
+  update_exclusions(data_start = data_start_lenient,
+                        data = data_lenient,
+                        data_exclusions = data_exclusions,
+                        exclusion_reason_string = 'Invariance (Long String)')
+
+
+
+
+# clean up environment ------------------------------------------------------------
+
+rm(biis_longstring_cut_lenient, biis_longstring_cut_main, biis_longstring_cut_strict,
+    mcarm_longstring_cut_lenient, mcarm_longstring_cut_strict, mcarm_longstring_cut_main,
+   scc_longstring_cut_lenient, scc_longstring_cut_main, scc_longstring_cut_strict,
+   data_start_main, data_start_strict, data_start_lenient)
+

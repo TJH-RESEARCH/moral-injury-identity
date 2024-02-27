@@ -1,0 +1,655 @@
+---
+title: "Directed Acyclical Graphs: "
+output: html_document
+date: "2024-01-14"
+---
+
+```{r setup, echo = FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+
+library(dagitty)
+library(ggdag)
+
+```
+
+
+## 1. Bivariate
+
+### 1a. Bivariate: Loss Outcome
+
+```{r, echo = FALSE}
+
+dag_loss_bivariate <- 
+  
+  dagify('Loss' ~ 'MI',
+         exposure = 'MI', 
+         outcome = 'Loss')
+
+
+ggdag::tidy_dagitty(dag_loss_bivariate)
+
+coordinates(dag_loss_bivariate) <- list(
+  x = c(MI = 0, Loss = 1),
+  y = c(MI = 1, Loss = 1)
+)
+
+ggdag(dag_loss_bivariate)+
+  geom_dag_point(colour = 'white') +
+  geom_dag_edges() +
+  geom_dag_text(color = 'black', size = 5) +
+  theme_dag()
+
+```
+
+
+### 1b. Bivariate: Dissonance Outcome
+
+```{r, echo = FALSE}
+
+dag_diss_bivariate <- 
+  
+  dagify('Diss' ~ 'MI',
+         exposure = 'MI', 
+         outcome = 'Diss')
+
+
+ggdag::tidy_dagitty(dag_diss_bivariate)
+
+coordinates(dag_diss_bivariate) <- list(
+  x = c(MI = 0, Diss = 1),
+  y = c(MI = 1, Diss = 1)
+)
+
+ggdag(dag_diss_bivariate)+
+  geom_dag_point(colour = 'white') +
+  geom_dag_edges() +
+  geom_dag_text(color = 'black', size = 5) +
+  theme_dag()
+
+```
+
+## 2. Dissonance and Loss
+
+This order of variables is theoretically ambiguous. A strong-to-weak military identity might then affect how someone experiences military-civilian identity dissonance. The other way also makes sense: that identity dissonance is eventually resolved as someone accepting a loss of military identity...becoming "more civilian."
+
+
+### 2a. Loss and Dissonance: Military Identity (Loss) as Outcome, Dissonance as adjustment variable.
+```{r, echo = FALSE}
+
+dag_loss_diss <- 
+  
+  dagify('Diss' ~ 'MI',
+         'Loss' ~ 'MI' + 'Diss',
+         exposure = 'MI', 
+         outcome = 'Loss')
+
+
+ggdag::tidy_dagitty(dag_loss_diss)
+
+coordinates(dag_loss_diss) <- list(
+  x = c(MI = 0, Loss = 1, Diss = .5),
+  y = c(MI = 1, Loss = 1, Diss = 1.25)
+)
+
+ggdag(dag_loss_diss)+
+  geom_dag_point(colour = 'white') +
+  geom_dag_edges() +
+  geom_dag_text(color = 'black', size = 5) +
+  theme_dag()
+
+adjustmentSets(dag_loss_diss)
+
+ggdag_adjustment_set(dag_loss_diss)
+```
+
+
+### 2b. Dissonance and Loss: Dissonance as Outcome, Military Identity (Loss) as adjustment variable.
+
+```{r, echo = FALSE}
+
+dag_diss_loss <- 
+  
+  dagify('Diss' ~ 'MI' + 'Loss',
+         'Loss' ~ 'MI',
+         exposure = 'MI', 
+         outcome = 'Diss')
+
+
+ggdag::tidy_dagitty(dag_diss_loss)
+
+
+coordinates(dag_diss_loss) <- list(
+  x = c(MI = 0, Diss = 1, Loss = .5),
+  y = c(MI = 1, Diss = 1, Loss = 1.25)
+)
+
+ggdag(dag_diss_loss)+
+  geom_dag_point(colour = 'white') +
+  geom_dag_edges() +
+  geom_dag_text(color = 'black', size = 5) +
+  theme_dag()
+
+adjustmentSets(dag_diss_loss)
+
+ggdag_adjustment_set(dag_diss_loss)
+```
+
+
+### 2c. Dissonance and Loss: Correlated
+
+```{r, echo = FALSE}
+
+dag_two_id <- 
+  
+  dagify('Diss' ~ 'MI' + 'Loss',
+         'Loss' ~ 'MI' + 'Diss',
+         exposure = 'MI', 
+         outcome = 'Diss')
+
+
+ggdag::tidy_dagitty(dag_two_id)
+
+coordinates(dag_two_id) <- list(
+  x = c(MI = 0, Loss = 1, Diss = 1),
+  y = c(
+    Loss = 1.25,
+    MI = 1, 
+    Diss = .75
+        )
+)
+
+ggdag(dag_two_id)+
+  geom_dag_point(colour = 'white') +
+  geom_dag_edges() +
+  geom_dag_text(color = 'black', size = 5) +
+  theme_dag()
+
+adjustmentSets(dag_two_id)
+
+ggdag_adjustment_set(dag_two_id)
+```
+
+### 2d. Dissonance or Loss
+
+finally, we might be skeptical that we are measuring two different constructs. To keep things easy, we can imagine a general identity variable.
+
+
+
+```{r, echo = FALSE}
+
+dag_id <- 
+  
+  dagify('ID' ~ 'MI',
+         exposure = 'MI', 
+         outcome = 'ID')
+
+
+ggdag::tidy_dagitty(dag_id)
+
+coordinates(dag_id) <- list(
+  x = c(MI = 0, ID = 1),
+  y = c(
+    MI = 1, 
+    ID = 1
+        )
+)
+
+ggdag(dag_id)+
+  geom_dag_point(colour = 'white') +
+  geom_dag_edges() +
+  geom_dag_text(color = 'black', size = 5) +
+  theme_dag()
+
+adjustmentSets(dag_id)
+
+ggdag_adjustment_set(dag_id)
+```
+
+
+
+
+## 3. The Chain of Events
+
+### 3a. Combat, Critical Incidents, Moral Injury, and PTSD
+Moral Injury Symptoms result from potentially morally injurious events or experiences. These are more likely to occur in combat which could also affect identity. This DAG depicts this longer chain. 
+
+Critical incidents may also result in PTSD besides MI. 
+
+
+```{r, echo = FALSE}
+
+dag_chain <- 
+  
+  dagify('ID' ~ 'MI' + 'PTSD' + 'Combat',
+         'CritIn' ~ 'Combat',
+         'PTSD' ~ 'CritIn',
+         'MI' ~ 'CritIn',
+         
+         exposure = 'CritIn', 
+         outcome = 'ID')
+
+
+ggdag::tidy_dagitty(dag_chain)
+
+coordinates(dag_chain) <- list(
+  x = c(Combat = .75, CritIn = .5, MI = .75, PTSD = .75, ID = 1),
+  y = c(
+    PTSD = 1.03,
+    ID = 1,
+    MI = .97, 
+    Combat = 1.25,
+    CritIn = 1
+        )
+)
+
+ggdag(dag_chain) +
+  geom_dag_point(colour = 'white') +
+  geom_dag_edges() +
+  geom_dag_text(color = 'black', size = 5) +
+  theme_dag()
+
+adjustmentSets(dag_chain)
+
+ggdag_adjustment_set(dag_chain)
+```
+
+
+
+## 4. Thinking longitudinally
+
+
+### 4a. Longitudinal DAG
+
+The data for the current study is cross sectional, but the phenomenon I am studying actually occurs over time. While gathering longitudinal data to assess my research question is somewhat unfeasible (it would require a cohort study, tracking military identity before and after exposure to critical incidents). Experiments would be unethical (i.e., causing someone to experience a critical incident).
+
+Nevertheless, I can graphically model the longitudinal aspects. Note the adjstment sets require the unobserved military identity at time 1. 
+
+
+
+```{r, echo = FALSE}
+
+dag_long <- 
+  
+  dagify('ID2' ~ 'MI' + 'PTSD' + 'Combat' + 'ID1',
+         'ID1' ~ 'Combat',
+         'CritIn' ~ 'Combat',
+         'PTSD' ~ 'CritIn' + 'ID1',
+         'MI' ~ 'CritIn' + 'ID1',
+         
+         exposure = 'MI', 
+         outcome = 'ID2')
+
+
+ggdag::tidy_dagitty(dag_long)
+
+coordinates(dag_long) <- list(
+  x = c(Combat = .75, CritIn = .5, MI = .75, ID1 = .65, PTSD = .75, ID2 = 1),
+  y = c(
+    ID1 = 1.09,
+    PTSD = 1.03,
+    ID2 = 1,
+    MI = .97, 
+    Combat = 1.25,
+    CritIn = 1
+        )
+)
+
+ggdag(dag_long) + 
+  geom_dag_point(colour = 'white') + 
+  geom_dag_edges() + 
+  geom_dag_text(color = 'black', size = 5) + 
+  theme_dag()
+
+adjustmentSets(dag_long)
+
+ggdag_adjustment_set(dag_long)
+```
+
+
+
+
+
+
+
+
+## Change the exposure variable. 
+
+But instead of the symptoms being the exposure, assume the critical incident is. Note that the unobserved military identity at time 1 is no longer needed to adjust the model.
+
+```{r, echo = FALSE}
+
+dag_long_crit <- 
+  
+  dagify('Diss2' ~ 'MI_symp' + 'ID2',
+      
+         'ID1_u' ~ 'Combat',
+         'ID2' ~ 'MI_symp' + 'ID1_u' + 'Combat' + 'PT_symp',
+         
+         'CritIn' ~ 'Combat',
+         'MI_symp' ~ 'CritIn' + 'ID1_u',
+         'PT_symp' ~ 'CritIn',
+         
+         exposure = 'CritIn', 
+         outcome = 'Diss2')
+
+
+ggdag::tidy_dagitty(dag_long_crit)
+
+ggdag(dag_long_crit) +
+  geom_dag_point(colour = 'white') +
+  geom_dag_edges() +
+  geom_dag_text(color = 'black', size = 5) +
+  theme_dag()
+
+
+adjustmentSets(dag_long_crit)
+
+ggdag_adjustment_set(dag_long_crit)
+```
+
+
+
+## Now choose Military Identity at time 2 as the outcome
+
+But instead of the symptoms being the expsoure, assume the critical incident is. 
+By regressing Military Identity on Critical Incident, you get the total effect. 
+PT symptoms and MI symptoms are mediators. Dissonance is blocked.
+
+Knowing Military ID at time one would still improve the precision of this estimate. 
+
+```{r, echo = FALSE}
+
+dag_long_crit_2 <- 
+  
+  dagify('Diss2' ~ 'MI_symp' + 'ID2',
+         'ID1_u' ~ 'Combat',
+         'ID2' ~ 'MI_symp' + 'ID1_u' + 'Combat' + 'PT_symp',
+         
+         'CritIn' ~ 'Combat',
+         'MI_symp' ~ 'CritIn' + 'ID1_u',
+         'PT_symp' ~ 'CritIn',
+         
+         exposure = 'CritIn', 
+         outcome = 'ID2')
+
+
+ggdag::tidy_dagitty(dag_long_crit_2)
+
+ggdag(dag_long_crit_2) +
+  geom_dag_point(colour = 'white') +
+  geom_dag_edges() +
+  geom_dag_text(color = 'black', size = 5) +
+  theme_dag()
+
+
+adjustmentSets(dag_long_crit_2)
+ggdag_adjustment_set(dag_long_crit_2)
+
+dagitty::isAdjustmentSet(dag_long_crit_2, c('Combat'))
+
+```
+
+
+
+
+
+
+
+## Can we estimate military identity at time 1?
+
+With cross sectional data, it is not possible to assess military identity at time 1. However, the data did ask if other family members served in the military, including parents and siblings. 
+
+It is possible that this works as a type of antecedent variable for military identity, allowing for estimation of military identity at time 1. 
+
+```{r, echo = FALSE}
+
+dag_fam_diss <- 
+  
+  dagify('Diss2' ~ 'MI_symp' + 'ID2',
+         'ID1_u' ~ 'Combat' + 'Mil_Fam',
+         'ID2' ~ 'MI_symp' + 'ID1_u' + 'Combat' + 'PT_symp' +  'Mil_Fam',
+         
+         'CritIn' ~ 'Combat',
+         'MI_symp' ~ 'CritIn' + 'ID1_u',
+         'PT_symp' ~ 'CritIn',
+         
+         exposure = 'CritIn', 
+         outcome = 'Diss2')
+
+
+ggdag::tidy_dagitty(dag_fam_diss)
+
+ggdag(dag_fam_diss) +
+  geom_dag_point(colour = 'white') +
+  geom_dag_edges() +
+  geom_dag_text(color = 'black', size = 5) +
+  theme_dag()
+
+
+adjustmentSets(dag_fam_diss)
+ggdag_adjustment_set(dag_fam_diss)
+
+
+
+```
+
+
+```{r, echo = FALSE}
+
+dag_fam_loss <- 
+  
+  dagify('Diss2' ~ 'MI_symp' + 'ID2',
+         'ID1_u' ~ 'Combat' + 'Mil_Fam',
+         'ID2' ~ 'MI_symp' + 'ID1_u' + 'Combat' + 'PT_symp' +  'Mil_Fam',
+         
+         'CritIn' ~ 'Combat',
+         'MI_symp' ~ 'CritIn' + 'ID1_u',
+         'PT_symp' ~ 'CritIn',
+         
+         exposure = 'CritIn', 
+         outcome = 'Diss2')
+
+
+ggdag::tidy_dagitty(dag_fam_loss)
+
+ggdag(dag_fam_loss) +
+  geom_dag_point(colour = 'white') +
+  geom_dag_edges() +
+  geom_dag_text(color = 'black', size = 5) +
+  theme_dag()
+
+
+adjustmentSets(dag_fam_loss)
+ggdag_adjustment_set(dag_fam_loss)
+
+
+
+```
+
+
+
+Identity Dissonance ~ Critical Incident + Combat + Military Family
+Identity Loss       ~ Critical Incident + Combat + Military Family
+
+
+
+```{r, echo = FALSE}
+
+dag_controls <- 
+  
+  dagify('Diss2' ~ 'MI_symp' + 'ID2' + 'Race' + 'Sex' + 'Officer',
+         'ID1_u' ~ 'Combat' + 'Mil_Fam' + 'Race' + 'Sex' + 'Officer',
+         'ID2' ~ 'MI_symp' + 'ID1_u' + 'Combat' + 'PT_symp' +  'Mil_Fam' + 'Race' + 'Sex' + 'Officer',
+         
+         'CritIn' ~ 'Combat',
+         'MI_symp' ~ 'CritIn' + 'ID1_u',
+         'PT_symp' ~ 'CritIn',
+         
+         exposure = 'CritIn', 
+         outcome = 'Diss2')
+
+
+ggdag::tidy_dagitty(dag_controls)
+
+ggdag(dag_controls) +
+  geom_dag_point(colour = 'white') +
+  geom_dag_edges() +
+  geom_dag_text(color = 'black', size = 5) +
+  theme_dag()
+
+
+adjustmentSets(dag_controls)
+ggdag_adjustment_set(dag_controls)
+
+
+
+```
+
+#### Antecedent demographic variables
+To the extent that these antecdent controls (Sex, Race, Officer) impact identity at time 1 and time 2, then including them in the model should help reduce the impact of the unobserved identity at time 1. 
+
+However, is it plausible to think that sex, race, and officer status are unrelated to the exposure? For example, might women be at greater risk for MST, thus MST-related moral injury? But race is less likely in the military, I think. Officers might also be at a higher risk because they are making decisions that have moral risk. 
+
+Sex/gender and race might impact someone's experience of symptoms, too. 
+
+Officer status is a proxy for socioeconomic status (SES) -- being an officer requires a degree while enlisted does not. Lower SES might be associated with increased risk for adverse childhood experiences (ACEs) which could impact someone's post-critical incidient symptoms. 
+
+In this case, sex/gender moves to the adjustment set. This is not a problem for using the other controls, since sex is endogoneous in this model (which is an assumption we can be pretty sure is true), adding the other variables does not re-open the path that is blocked after adjusting for sex. 
+
+
+
+```{r, echo =FALSE}
+
+dag_controls_alt <- 
+  
+  dagify('Diss2' ~ 'MI_symp' + 'ID2' + 'Race' + 'Sex' + 'Officer',
+         'ID1_u' ~ 'Combat' + 'Mil_Fam' + 'Race' + 'Sex' + 'Officer',
+         'ID2' ~ 'MI_symp' + 'ID1_u' + 'Combat' + 'PT_symp' +  'Mil_Fam' + 'Race' + 'Sex' + 'Officer',
+         
+         'CritIn' ~ 'Combat' + 'Sex',
+         'MI_symp' ~ 'CritIn' + 'ID1_u' +  'Race' + 'Sex',
+         'PT_symp' ~ 'CritIn' +  'Race' + 'Sex',
+         
+         'SES_u' ~ 'Race',
+         'Officer' ~ 'SES_u',
+         
+         exposure = 'CritIn', 
+         outcome = 'Diss2')
+
+
+ggdag::tidy_dagitty(dag_controls_alt)
+
+ggdag(dag_controls_alt) +
+  geom_dag_point(colour = 'white') +
+  geom_dag_edges() +
+  geom_dag_text(color = 'black', size = 5) +
+  theme_dag()
+
+
+adjustmentSets(dag_controls_alt)
+ggdag_adjustment_set(dag_controls_alt)
+
+
+
+```
+
+
+
+
+
+
+
+
+
+
+## Years of Servive and Separation
+Finally, consider how years of service and separation are involved
+
+Age is a "cause" of both years of service and separation -- you cannot servce another year without living another year.
+Years of Separation is therefore a function of age and years of service -- if you serve another year, you do not gain a year of separation. 
+
+The more important question is, how do these variables relate to the DAG? Especially to military identity?
+
+```{r}
+
+dag_controls_alt_yrs <- 
+  
+  dagify('Diss2' ~ 'MI_symp' + 'ID2' + 'Race' + 'Sex' + 'Officer' + 'Yrs_Sep' + 'Yrs_Serv',
+         'ID1_u' ~ 'Combat' + 'Mil_Fam' + 'Race' + 'Sex' + 'Officer' + 'Yrs_Sep' + 'Yrs_Serv',
+         'ID2' ~ 'MI_symp' + 'ID1_u' + 'Combat' + 'PT_symp' +  'Mil_Fam' + 'Race' + 'Sex' + 'Officer' + 'Yrs_Sep' + 'Yrs_Serv',
+         
+         'CritIn' ~ 'Combat' + 'Sex',
+         'MI_symp' ~ 'CritIn' + 'ID1_u' +  'Race' + 'Sex',
+         'PT_symp' ~ 'CritIn' +  'Race' + 'Sex',
+         
+         'SES_u' ~ 'Race',
+         'Officer' ~ 'SES_u',
+         'Yrs_Sep' ~ 'Age' + 'Yrs_Serv',
+         'Yrs_Serv' ~ 'Age',
+         
+         exposure = 'MI_symp', 
+         outcome = 'Diss2')
+
+
+ggdag::tidy_dagitty(dag_controls_alt_yrs)
+
+ggdag(dag_controls_alt_yrs) +
+  geom_dag_point(colour = 'white') +
+  geom_dag_edges() +
+  geom_dag_text(color = 'black', size = 5) +
+  theme_dag()
+
+
+adjustmentSets(dag_controls_alt_yrs)
+ggdag_adjustment_set(dag_controls_alt_yrs)
+
+
+
+```
+
+
+# DAG analysis is used to find sets of covariates
+
+Military Identity as outcome -- to assess identity loss hypothesis)
+0a. Null Model                  - Military Identity ~ 1
+0b. Null Model                  - Identity Dissonance ~ 1
+
+1a. Bivariate                   - Military Identity ~ MIOS Symptoms
+1b. Bivariate                   - Identity Dissonance ~ MIOS Symptoms
+
+At this point, I would like to add the adjustment sets, 
+however they call for the unobserved military identity at time 1
+(e.g., during service, at the moment of a critical incident). 
+The DAGs suggest a different strategy <- using exposure to a critical incident 
+(i.e., potentially morally injurious event) as an instrumental variable. 
+
+Also, the DAGs suggest that controlling for some antecedents --
+gender, sex/gender, and officer status -- may serve a proxies for 
+military identity at time 1 (also are likely associated with observed military identity).
+
+That said, I can continue the analysis using MIOS symptoms, but I suspect this is flawed. 
+To adjust, I can use MI events (critical incidents) as an independent variable --
+or perhaps as an instrumental variable
+
+
+2a. Adjustment Set              - Military Identity ~ MIOS Symptoms + Combat (missing unobserved military identity at time 1)
+2b. Adjustment Set              - Identity Dissonance ~ MIOS Symptoms + Combat (missing unobserved military identity at time 1)
+
+3a. Adjustment Set + Covariates - Military Identity ~ MIOS Symptoms + Combat + Race + Sex + Officer
+3b. Adjustment Set + Covariates - Identity Dissonance ~ MIOS Symptoms + Combat + Race + Sex + Officer 
+
+4a. Robust Explanatory Var      - Military Identity    ~ MIOS Event + Combat + Race + Sex + Officer
+4b. Robust Explanatory Var      - Identity Dissonance  ~ MIOS Event + Combat + Race + Sex + Officer
+
+5a. Instrumental Var + Adjust   - Military Identity    ~ MIOS Symptoms + Combat | MIOS Event + Combat 
+5b. Instrumental Var + Adjust   - Identity Dissonance  ~ MIOS Symptoms + Combat | MIOS Event + Combat
+
+6a. Instrumental Var + Cntrls   - Military Identity    ~ MIOS Symptoms + Combat + Race + Sex + Officer | MIOS Event + Combat + Race + Sex + Officer
+6b. Instrumental Var + Cntrls   - Identity Dissonance  ~ MIOS Symptoms + Combat + Race + Sex + Officer | MIOS Event + Combat + Race + Sex + Officer
+
+I don't want to do too much, but I want to be thorough
+So 
+
+
+Mostly, the DAGs suggest I don't need to analyze loss as a control as
+it is a mediator of MI symptoms and identity dissonance. 

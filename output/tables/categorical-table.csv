@@ -1,0 +1,26 @@
+variable,n,perc
+Did not endorse a moral injury event,148,60.16260162601627
+Endorsed a moral injury event,98,39.83739837398374
+mios_event_type_betrayal,58,23.577235772357724
+mios_event_type_other,57,23.170731707317074
+mios_event_type_self,20,8.130081300813007
+mios_event_type_multiple,29,11.788617886178862
+Did not endorse Criterian A experience,179,72.76422764227642
+Endorsed Criterian A PTSD experience,67,27.235772357723576
+Probable PTSD not detected,219,89.02439024390245
+Probable PTSD detected,27,10.975609756097562
+pc_ptsd_symptoms_any,81,32.926829268292686
+pc_ptsd_symptoms_none,165,67.07317073170732
+pc_ptsd_symptoms_avoid,38,15.447154471544716
+pc_ptsd_symptoms_guilty,29,11.788617886178862
+pc_ptsd_symptoms_nightmares,31,12.601626016260163
+pc_ptsd_symptoms_numb,43,17.479674796747968
+pc_ptsd_symptoms_vigilant,44,17.88617886178862
+unmet_needs_any,142,57.72357723577236
+unmet_needs_none,104,42.27642276422765
+enlisted,219,89.02439024390245
+officer,24,9.75609756097561
+warrant_officer,3,1.2195121951219512
+White,192,78.04878048780488
+Other,29,11.788617886178862
+Black or African American,25,10.16260162601626

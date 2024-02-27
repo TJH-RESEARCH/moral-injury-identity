@@ -1,4 +1,12 @@
-measure,variable,cronbachs_alpha
-BIIS-2,Identity Dissonance,0.87
-M2C-Q,Reintegration Challenges,0.95
-MIOS,Moral Injury Symptoms,0.91
+variable,measure,cronbachs_alpha
+Identity Dissonance,BIIS-2 Compartmentalization vs. Blended subscale,0.74
+Identity Dissonance,BIIS-2 Conflict vs. Harmony subscale,0.89
+Identity Dissonance,Self Concept Clarity Scale,0.91
+Moral Injury Symptoms,Moral Injury Outcomes Scale,0.92
+Military Identity Loss,WIS Centrality subscale,0.79
+Military Identity Loss,WIS Connection subscale,0.66
+Military Identity Loss,WIS Family subscale,0.73
+Military Identity Loss,WIS Interdependence subscale,0.82
+Military Identity Loss,WIS Private subscale,0.87
+Military Identity Loss,WIS Public subscale,0.85
+Military Identity Loss,WIS Skills subscale,0.61

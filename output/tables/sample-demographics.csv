@@ -1,88 +1,42 @@
 category,n,perc
-18 to 34 years old,16,6.4 %
-35 to 44 years old,35,13.9 %
-45 to 54 years old,31,12.4 %
-55 to 64 years old,44,17.5 %
-65 to 74 years old,61,24.3 %
-75 years and older,64,25.5 %
-Army,118,47 %
-Navy,65,25.9 %
-Air Force,41,16.3 %
-Marines,21,8.4 %
+Army,115,46.7 %
+Navy,64,26 %
+Air Force,40,16.3 %
+Marines,21,8.5 %
 Multiple,4,1.6 %
 Public Health Service,2,0.8 %
-Does not recieve VA Disability,178,70.9 %
-Recieves VA Disability,73,29.1 %
-Service Completed,160,63.7 %
-Voluntary Discharge,49,19.5 %
-Medical Discharge,28,11.2 %
-Other,12,4.8 %
+E-1 to E-3,40,16.3 %
+E-4 to E-6,155,63 %
+E-7 to E-9,24,9.8 %
+O-1 to O-3,15,6.1 %
+O-4 to O-6,9,3.7 %
+W-1 to CW-5,3,1.2 %
+Cold War,164,66.7 %
+Korea,1,0.4 %
+Multiple eras,152,61.8 %
+Persian Gulf (pre-9/11),73,29.7 %
+Persian Gulf (post-9/11),76,30.9 %
+Post-WWII,0,0 %
+Vietnam,96,39 %
+Service Completed,157,63.8 %
+Voluntary Discharge,47,19.1 %
+Medical Discharge,28,11.4 %
+Other,12,4.9 %
 Not yet discharged,2,0.8 %
-High school diploma or equivalent,34,0.1 %
-Some college,69,0.3 %
-Associates degree,44,0.2 %
-Bachelors degree,61,0.2 %
-Masters degree,37,0.1 %
-Applied or professional doctorate,4,0 %
-Doctorate,2,0 %
-Retired,133,0.5 %
-Full Time,73,0.3 %
-Unemployed,21,0.1 %
-Part Time,17,0.1 %
-Irregular,3,0 %
-Student,3,0 %
-Multiple,1,0 %
-Married,157,0.6 %
-Divorced,43,0.2 %
-Never married,35,0.1 %
-Widowed,16,0.1 %
-military_exp_any,172,68.5 %
-military_exp_combat,70,27.9 %
-military_exp_noncombat,123,49 %
-military_exp_none,79,31.5 %
-military_exp_peacekeeping,36,14.3 %
-military_exp_support,59,23.5 %
-military_family_any,190,75.7 %
-military_family_child,31,12.4 %
-military_family_none,61,24.3 %
-military_family_other,55,21.9 %
-military_family_parents,115,45.8 %
-military_family_sibling,75,29.9 %
-military_family_spouse,35,13.9 %
-White,196,78.1 %
-Black or African American,25,10 %
-Multiple,13,5.2 %
-"Hispanic, Latino, or Spanish origin",10,4 %
-Asian,3,1.2 %
-"Some other race, ethnicity, or origin",3,1.2 %
-American Indian or Alaska Native,1,0.4 %
-rank_e1_e3,41,16.3 %
-rank_e4_e6,159,63.3 %
-rank_e7_e9,24,9.6 %
-rank_o1_o3,15,6 %
-rank_o4_o6,9,3.6 %
-rank_w1_cw5,3,1.2 %
-service_era_cold_war,168,66.9 %
-Other sexuality,1,0.4 %
-0 to 4 years of service,154,61.4 %
-5 to 9 years of service,73,29.1 %
-10 to 15 years of service,77,30.7 %
-15 to 20 years of service,0,0 %
-20+ years of service,98,39 %
-0 to 9  years since separation,180,71.7 %
-10 to 19  years since separation,71,28.3 %
-20 to 29  years since separation,231,92 %
-30 to 39  years since separation,10,4 %
-40 to 49 years since separation,8,3.2 %
-50+ years since separation,2,0.8 %
-"(0,4.9]",103,41 %
-"(4.9,9.9]",93,37.1 %
-"(9.9,14.9]",17,6.8 %
-"(14.9,19.9]",3,1.2 %
-"(19.9,30]",35,13.9 %
-"(-1,9.9]",32,12.7 %
-"(9.9,19.9]",37,14.7 %
-"(19.9,29.9]",39,15.5 %
-"(29.9,39.9]",51,20.3 %
-"(39.9,49.9]",41,16.3 %
-"(49.9,100]",51,20.3 %
+Prior combat deployment,69,28 %
+Prior non-combat deployment,122,49.6 %
+Prior peacekeeping deployment,36,14.6 %
+Supported combat operations,58,23.6 %
+Does not recieve VA Disability,174,70.7 %
+Recieves VA Disability,72,29.3 %
+0 to 4 years of service,100,40.7 %
+5 to 9 years of service,91,37 %
+10 to 15 years of service,17,6.9 %
+15 to 20 years of service,3,1.2 %
+20+ years of service,35,14.2 %
+0 to 9  years since separation,31,12.6 %
+10 to 19  years since separation,37,15 %
+20 to 29  years since separation,39,15.9 %
+30 to 39  years since separation,50,20.3 %
+40 to 49 years since separation,39,15.9 %
+50+ years since separation,50,20.3 %

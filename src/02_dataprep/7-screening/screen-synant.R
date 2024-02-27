@@ -111,19 +111,19 @@ data_lenient <-
 data_exclusions_main <-
   update_exclusions(data_start = data_start_main,
                     data = data_main,
-                    data_exclusions = data_exclusions,
+                    data_exclusions = data_exclusions_main,
                     exclusion_reason_string = 'Inconsistency (Psychometric Synonym)')
 
 data_exclusions_strict <-
   update_exclusions(data_start = data_start_strict,
                     data = data_strict,
-                    data_exclusions = data_exclusions,
+                    data_exclusions = data_exclusions_strict,
                     exclusion_reason_string = 'Inconsistency (Psychometric Synonym)')
 
 data_exclusions_lenient <-
   update_exclusions(data_start = data_start_lenient,
                     data = data_lenient,
-                    data_exclusions = data_exclusions,
+                    data_exclusions = data_exclusions_lenient,
                     exclusion_reason_string = 'Inconsistency (Psychometric Synonym)')
 
 

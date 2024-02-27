@@ -1,8 +1,29 @@
-exclusion_reason,n
-Not Excluded,251
-Longstring,50
-Removed by Survey Host,42
-Failed validity checks,8
-Bots and Duplicates,6
-Pyschometrics Synonyms/Antonym Inconsistency,3
-Even-Odd Inconsistency,1
+excluded_from,exclusion_reason,n
+Main,Not Excluded,246
+Main,Removed by Survey Host,42
+Main,Invariance (Long String),36
+Main,Invariance (Average Long String),19
+Main,Invalid responses,8
+Main,Bots and Duplicates,6
+Main,Inconsistency (Psychometric Synonym),3
+Main,Even-Odd Inconsistency,1
+Strict,Not Excluded,171
+Strict,Invariance (Long String),67
+Strict,Invariance (Average Long String),57
+Strict,Removed by Survey Host,42
+Strict,Invalid responses,8
+Strict,Bots and Duplicates,6
+Strict,Even-Odd Inconsistency,6
+Strict,Inconsistency (Psychometric Synonym),4
+Lenient,Not Excluded,258
+Lenient,Removed by Survey Host,42
+Lenient,Invariance (Long String),32
+Lenient,Invariance (Average Long String),13
+Lenient,Invalid responses,8
+Lenient,Bots and Duplicates,6
+Lenient,Even-Odd Inconsistency,1
+Lenient,Inconsistency (Psychometric Synonym),1
+Simple,Not Excluded,305
+Simple,Removed by Survey Host,42
+Simple,Invalid responses,8
+Simple,Bots and Duplicates,6

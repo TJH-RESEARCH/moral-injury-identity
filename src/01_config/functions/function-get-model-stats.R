@@ -173,3 +173,57 @@ get_model_stats <- function(x){
 
 #get_model_stats(fit_set_1)
 
+
+
+
+
+# MULTIVERSE --------------------------------------------------------------
+
+
+
+get_data_set(fit_dissonance_robust_IV_controls)
+get_data_set <- function(x){
+  
+  # 
+  y = list(NULL)
+  
+  # 
+  for (i in 1:length(x)) {
+  
+    y[i] = x[[i]][7]
+    i +1
+  }
+  # Unlist and tidy the results
+  y = y %>% unlist() %>% tibble() %>% rename(data_set)
+  return(y)
+}
+
+
+
+get_model_stats_multiverse <- function(x){
+  
+  model_name = deparse(substitute(x))
+  
+  x1 = get_terms(x)
+  x2 = get_f(x)
+  x3 = get_adj_r_squared(x)
+  x4 = get_r_squared(x)
+  x5 = get_rmse(x)
+  x6 = get_data_set(x)
+  y = bind_cols(x2, x3, x4, x1, x5, x6)
+  y = 
+    y %>% 
+    mutate(model = model_name,
+           DV = str_remove(DV, 'wis_'),
+           DV = str_remove(DV, '_total'),
+           model = str_remove(model, 'fit_'),
+    ) %>% 
+    mutate(p.value = pf(f, df1 = numdf, df2 = dendf, lower.tail = F)) %>% 
+    mutate(across(where(is.numeric), \(x) round(x, digits = 3))) %>% 
+    select(DV, model, r_squared, adj_r_squared, rmse,
+           f, p.value, data_set, everything())
+  
+  
+  return(y)
+}
+

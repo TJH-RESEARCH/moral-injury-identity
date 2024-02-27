@@ -10,9 +10,9 @@
 
 correlation_table <-
   data %>% 
-  select(m2cq_mean,
-         mios_total, 
+  select(mios_total, 
          biis_harmony,
+         wis_interdependent_total,
          years_separation,
          years_service) %>% 
 
@@ -20,9 +20,9 @@ correlation_table <-
   
   bind_cols(
     data %>% 
-  select(m2cq_mean,
-         mios_total,
+  select(mios_total, 
          biis_harmony,
+         wis_interdependent_total,
          years_separation,
          years_service) %>% 
       psych::describe() %>% 
@@ -39,25 +39,32 @@ correlation_table <-
          Skew = skew, 
          Kurtosis = kurtosis,
          # Replace column names with numbers
-         `1` = m2cq_mean, `2` = mios_total, `3` = biis_harmony, `4` = years_separation, `5` = years_service
+         `1` = mios_total, 
+         `2` = biis_harmony,
+         `3` = wis_interdependent_total,
+         `4` = years_separation, 
+         `5` = years_service
   ) %>% 
-  mutate(term = str_replace(term, 'm2cq_mean', 'Reintegration'),
+  mutate(term = str_replace(term, 'wis_interdependent_total', 'Identity Loss'),
          term = str_replace(term, 'mios_total', 'Moral Injury Symptoms'),
-         term = str_replace(term, 'biis_harmony', 'Identity Dissonance')
+         term = str_replace(term, 'biis_harmony', 'Identity Dissonance'),
+         term = str_replace(term, 'years_separation', 'Years Separated'),
+         term = str_replace(term, 'years_service', 'Years of Service')
   ) %>% 
   select(-`5`)
 
 
 # Print:
 correlation_table %>% print()
+correlation_table %>% kableExtra::kbl()
 
 # Write file --------------------------------------------------------------
-correlation_table %>% write_csv(here::here('output/tables/c5-correlation-table.csv'))
+correlation_table %>% write_csv(here::here('output/tables/correlation-table.csv'))
 
 # Remove variable from environment
 rm(correlation_table)
 
 # Message
-message('Descriptive table cotinuous variables (Table C5) saved to `output/tables/c5-correlation-table.csv`')
+message('Descriptive table cotinuous variables saved to `output/tables/correlation-table.csv`')
 
 

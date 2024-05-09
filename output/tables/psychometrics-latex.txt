@@ -1,0 +1,16 @@
+
+\begin{tabular}[t]{l|l|r}
+\hline
+variable & measure & alpha\\
+\hline
+Identity Dissonance & BIIS-2 Conflict & 0.89\\
+\hline
+Moral Injury & Moral Injury Symptoms & 0.92\\
+\hline
+Military Identity Attachment & WIS Interdependent & 0.82\\
+\hline
+Percieved Public Regard for the Military & WIS Private Regard & 0.88\\
+\hline
+Military Pride & WIS Public Regard & 0.85\\
+\hline
+\end{tabular}

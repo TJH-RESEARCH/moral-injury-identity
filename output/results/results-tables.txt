@@ -1,0 +1,146 @@
+
+\begin{tabular}[t]{l|r|l}
+\hline
+category & n & perc\\
+\hline
+Army & 113 & 47.1 \%\\
+\hline
+Navy & 61 & 25.4 \%\\
+\hline
+Air Force & 40 & 16.7 \%\\
+\hline
+Marines & 20 & 8.3 \%\\
+\hline
+Multiple & 4 & 1.7 \%\\
+\hline
+Public Health Service & 2 & 0.8 \%\\
+\hline
+E-1 to E-3 & 38 & 15.8 \%\\
+\hline
+E-4 to E-6 & 150 & 62.5 \%\\
+\hline
+E-7 to E-9 & 25 & 10.4 \%\\
+\hline
+O-1 to O-3 & 15 & 6.2 \%\\
+\hline
+O-4 to O-6 & 9 & 3.8 \%\\
+\hline
+W-1 to CW-5 & 3 & 1.2 \%\\
+\hline
+Cold War & 166 & 69.2 \%\\
+\hline
+Korea & 1 & 0.4 \%\\
+\hline
+Multiple eras & 151 & 62.9 \%\\
+\hline
+Persian Gulf (pre-9/11) & 69 & 28.7 \%\\
+\hline
+Persian Gulf (post-9/11) & 71 & 29.6 \%\\
+\hline
+Post-WWII & 0 & 0 \%\\
+\hline
+Vietnam & 96 & 40 \%\\
+\hline
+Service Completed & 153 & 63.7 \%\\
+\hline
+Voluntary Discharge & 48 & 20 \%\\
+\hline
+Medical Discharge & 26 & 10.8 \%\\
+\hline
+Other & 11 & 4.6 \%\\
+\hline
+Not yet discharged & 2 & 0.8 \%\\
+\hline
+Prior combat deployment & 68 & 28.3 \%\\
+\hline
+Prior non-combat deployment & 116 & 48.3 \%\\
+\hline
+Prior peacekeeping deployment & 35 & 14.6 \%\\
+\hline
+Supported combat operations & 55 & 22.9 \%\\
+\hline
+Does not recieve VA Disability & 171 & 71.2 \%\\
+\hline
+Recieves VA Disability & 69 & 28.7 \%\\
+\hline
+0 to 4 years of service & 98 & 40.8 \%\\
+\hline
+5 to 9 years of service & 87 & 36.2 \%\\
+\hline
+10 to 15 years of service & 16 & 6.7 \%\\
+\hline
+15 to 20 years of service & 3 & 1.2 \%\\
+\hline
+20+ years of service & 36 & 15 \%\\
+\hline
+0 to 9  years since separation & 27 & 11.2 \%\\
+\hline
+10 to 19  years since separation & 36 & 15 \%\\
+\hline
+20 to 29  years since separation & 38 & 15.8 \%\\
+\hline
+30 to 39  years since separation & 50 & 20.8 \%\\
+\hline
+40 to 49 years since separation & 39 & 16.2 \%\\
+\hline
+50+ years since separation & 50 & 20.8 \%\\
+\hline
+\end{tabular}
+
+\begin{tabular}[t]{l|l|r}
+\hline
+variable & measure & alpha\\
+\hline
+Identity Dissonance & BIIS-2 Conflict & 0.89\\
+\hline
+Moral Injury & Moral Injury Symptoms & 0.92\\
+\hline
+Military Identity Attachment & WIS Interdependent & 0.82\\
+\hline
+Percieved Public Regard for the Military & WIS Private Regard & 0.88\\
+\hline
+Military Pride & WIS Public Regard & 0.85\\
+\hline
+\end{tabular}
+
+\begin{tabular}[t]{l|r|r}
+\hline
+variable & n & perc\\
+\hline
+Did not endorse a moral injury event & 149 & 62.08\\
+\hline
+Endorsed a moral injury event & 91 & 37.92\\
+\hline
+Moral Injury Event Type: Betrayal & 52 & 21.67\\
+\hline
+Moral Injury Event Type: Other Person & 52 & 21.67\\
+\hline
+Moral Injury Event Type: Self & 20 & 8.33\\
+\hline
+Moral Injury Event Type: Multiple Types & 25 & 10.42\\
+\hline
+Did not endorse Criterian A experience & 177 & 73.75\\
+\hline
+Endorsed Criterian A PTSD experience & 63 & 26.25\\
+\hline
+Probable PTSD not detected & 215 & 89.58\\
+\hline
+Probable PTSD detected & 25 & 10.42\\
+\hline
+\end{tabular}
+
+\begin{tabular}[t]{l|r|r|r|r|r|r|r|r}
+\hline
+term & M & SD & Min & Max & 1 & 2 & 3 & 4\\
+\hline
+Moral Injury Symptoms & 15.09 & 10.96 & 0 & 55 & NA & -0.60 & 0.23 & -0.39\\
+\hline
+Identity Dissonance & 37.17 & 8.24 & 15 & 50 & -0.60 & NA & -0.45 & 0.23\\
+\hline
+Military Attachment & 18.71 & 3.89 & 8 & 28 & 0.23 & -0.45 & NA & 0.37\\
+\hline
+Military Pride & 24.60 & 3.52 & 8 & 28 & -0.39 & 0.23 & 0.37 & NA\\
+\hline
+Percieved Public Regard & 11.43 & 2.25 & 4 & 16 & -0.21 & 0.23 & 0.06 & 0.28\\
+\hline
+\end{tabular}

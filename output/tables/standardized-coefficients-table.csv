@@ -1,0 +1,7 @@
+term,estimate,std_estimate,std.error,statistic,p.value,outcome
+mios_total,0.049,0.137,0.026,1.836,0.068,Attachment
+mios_total,-0.111,-0.345,0.023,-4.809,0,Pride
+mios_total,0.377,0.501,0.048,7.868,0,Dissonance
+mios_total,0.504,0.671,0.199,2.541,0.012,Dissonance (Interaction)
+wis_public_regard_total,-0.199,-0.054,0.336,-0.593,0.554,Dissonance (Interaction)
+mios_total:wis_public_regard_total,-0.013,-0.196,0.017,-0.76,0.448,Dissonance (Interaction)

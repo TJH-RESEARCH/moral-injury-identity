@@ -1,0 +1,72 @@
+
+\begin{tabular}[t]{l|r|l}
+\hline
+category & n & perc\\
+\hline
+18 to 34 years old & 13 & 5.4 \%\\
+\hline
+35 to 44 years old & 31 & 12.9 \%\\
+\hline
+45 to 54 years old & 30 & 12.5 \%\\
+\hline
+55 to 64 years old & 45 & 18.8 \%\\
+\hline
+65 to 74 years old & 58 & 24.2 \%\\
+\hline
+75 years and older & 63 & 26.2 \%\\
+\hline
+male & 173 & 72.1 \%\\
+\hline
+female & 67 & 27.9 \%\\
+\hline
+straight & 222 & 92.5 \%\\
+\hline
+Other & 18 & 7.5 \%\\
+\hline
+Applied or professional doctorate & 4 & 1.7 \%\\
+\hline
+Other sexuality & 43 & 17.9 \%\\
+\hline
+Bachelors degree & 57 & 23.8 \%\\
+\hline
+Doctorate & 2 & 0.8 \%\\
+\hline
+High school diploma or equivalent & 35 & 14.6 \%\\
+\hline
+Masters degree & 35 & 14.6 \%\\
+\hline
+Some college & 64 & 26.7 \%\\
+\hline
+White & 192 & 80 \%\\
+\hline
+Black or African American & 23 & 9.6 \%\\
+\hline
+Multiple & 11 & 4.6 \%\\
+\hline
+Hispanic, Latino, or Spanish origin & 8 & 3.3 \%\\
+\hline
+Some other race, ethnicity, or origin & 3 & 1.2 \%\\
+\hline
+Asian & 2 & 0.8 \%\\
+\hline
+American Indian or Alaska Native & 1 & 0.4 \%\\
+\hline
+Retired & 130 & 54.2 \%\\
+\hline
+Full Time & 67 & 27.9 \%\\
+\hline
+Unemployed & 20 & 8.3 \%\\
+\hline
+Part Time & 16 & 6.7 \%\\
+\hline
+Other & 7 & 2.9 \%\\
+\hline
+Married & 153 & 63.7 \%\\
+\hline
+Divorced & 41 & 17.1 \%\\
+\hline
+Never married & 30 & 12.5 \%\\
+\hline
+Widowed & 16 & 6.7 \%\\
+\hline
+\end{tabular}

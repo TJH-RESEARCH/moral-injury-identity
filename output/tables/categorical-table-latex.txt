@@ -1,0 +1,30 @@
+\begin{table}
+
+\caption{Descriptive Statistics for Categorical Variables}
+\centering
+\begin{tabular}[t]{l|l|l}
+\hline
+Category & n & \%\\
+\hline
+Did not endorse a moral injury event & 149 & 62.08\\
+\hline
+Endorsed a moral injury event & 91 & 37.92\\
+\hline
+Moral Injury Event Type: Betrayal & 52 & 21.67\\
+\hline
+Moral Injury Event Type: Other Person & 52 & 21.67\\
+\hline
+Moral Injury Event Type: Self & 20 & 8.33\\
+\hline
+Moral Injury Event Type: Multiple Types & 25 & 10.42\\
+\hline
+Did not endorse Criterian A experience & 177 & 73.75\\
+\hline
+Endorsed Criterian A PTSD experience & 63 & 26.25\\
+\hline
+Probable PTSD not detected & 215 & 89.58\\
+\hline
+Probable PTSD detected & 25 & 10.42\\
+\hline
+\end{tabular}
+\end{table}

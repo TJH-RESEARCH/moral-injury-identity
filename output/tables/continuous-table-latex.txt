@@ -1,0 +1,16 @@
+
+\begin{tabular}[t]{l|r|r|r|r|r|r|r|r}
+\hline
+term & M & SD & Min & Max & 1 & 2 & 3 & 4\\
+\hline
+Moral Injury Symptoms & 15.09 & 10.96 & 0 & 55 & NA & -0.60 & 0.23 & -0.39\\
+\hline
+Identity Dissonance & 37.17 & 8.24 & 15 & 50 & -0.60 & NA & -0.45 & 0.23\\
+\hline
+Military Attachment & 18.71 & 3.89 & 8 & 28 & 0.23 & -0.45 & NA & 0.37\\
+\hline
+Military Pride & 24.60 & 3.52 & 8 & 28 & -0.39 & 0.23 & 0.37 & NA\\
+\hline
+Percieved Public Regard & 11.43 & 2.25 & 4 & 16 & -0.21 & 0.23 & 0.06 & 0.28\\
+\hline
+\end{tabular}

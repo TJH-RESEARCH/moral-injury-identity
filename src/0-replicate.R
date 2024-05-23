@@ -33,7 +33,6 @@ source(here::here('src/02_analysis/c-examine-measures/cfa-biis-conflict.R'))
 
 ## Military Identity 
 source(here::here('src/02_analysis/c-examine-measures/cfa-wis-interdependent.R'))
-source(here::here('src/02_analysis/c-examine-measures/cfa-wis-private-regard.R'))
 source(here::here('src/02_analysis/c-examine-measures/cfa-wis-public-regard.R')) 
 
 
@@ -44,7 +43,6 @@ source(here::here('src/02_analysis/c-examine-measures/assess-psychometrics.R'))
 rm(fit_biis_conflict, 
    alpha_mios,
    fit_wis_interdependent, 
-   fit_wis_private_regard,
    fit_wis_public_regard
 )
 
@@ -61,7 +59,6 @@ source(here::here('src/02_analysis/d-examine-variables/plot-identity-dissonance.
 ## Military Identity
 source(here::here('src/02_analysis/d-examine-variables/plot-interdependent.R'))
 source(here::here('src/02_analysis/d-examine-variables/plot-public-regard.R'))
-source(here::here('src/02_analysis/d-examine-variables/plot-private-regard.R'))
 
 ## Bivariate Analysis
 source(here::here('src/02_analysis/d-examine-variables/plot-pairs.R'))
@@ -83,6 +80,10 @@ source(here::here('src/02_analysis/f-interpret-results/make-results-tables-biis.
 source(here::here('src/02_analysis/f-interpret-results/make-results-tables-wis.R'))
 source(here::here('src/02_analysis/f-interpret-results/visualize-results.R'))
 
+
+
+# POST HOC ANALYSIS -------------------------------------------------------
+source(here::here('src/02_analysis/g-posthoc/split-sample.R'))
 
 
 

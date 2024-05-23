@@ -6,14 +6,12 @@ psychometrics <-
     c('Identity Dissonance', 
       'Moral Injury',
       'Military Identity Attachment',
-      'Percieved Public Regard for the Military',
-      'Military Pride'),
+      'Percieved Public Regard for the Military'),
   
   measure = 
     c('BIIS-2 Conflict', 
       'Moral Injury Symptoms',
       'WIS Interdependent',
-      'WIS Private Regard',
       'WIS Public Regard'
        ),
   
@@ -22,7 +20,6 @@ psychometrics <-
       fit_biis_conflict %>% semTools::reliability() %>% tibble() %>% slice(1) %>% round(2) %>% as.numeric(),
       alpha_mios$total[1] %>% round(2) %>% as.numeric(),
       fit_wis_interdependent %>% semTools::reliability() %>% tibble() %>% slice(1) %>% round(2) %>% as.numeric(),
-      fit_wis_private_regard %>% semTools::reliability() %>% tibble() %>% slice(1) %>% round(2) %>% as.numeric(),
       fit_wis_public_regard %>% semTools::reliability() %>% tibble() %>% slice(1) %>% round(2) %>% as.numeric()
     )
 )

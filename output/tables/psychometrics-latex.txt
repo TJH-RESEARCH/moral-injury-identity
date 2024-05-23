@@ -9,8 +9,6 @@ Moral Injury & Moral Injury Symptoms & 0.92\\
 \hline
 Military Identity Attachment & WIS Interdependent & 0.82\\
 \hline
-Percieved Public Regard for the Military & WIS Private Regard & 0.88\\
-\hline
-Military Pride & WIS Public Regard & 0.85\\
+Percieved Public Regard for the Military & WIS Public Regard & 0.85\\
 \hline
 \end{tabular}

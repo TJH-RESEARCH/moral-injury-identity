@@ -9,7 +9,6 @@ plot_pairs <-
   select(mios_total, 
          wis_interdependent_total,
          wis_public_regard_total,
-         wis_private_regard_total, 
          biis_conflict) %>% 
   GGally::ggpairs(title = 'Pair Plots: Moral Injury, Connection, Dissonance')
 

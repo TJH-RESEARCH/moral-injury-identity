@@ -7,7 +7,7 @@ ifelse(!exists('theme_fonts'), source(here::here('src/01_config/themes.R')), lib
 plot_identity_public_regard <-
   data %>% 
   ggplot(aes(wis_public_regard_total)) +
-  labs(x = 'Military Pride',
+  labs(x = 'Public Regard',
        y = 'Count', 
        title = 'Perceived Public Regard for the Military in a Sample of Veterans',
        subtitle = "",

@@ -7,9 +7,6 @@ bind_rows(
   model_wis_interdependent_2 %>% 
     lm.beta::lm.beta() %>% broom::tidy() %>% slice(2) %>% 
     mutate(outcome = 'Attachment'),
-  model_wis_private_regard_2 %>% 
-    lm.beta::lm.beta() %>% broom::tidy() %>% slice(2) %>% 
-    mutate(outcome = 'Pride'),
   model_biis_2 %>% 
     lm.beta::lm.beta() %>% broom::tidy() %>% slice(2) %>% 
     mutate(outcome = 'Dissonance'),

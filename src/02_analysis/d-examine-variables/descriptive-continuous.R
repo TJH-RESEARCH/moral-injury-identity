@@ -13,7 +13,6 @@ continuous_table <-
   select(mios_total, 
          biis_harmony,
          wis_interdependent_total,
-         wis_private_regard_total,
          wis_public_regard_total) %>% 
 
   corrr::correlate() %>% 
@@ -23,7 +22,6 @@ continuous_table <-
   select(mios_total, 
          biis_harmony,
          wis_interdependent_total,
-         wis_private_regard_total,
          wis_public_regard_total) %>% 
       psych::describe() %>% 
       tibble() %>% 
@@ -39,17 +37,15 @@ continuous_table <-
          `1` = mios_total, 
          `2` = biis_harmony,
          `3` = wis_interdependent_total,
-         `4` = wis_private_regard_total,
-         `5` = wis_public_regard_total
+         `4` = wis_public_regard_total
   ) %>% 
   mutate(
     term = str_replace(term, 'mios_total', 'Moral Injury Symptoms'),
     term = str_replace(term, 'biis_harmony', 'Identity Dissonance'),
     term = str_replace(term, 'wis_interdependent_total', 'Military Attachment'),
-    term = str_replace(term, 'wis_private_regard_total', 'Military Pride'),
     term = str_replace(term, 'wis_public_regard_total', 'Percieved Public Regard')
   ) %>% 
-  select(-`5`)
+  select(-`4`)
 
 
 # Print:
@@ -59,7 +55,7 @@ continuous_table %>%
   kableExtra::kbl(
     caption = "Descriptive Statistics for Continuous Variables",
     format = "html",
-    col.names = c("Variable","M","SD", "Min", "Max", '1', '2', '3', '4'),
+    col.names = c("Variable","M","SD", "Min", "Max", '1', '2', '3'),
     align = "c") %>%
   kableExtra::kable_classic(full_width = F, html_font = "times")
 

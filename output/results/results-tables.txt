@@ -97,9 +97,7 @@ Moral Injury & Moral Injury Symptoms & 0.92\\
 \hline
 Military Identity Attachment & WIS Interdependent & 0.82\\
 \hline
-Percieved Public Regard for the Military & WIS Private Regard & 0.88\\
-\hline
-Military Pride & WIS Public Regard & 0.85\\
+Percieved Public Regard for the Military & WIS Public Regard & 0.85\\
 \hline
 \end{tabular}
 
@@ -129,18 +127,16 @@ Probable PTSD detected & 25 & 10.42\\
 \hline
 \end{tabular}
 
-\begin{tabular}[t]{l|r|r|r|r|r|r|r|r}
+\begin{tabular}[t]{l|r|r|r|r|r|r|r}
 \hline
-term & M & SD & Min & Max & 1 & 2 & 3 & 4\\
+term & M & SD & Min & Max & 1 & 2 & 3\\
 \hline
-Moral Injury Symptoms & 15.09 & 10.96 & 0 & 55 & NA & -0.60 & 0.23 & -0.39\\
+Moral Injury Symptoms & 15.09 & 10.96 & 0 & 55 & NA & -0.60 & 0.23\\
 \hline
-Identity Dissonance & 37.17 & 8.24 & 15 & 50 & -0.60 & NA & -0.45 & 0.23\\
+Identity Dissonance & 37.17 & 8.24 & 15 & 50 & -0.60 & NA & -0.45\\
 \hline
-Military Attachment & 18.71 & 3.89 & 8 & 28 & 0.23 & -0.45 & NA & 0.37\\
+Military Attachment & 18.71 & 3.89 & 8 & 28 & 0.23 & -0.45 & NA\\
 \hline
-Military Pride & 24.60 & 3.52 & 8 & 28 & -0.39 & 0.23 & 0.37 & NA\\
-\hline
-Percieved Public Regard & 11.43 & 2.25 & 4 & 16 & -0.21 & 0.23 & 0.06 & 0.28\\
+Percieved Public Regard & 11.43 & 2.25 & 4 & 16 & -0.21 & 0.23 & 0.06\\
 \hline
 \end{tabular}

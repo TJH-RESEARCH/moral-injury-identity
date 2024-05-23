@@ -14,16 +14,6 @@ model_wis_interdependent_2 %>%
   )), 
 
 
-model_wis_private_regard_2 %>% 
-  broom::tidy(conf.int = T, conf.level = 0.95) %>% 
-  mutate(se_robust = as.numeric(coeftest_wis_private_regard_2[,2])) %>% 
-  filter(term == 'mios_total') %>% 
-  mutate(outcome = 'Pride') %>% 
-  mutate(term = if_else(term == 'mios_total',
-                        'MI: Pride', NA
-  )),
-
-
 model_biis_2 %>% 
   broom::tidy(conf.int = T, conf.level = 0.95) %>% 
   mutate(se_robust = as.numeric(coeftest_biis_2[,2])) %>% 
@@ -50,11 +40,10 @@ arrange(outcome) %>%
              xmin = (estimate - 2 * se_robust),
              xmax = (estimate + 2 * se_robust),
              color = outcome)) +
-  scale_color_manual(values = c('#440154', 
-                                  '#3b528b',
+  scale_color_manual(values = c(
                                   '#21908C',
-                                  '#5ec962',
-                                  '#C7E020')) +
+                                  '#440154', 
+                                  '#5ec962')) +
   geom_pointrange(size = 1, linewidth = 1.5) +
   geom_vline(aes(xintercept = 0), linetype = 2) +
   theme_classic() +
@@ -67,7 +56,6 @@ arrange(outcome) %>%
     labels = c(
       
       `MI: Attachment` = 'Attachment on Moral Injury', 
-      `MI: Pride` = 'Pride on Moral Injury', 
       `MI: Dissonance` = 'Dissonance on Moral Injury', 
       `wis_public_regard_total` = 'Dissonance on Public Regard (I) ', 
       `mios_total:wis_public_regard_total` = 'Dissonance on Interaction (I)', 
@@ -80,7 +68,6 @@ arrange(outcome) %>%
       'wis_public_regard_total',
       'mios_total',
       'MI: Dissonance',
-      'MI: Pride',
       'MI: Attachment'
       
     ) 
@@ -94,7 +81,7 @@ arrange(outcome) %>%
 
 
 
-e# Total -------------------------------------------------------------------
+# Total -------------------------------------------------------------------
 
 
 model_mcarm_2 %>% 

@@ -71,10 +71,7 @@ continuous_table %>% kableExtra::kbl(format = 'latex') %>%
 # Write file --------------------------------------------------------------
 continuous_table %>% write_csv(here::here('output/tables/continuous-table.csv'))
 
-# Remove variable from environment
-rm(continuous_table)
-
 # Message
-message('Descriptive table of cotinuous variables saved to `output/tables/continuous-table.csv`')
+message('Descriptive table of continuous variables saved to `output/tables/continuous-table.csv`')
 
 

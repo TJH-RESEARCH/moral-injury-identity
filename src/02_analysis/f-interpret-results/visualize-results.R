@@ -59,12 +59,12 @@
 
 
 # BIIS Conflict -----------------------------------------------------------
-(coefplot_connection <-
-   model_wis_connection_2 %>% 
+(coefplot_interdependence <-
+   model_wis_interdependence_2 %>% 
    broom::tidy(conf.int = T, conf.level = 0.95) %>% 
    
    # Add robust standard errors
-   mutate(se_robust = as.numeric(coeftest_wis_connection_2[,2])) %>% 
+   mutate(se_robust = as.numeric(coeftest_wis_interdependence_2[,2])) %>% 
    filter(term != '(Intercept)') %>% 
    ggplot(aes(x = estimate, 
               y = term, 
@@ -76,7 +76,7 @@
    theme(axis.text = element_text(size = 14),
          text = element_text(size = 14)
    ) +
-   xlab('Connection') +
+   xlab('interdependence') +
    ylab('') +
    scale_y_discrete( 
      labels = c(
@@ -119,7 +119,7 @@
    broom::tidy(conf.int = T, conf.level = 0.95) %>% 
    
    # Add robust standard errors
-   mutate(se_robust = as.numeric(coeftest_wis_interdependent_2[,2])) %>% 
+   mutate(se_robust = as.numeric(model_wis_interdependent_2[,2])) %>% 
    filter(term != '(Intercept)') %>% 
    ggplot(aes(x = estimate, 
               y = term, 
@@ -180,13 +180,13 @@ bind_rows(
     mutate(outcome = c('Dissonance')),
   
   
-  model_wis_connection_2 %>% 
+  model_wis_interdependence_2 %>% 
     broom::tidy(conf.int = T, conf.level = 0.95) %>% 
     
     # Add robust standard errors
-    mutate(se_robust = as.numeric(coeftest_wis_connection_2[,2])) %>% 
+    mutate(se_robust = as.numeric(coeftest_wis_interdependence_2[,2])) %>% 
     filter(term == 'mios_total') %>% 
-    mutate(outcome = c('Connection')),
+    mutate(outcome = c('interdependence')),
   
   model_wis_interdependent_2 %>% 
     broom::tidy(conf.int = T, conf.level = 0.95) %>% 
@@ -213,7 +213,7 @@ bind_rows(
   scale_y_discrete( 
     limits = c(
       'Dissonance',
-      'Connection',
+      'interdependence',
       'Interdependence'
     ) 
   ) 

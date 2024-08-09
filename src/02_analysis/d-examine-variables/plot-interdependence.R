@@ -4,9 +4,9 @@
 ifelse(!exists('theme_fonts'), source(here::here('src/01_config/themes.R')), library(ggplot2))
 
 
-plot_identity_public_regard <-
+plot_identity_interdependence <-
   data %>% 
-  ggplot(aes(wis_public_regard_total)) +
+  ggplot(aes(wis_interdependent_total)) +
   geom_density(
       fill = 'grey',
       color = 'black',
@@ -20,25 +20,23 @@ plot_identity_public_regard <-
     legend.justification = c(1, 1),
     legend.background = element_blank(),
     legend.box.background = element_rect(colour = "black")) +
-  labs(x = 'Public Regard',
+  labs(x = 'Interdependence',
        y = 'Density', 
-       title = 'Perceived Public Regard for the Military',
+       title = 'Military Identity Interdependence',
        subtitle = "",
        caption = 
-         "Assessed with the Warrior Identity Scale Public Regard subscale.")
+         "Assessed with the Warrior Identity Scale Interdependence subscale.")
 
-plot_identity_public_regard %>% print()
+plot_identity_interdependence %>% print()
 
 ggsave(filename = 
-      here::here('output/figures/public-regard-histogram.jpg'),
-       plot_identity_public_regard,
+      here::here('output/figures/interdependence-density.jpg'),
+      plot_identity_interdependence,
        device = 'jpeg', 
        units = 'px', 
        height = 564, 
        width = 800,
        scale = 3)
-
-rm(plot_identity_public_regard)
 
 
 

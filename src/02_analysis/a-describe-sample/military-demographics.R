@@ -17,15 +17,17 @@ military_demographic_table <-
     rank = 
       data %>% 
       select(starts_with('rank')) %>% 
-      create_percentage_table(),
+      create_percentage_table() %>% 
+      slice(c(1,2,3,6,4,5)),
     
     
     # Service Era --------------------------------------------------------------
     
     service_era = 
       data %>% 
-      select(starts_with('service_era_')) %>% 
-      create_percentage_table(),
+      count(service_era_init) %>% 
+      mutate(perc = n / n()) %>% 
+      rename(category = service_era_init),
     
     # Discharge Reason ---------------------------------------------------------
     discharge_reason = data %>% group_by(discharge_reason) %>% count_perc(T),
@@ -33,7 +35,8 @@ military_demographic_table <-
     # Military Experiences -----------------------------------------------------
     military_experiences =
       data %>% select(starts_with('military_exp') & !ends_with('total')) %>% 
-      create_percentage_table(),
+      create_percentage_table() %>% 
+      slice(-c(1, 4)),
     
     # Disability ---------------------------------------------------------------
     disability = data %>% group_by(disability) %>% count_perc(T),
@@ -66,45 +69,39 @@ military_demographic_table <-
         
       
   ) %>% 
-  mutate(perc = paste(round(perc, 1), "%")) %>% 
-  slice(-c(25, 28))
-
+  mutate(perc = paste(round(perc, 1), "%"))
 
 military_demographic_table[7,1] <- "E-1 to E-3"
 military_demographic_table[8,1] <- "E-4 to E-6"
 military_demographic_table[9,1] <- "E-7 to E-9"
-military_demographic_table[10,1] <- "O-1 to O-3"
-military_demographic_table[11,1] <- "O-4 to O-6"
-military_demographic_table[12,1] <- "W-1 to CW-5"
+military_demographic_table[10,1] <- "W-1 to CW-5"
+military_demographic_table[11,1] <- "O-1 to O-3"
+military_demographic_table[12,1] <- "O-4 to O-6"
 
-military_demographic_table[13,1] <- "Cold War"
-military_demographic_table[14,1] <- "Korea"
-military_demographic_table[15,1] <- "Multiple eras"
-military_demographic_table[16,1] <- "Persian Gulf (pre-9/11)"
-military_demographic_table[17,1] <- "Persian Gulf (post-9/11)"
-military_demographic_table[18,1] <- "Post-WWII"
-military_demographic_table[19,1] <- "Vietnam"
 
-military_demographic_table[25,1] <- "Prior combat deployment"
-military_demographic_table[26,1] <- "Prior non-combat deployment"
-military_demographic_table[27,1] <- "Prior peacekeeping deployment"
-military_demographic_table[28,1] <- "Supported combat operations"
 
-military_demographic_table[29,1] <- "Does not recieve VA Disability"
-military_demographic_table[30,1] <- "Recieves VA Disability"
 
-military_demographic_table[31,1] <- "0 to 4 years of service"
-military_demographic_table[32,1] <- "5 to 9 years of service"
-military_demographic_table[33,1] <- "10 to 15 years of service"
-military_demographic_table[34,1] <- "15 to 20 years of service"
-military_demographic_table[35,1] <- "20+ years of service"
 
-military_demographic_table[36,1] <- "0 to 9  years since separation"
-military_demographic_table[37,1] <- "10 to 19  years since separation"
-military_demographic_table[38,1] <- "20 to 29  years since separation"
-military_demographic_table[39,1] <- "30 to 39  years since separation"
-military_demographic_table[40,1] <- "40 to 49 years since separation"
-military_demographic_table[41,1] <- "50+ years since separation"
+military_demographic_table[24,1] <- "Prior combat deployment"
+military_demographic_table[25,1] <- "Prior non-combat deployment"
+military_demographic_table[25,1] <- "Prior peacekeeping deployment"
+military_demographic_table[27,1] <- "Supported combat operations"
+
+military_demographic_table[28,1] <- "Does not recieve VA Disability"
+military_demographic_table[29,1] <- "Recieves VA Disability"
+
+military_demographic_table[30,1] <- "0 to 4 years of service"
+military_demographic_table[31,1] <- "5 to 9 years of service"
+military_demographic_table[32,1] <- "10 to 15 years of service"
+military_demographic_table[33,1] <- "15 to 20 years of service"
+military_demographic_table[34,1] <- "20+ years of service"
+
+military_demographic_table[35,1] <- "0 to 9  years since separation"
+military_demographic_table[36,1] <- "10 to 19  years since separation"
+military_demographic_table[37,1] <- "20 to 29  years since separation"
+military_demographic_table[38,1] <- "30 to 39  years since separation"
+military_demographic_table[39,1] <- "40 to 49 years since separation"
+military_demographic_table[40,1] <- "50+ years since separation"
 
 
 

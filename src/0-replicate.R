@@ -9,8 +9,8 @@ source(here::here('src/01_config/folder-structure.R'))
 source(here::here('src/01_config/functions/function-append-results.R'))
 
 
-# DATA SET MANAGEMENT -----------------------------------------------------------
-data <- read_csv(here::here('data/data_main.csv'))
+# READ DATA SET  -----------------------------------------------------------
+data <- read_csv(here::here('data/data_main_moral_injury_identity.csv'))
 
 
 # DESCRIBE SAMPLE ----------------------------------------------------------
@@ -39,19 +39,8 @@ source(here::here('src/02_analysis/c-examine-measures/cfa-wis-public-regard.R'))
 ## Save a Table of the Psychometric
 source(here::here('src/02_analysis/c-examine-measures/assess-psychometrics.R'))
 
-# Clean the environment
-rm(fit_biis_conflict, 
-   alpha_mios,
-   fit_wis_interdependent, 
-   fit_wis_public_regard
-)
-
-
 
 # EXAMINE VARIABLES----------------------------------------------------
-## Moral Injury 
-source(here::here('src/02_analysis/d-examine-variables/plot-mios.R'))
-
 
 ## Identity Dissonance
 source(here::here('src/02_analysis/d-examine-variables/plot-identity-dissonance.R'))
@@ -73,6 +62,7 @@ source(here::here('src/02_analysis/d-examine-variables/descriptive-continuous.R'
 source(here::here('src/02_analysis/e-modelling/fit-models.R'))
 source(here::here('src/02_analysis/e-modelling/model-diagnostics.R'))
 source(here::here('src/02_analysis/e-modelling/calculate-robust-se.R'))
+source(here::here('src/02_analysis/e-modelling/calculate-standard-coef.R'))
 
 
 # INTERPRET MODELS --------------------------------------------------------
@@ -84,17 +74,14 @@ source(here::here('src/02_analysis/f-interpret-results/visualize-results.R'))
 
 # POST HOC ANALYSIS -------------------------------------------------------
 source(here::here('src/02_analysis/g-posthoc/split-sample.R'))
+source(here::here('src/02_analysis/g-posthoc/group-sizes-post-hoc.R'))
+source(here::here('src/02_analysis/g-posthoc/fit-models-post-hoc.R'))
+source(here::here('src/02_analysis/g-posthoc/calculate-robust-se-post-hoc.R'))
+source(here::here('src/02_analysis/g-posthoc/make-results-tables-post-hoc.R'))
+source(here::here('src/02_analysis/g-posthoc/visualize-coefficients-post-hoc.R'))
 
 
 
 source(here::here('src/01_config/session-info.R'))
 
-message('
-        
-        
-        
-        Replication complete
-        
-        
-        ')
-
+message('Replication complete')

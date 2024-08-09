@@ -1,167 +1,228 @@
-
-
-
-# Library -----------------------------------------------------------------
-library(dagitty)
+library(tidyverse)
 library(ggdag)
+library(dagitty)
 
 
-
-# 1. Basic DAG ---------------------------------------------------------------
-dag_basic <- 
-  
-  dagify('ID' ~ 'MI' + 'MilID',
-         'MilID' ~ 'MI',
+dag_1 <- 
+  dagify('ID' ~ 'MI',
          exposure = 'MI', 
          outcome = 'ID')
 
 
-ggdag::tidy_dagitty(dag_basic)
-
-coordinates(dag_basic) <- list(
-  x = c(MI = 0, MilID = .5, ID = 1),
-  y = c(
-    MI = 1,
-    MilID = 1.5,
-    ID = 1
-  )
+coordinates(dag_1) <- list(
+  x = c(MI = 0, ID = 1),
+  y = c(MI = 0, ID = 0)
 )
 
-(plot_basic <-
-    ggdag(dag_basic) +
+(plot_1_adj <-
+    ggdag(dag_1) +
     geom_dag_point(fill = 'white', color = 'white') +
     geom_dag_edges() +
-    geom_dag_text(color = 'black', size = 5) +
+    geom_dag_text(color = 'black', size = 3) +
     theme_dag() +
-    labs(title = 'Graphical Model: Basic')
+    labs(title = 'DAG 1')
 )
 
-ggsave(here::here('output/figures/graphical-models/dag_basic.jpeg'),
-       plot = plot_basic)
-
-#adjustmentSets(dag_basic)
-
-(plot_basic_adj_set <- 
-    ggdag_adjustment_set(dag_basic) + 
-    theme_dag() +
-    labs(title = 'Graphical Model: Basic')
-)
-
-ggsave(here::here('output/figures/graphical-models/dag_basic_adj_set.jpeg'))
+#ggsave(here::here('output/dags/dag-1.jpeg'), plot = dag_1_adj)
 
 
 
+# -------------------------------------------------------------------------
+# -------------------------------------------------------------------------
+# -------------------------------------------------------------------------
+# -------------------------------------------------------------------------
+# -------------------------------------------------------------------------
+# -------------------------------------------------------------------------
 
-
-
-
-# 2. Combat and PTSD -----------------------------------------------------
 dag_2 <- 
   
-  dagify('ID' ~ 'MI' + 'PTSD',
+  dagify('ID' ~ 'MI' + 'PTSD' + 'Combat',
          'PTSD' ~ 'Combat',
          'MI' ~ 'Combat',
-         
          exposure = 'MI', 
          outcome = 'ID')
 
 
-ggdag::tidy_dagitty(dag_2)
-
 coordinates(dag_2) <- list(
-  x = c(Combat = .5, MI = .75, PTSD = .75, ID = 1),
-  y = c(
-    PTSD = 1.03,
-    ID = 1,
-    MI = .97, 
-    Combat = 1
-  )
+  x = c(MI = 0, PTSD =  0, ID = 1, Combat = -1),
+  y = c(MI = 1, PTSD = -1, ID = 0, Combat = 0)
 )
 
 (plot_dag_2 <-
     ggdag(dag_2) +
-    geom_dag_point(colour = 'white', fill = 'white') +
+    geom_dag_point(fill = 'white', color = 'white') +
     geom_dag_edges() +
-    geom_dag_text(color = 'black', size = 5) +
+    geom_dag_text(color = 'black', size = 3) +
     theme_dag() +
-    labs(title = 'Graphical Model: Trauma and PMIEs')
+    labs(title = 'DAG 2')
 )
 
-ggsave(here::here('output/figures/graphical-models/dag_2.jpeg'),
-       plot = plot_dag_2)
+#ggsave(here::here('output/dags/dag-2.jpeg'), plot = plot_dag_2)
+plot(dag_2)
 
-
-adjustmentSets(dag_2)
-
-(plot_plot_dag_2_adj_set <-
-    ggdag_adjustment_set(dag_2) + theme_dag() +
-    labs(title = 'Graphical Model: Trauma and PMIEs')
+(dag_2_adj <- 
+    ggdag_adjustment_set(dag_2, 
+                         text_size = 3,
+                         shadow = T,
+                         text_col = 'black',
+    ) + 
+    theme_dag() +
+    ggsci::scale_color_bmj() + 
+    labs(title = 'Adjustment Sets: DAG 2')
 )
 
-ggsave(here::here('output/figures/graphical-models/dag_2_adj_set.jpeg'),
-       plot = plot_plot_dag_2_adj_set)
+#ggsave(here::here('output/dags/dag-2-adj.jpeg'), plot = dag_2_adj)
 
 
 
 
+# -------------------------------------------------------------------------
+# -------------------------------------------------------------------------
+# -------------------------------------------------------------------------
+# -------------------------------------------------------------------------
+# -------------------------------------------------------------------------
+# -------------------------------------------------------------------------
 
-# 3. Demographics -----------------------------------------------------
+
 dag_3 <- 
-  
-  dagify('ID' ~ 'MI' + 'PTSD' + 'Race' + 'Branch' + 'Era' + 'Sex' + 'nDply' + 'YrsSrv',
-         'PTSD' ~ 'Combat',
-         'MI' ~ 'Combat',
-         'Combat' ~ 'Branch' + 'Era' + 'nDply' + 'YrsSrv',
-         'nDply' ~ 'YrsSrv',
-         
+  dagify('ID' ~ 'MI' + 'PTSD' + 'Combat' + 'Gender' + 'Race' + 'Era',
+         'PTSD' ~ 'Combat' + 'Era' + 'Gender' + 'Race',
+         'MI' ~ 'Combat' + 'Era' + 'Gender' + 'Race',
+         'Combat' ~ 'Era' + 'Gender' + 'Race',
          exposure = 'MI', 
          outcome = 'ID')
 
 
-ggdag::tidy_dagitty(dag_3)
-
 coordinates(dag_3) <- list(
-  x = c(Combat = .5, MI = .75, PTSD = .75, Branch = .75, Era = .75, nDply = .75, YrsSrv = .75, Race = 1, Sex = 1, ID = 1),
-  y = c(
-    MI = 1.02, 
-    PTSD = 1.01,
-    ID = 1,
-    Combat = 1,
-    Branch = .99, 
-    Sex = .98,
-    Era = .98,
-    nDply = .97,
-    YrsSrv = .96,
-    Race = 1.02
-  )
+  x = c(Combat = 0, Era = .64, Race = .32, Gender = .31, MI = .5, PTSD =  .5, ID = 1),
+  y = c(Combat = 0,  Era =  -.43, Race = -.40, Gender =  .36, MI = 1, PTSD = -1, ID = 0)
 )
 
 (plot_dag_3 <-
     ggdag(dag_3) +
-    geom_dag_point(colour = 'white', fill = 'white') +
+    geom_dag_point(fill = 'white', color = 'white') +
     geom_dag_edges() +
-    geom_dag_text(color = 'black', size = 5) +
+    geom_dag_text(color = 'black', size = 3) +
     theme_dag() +
-    labs(title = 'Graphical Model: Trauma and PMIEs')
+    labs(title = 'DAG 4')
 )
 
-ggsave(here::here('output/figures/graphical-models/dag_3.jpeg'),
-       plot = plot_dag_3)
+#ggsave(here::here('output/dags/dag-3.jpeg'), plot = plot_dag_3)
 
 
-adjustmentSets(dag_3)
+(dag_3_adj <- 
+    ggdag_adjustment_set(dag_3, 
+                         text_size = 3,
+                         shadow = T,
+                         text_col = 'black',
+    ) + 
+    theme_dag() +
+    ggsci::scale_color_bmj() + 
+    labs(title = 'Adjustment Sets: DAG 4')
+)
+
+#ggsave(here::here('output/dags/dag-4-adj.jpeg'), plot = dag_4_adj)
 
 
 
-(plot_dag_3_adj_set <-
-    ggdag_adjustment_set(dag_3) + theme_dag() +
-    labs(title = 'Graphical Model')
+# -------------------------------------------------------------------------
+# -------------------------------------------------------------------------
+# -------------------------------------------------------------------------
+# -------------------------------------------------------------------------
+# -------------------------------------------------------------------------
+# -------------------------------------------------------------------------
+
+
+dag_4 <- 
+  dagify(
+         
+         
+         'Era' ~ 'Age',
+         'Rank' ~~ 'Education',
+         
+         'Income' ~~ 'Rank' + 'Education',
+         'n_child' ~ 'Marital',
+         
+         'MOS' ~    'Branch' + 'Gender' + 'Race' + 'Marital' + 'n_child',
+         
+         'Combat' ~ 'Branch' + 'Gender' + 'Race' + 'Marital' + 'n_child' + 'Era' + 'MOS' + 'Rank',
+         
+         'Leadership' ~~ 'Cohesion',
+         
+         'PTSD' ~ 'Combat' + 'Era' + 'Gender' + 'Race' + 'MOS' + 'Cohesion' + 'Leadership',
+         'MI' ~ 'Combat' + 'Era' + 'Gender' + 'Race' + 'Cohesion' + 'Leadership' + 'MOS',
+         
+         
+         'ID' ~ 'MI' + 'PTSD' + 'Combat' + 'Era' + 'Gender' + 'Race' + 'Education' + 'Rank' + 'Income' + 'Marital' + 'n_child',
+         
+         'Particpate' ~ 'Branch' + 'Era' + 'MOS' + 'Gender' + 'Race' + 'Marital' + 'n_child' +  'Rank' + 'Age' + 'Income' + 'Education',
+         
+         
+         exposure = 'MI',
+         outcome = 'ID')
+
+
+
+(plot_dag_4 <-
+    ggdag(dag_4) +
+    geom_dag_point(fill = 'white', color = 'white') +
+    geom_dag_edges() +
+    geom_dag_text(color = 'black', size = 3) +
+    theme_dag() +
+    labs(title = 'DAG 7')
+)
+
+#ggsave(here::here('output/dags/dag-7.jpeg'), plot = plot_dag_4)
+
+
+(dag_4_adj <-  
+    ggdag_adjustment_set(dag_4, 
+                         text_size = 3,
+                         shadow = T,
+                         text_col = 'black',
+    ) + 
+    theme_dag() +
+    ggsci::scale_color_bmj() + 
+    labs(title = 'Adjustment Sets: DAG 4')
+)
+
+adjustmentSets(dag_4)
+
+dag_4_participate <- adjust_for(dag_4, 'Particpate')
+
+(dag_4_adj <-  
+    ggdag_adjustment_set(dag_4_participate, 
+                         text_size = 3,
+                         shadow = T,
+                         text_col = 'black',
+    ) + 
+    theme_dag() +
+    ggsci::scale_color_bmj() + 
+    labs(title = 'Adjustment Sets: DAG 4 - Controlled for Participation')
 )
 
 
-ggsave(here::here('output/figures/graphical-models/dag_3_adj_set.jpeg'),
-       plot = plot_dag_3_adj_set)
+
+#ggsave(here::here('output/dags/dag-7-adj.jpeg'), plot = dag_4_adj)
+
+
+# -------------------------------------------------------------------------
+# -------------------------------------------------------------------------
+# -------------------------------------------------------------------------
+# -------------------------------------------------------------------------
+# -------------------------------------------------------------------------
+# -------------------------------------------------------------------------
 
 
 
+
+plot_dag_2
+plot_dag_3
+plot_dag_3
+plot_dag_4
+
+dag_2_adj
+dag_3_adj
+dag_3_adj
+dag_4_adj
 

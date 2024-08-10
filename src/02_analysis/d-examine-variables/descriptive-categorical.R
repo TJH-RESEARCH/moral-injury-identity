@@ -7,8 +7,6 @@ source(here::here('src/01_config/functions/function-count-percentage.R'))
 
 
 categorical_table <-
-  
-  
   data %>% count(mios_screener) %>% mutate(perc = n / sum(n) * 100) %>% 
   mutate(mios_screener = 
            ifelse(mios_screener == 1, 
@@ -46,35 +44,24 @@ categorical_table$variable[6] <- 'Moral Injury Event Type: Multiple Types'
 
 # Print:
 categorical_table %>% print(n = 100)
-categorical_table %>%  kableExtra::kbl(
-  caption = "Descriptive Statistics for Categorical Variables",
-  format = "html",
-  col.names = c("Category","n","%"),
-  align = "l") %>%
-  kableExtra::kable_classic(full_width = F, html_font = "times")
 
-
-# Print Latex
-
-categorical_table %>%  kableExtra::kbl(
+# Write file --------------------------------------------------------------
+categorical_table %>%  
+  kableExtra::kbl(
   caption = "Descriptive Statistics for Categorical Variables",
   format = "latex",
   col.names = c("Category","n","%"),
   align = "l") %>% 
-  write_file(here::here('output/tables/categorical-table-latex.txt'))
-
-categorical_table %>% kableExtra::kbl(format = 'latex') %>%
+  gsub("\\\\hline", "", .) %>% 
+  kable_classic(full_width = F, 
+                html_font = "helvetica") %>% 
   append_results_tables()
 
-
-# Write file --------------------------------------------------------------
 categorical_table %>% write_csv(here::here('output/tables/categorical-table.csv'))
+
 
 # Message
 message('Descriptive Table: Cateogrical variables saved to `output/tables/categorical-table.csv`')
-
-# Remove variable from environment
-rm(categorical_table)
 
 
 

@@ -4,7 +4,7 @@ session_info %>% print()
 session_info %>%
   write_rds(
     paste(here::here(), 
-          '/output/session-info/session-info-', 
+          '/output/session-info-', 
           Sys.Date(), 
           '.rds',
           sep = '')

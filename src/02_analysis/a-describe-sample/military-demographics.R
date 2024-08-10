@@ -11,18 +11,30 @@ military_demographic_table <-
   bind_rows( 
     
     # Branch -------------------------------------------------------------------
-    branch_sample = data %>% group_by(branch) %>% count_perc(T),
+    branch_sample = 
+      data %>% 
+      group_by(branch) %>% 
+      count_perc(T),
 
     # Rank ---------------------------------------------------------------------
     rank = 
       data %>% 
       select(starts_with('rank')) %>% 
       create_percentage_table() %>% 
-      slice(c(1,2,3,6,4,5)),
-    
+      slice(c(1,2,3,6,4,5)) %>% 
+      mutate(
+        category =
+          c(
+            "E-1 to E-3",
+            "E-4 to E-6", 
+            "E-7 to E-9", 
+            "W-1 to CW-5", 
+            "O-1 to O-3", 
+            "O-4 to O-6"
+          )
+      ),
     
     # Service Era --------------------------------------------------------------
-    
     service_era = 
       data %>% 
       count(service_era_init) %>% 
@@ -30,16 +42,34 @@ military_demographic_table <-
       rename(category = service_era_init),
     
     # Discharge Reason ---------------------------------------------------------
-    discharge_reason = data %>% group_by(discharge_reason) %>% count_perc(T),
+    discharge_reason = 
+      data %>% 
+      group_by(discharge_reason) %>% 
+      count_perc(T),
    
     # Military Experiences -----------------------------------------------------
     military_experiences =
-      data %>% select(starts_with('military_exp') & !ends_with('total')) %>% 
+      data %>% 
+      select(starts_with('military_exp') & !ends_with('total')) %>% 
       create_percentage_table() %>% 
-      slice(-c(1, 4)),
+      slice(-c(1, 4)) %>% 
+      mutate(
+        category =
+          c("Prior combat deployment",
+            "Prior non-combat deployment",
+            "Prior peacekeeping deployment",
+            "Supported combat operations"
+          )
+      ),
     
     # Disability ---------------------------------------------------------------
-    disability = data %>% group_by(disability) %>% count_perc(T),
+    disability = 
+      data %>% 
+      group_by(disability) %>% 
+      count_perc(T) %>% 
+      mutate(category = c("Does not recieve VA Disability",
+                          "Recieves VA Disability")
+      ),
     
     # Years of Service ---------------------------------------------------------
     years_service =
@@ -52,7 +82,14 @@ military_demographic_table <-
         ungroup() %>% 
         mutate(perc = n / sum(n) * 100,
                category = as.character(group)) %>% 
-      select(category, !group),
+      select(category, !group) %>% 
+      mutate(category = c(
+        "0 to 4 years of service",
+        "5 to 9 years of service",
+        "10 to 15 years of service",
+        "15 to 20 years of service",
+        "20+ years of service")
+        ),
     
     # Years Since Separation ---------------------------------------------------
     years_seperation =
@@ -65,72 +102,39 @@ military_demographic_table <-
       ungroup() %>% 
       mutate(perc = n / sum(n) * 100,
              category = as.character(group)) %>% 
-      select(category, !group)
-        
-      
+      select(category, !group) %>% 
+      mutate(category = c(
+        "0 to 9  years since separation",
+        "10 to 19  years since separation",
+        "20 to 29  years since separation",
+        "30 to 39  years since separation",
+        "40 to 49 years since separation",
+        "50+ years since separation"
+      ))
   ) %>% 
   mutate(perc = paste(round(perc, 1), "%"))
 
-military_demographic_table[7,1] <- "E-1 to E-3"
-military_demographic_table[8,1] <- "E-4 to E-6"
-military_demographic_table[9,1] <- "E-7 to E-9"
-military_demographic_table[10,1] <- "W-1 to CW-5"
-military_demographic_table[11,1] <- "O-1 to O-3"
-military_demographic_table[12,1] <- "O-4 to O-6"
-
-
-
-
-
-military_demographic_table[24,1] <- "Prior combat deployment"
-military_demographic_table[25,1] <- "Prior non-combat deployment"
-military_demographic_table[25,1] <- "Prior peacekeeping deployment"
-military_demographic_table[27,1] <- "Supported combat operations"
-
-military_demographic_table[28,1] <- "Does not recieve VA Disability"
-military_demographic_table[29,1] <- "Recieves VA Disability"
-
-military_demographic_table[30,1] <- "0 to 4 years of service"
-military_demographic_table[31,1] <- "5 to 9 years of service"
-military_demographic_table[32,1] <- "10 to 15 years of service"
-military_demographic_table[33,1] <- "15 to 20 years of service"
-military_demographic_table[34,1] <- "20+ years of service"
-
-military_demographic_table[35,1] <- "0 to 9  years since separation"
-military_demographic_table[36,1] <- "10 to 19  years since separation"
-military_demographic_table[37,1] <- "20 to 29  years since separation"
-military_demographic_table[38,1] <- "30 to 39  years since separation"
-military_demographic_table[39,1] <- "40 to 49 years since separation"
-military_demographic_table[40,1] <- "50+ years since separation"
 
 
 
 # Print -------------------------------------------------------------------
 military_demographic_table %>% print(n = 100)
 
+
+# Save --------------------------------------------------------------------
 military_demographic_table %>% 
   kableExtra::kbl(
     caption = "Table 1: Sample Demographics",
-    format = "html",
+    format = "latex",
     col.names = c("Category","n","%"),
-    align = "l") %>%
-  kableExtra::kable_classic(full_width = F, html_font = "times")
+    align = "l") %>% 
+  gsub("\\\\hline", "", .) %>% 
+  kable_classic(full_width = F, 
+                html_font = "helvetica") %>% 
+  append_results_tables()
 
-military_demographic_table %>% kableExtra::kbl(format = 'latex') %>% 
-  write_lines(here::here('output/tables/military-demographics-latex.txt'))
-
-military_demographic_table %>% kableExtra::kbl(format = 'latex') %>%
-  write_lines(here::here('output/results/results-tables.txt'))
-
-# Save --------------------------------------------------------------------
 military_demographic_table %>% readr::write_csv(here::here('output/tables/military-demographics.csv'))
+
 
 # Message -----------------------------------------------------------------
 message('Demographic table saved to `output/tables/military-demographics.csv`')
-
-# Clean -------------------------------------------------------------------
-rm(count_perc, create_percentage_table, military_demographic_table)
-
-
-
-

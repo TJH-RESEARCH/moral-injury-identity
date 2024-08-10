@@ -51,24 +51,17 @@ continuous_table <-
 # Print:
 continuous_table %>% print()
 
+# Write file --------------------------------------------------------------
 continuous_table %>% 
-  kableExtra::kbl(
-    caption = "Descriptive Statistics for Continuous Variables",
-    format = "html",
-    col.names = c("Variable","M","SD", "Min", "Max", '1', '2', '3'),
-    align = "c") %>%
-  kableExtra::kable_classic(full_width = F, html_font = "times")
-
-
-
-continuous_table %>% kableExtra::kbl(format = 'latex') %>% 
-  write_file(here::here('output/tables/continuous-table-latex.txt'))
-
-
-continuous_table %>% kableExtra::kbl(format = 'latex') %>%
+  kbl(caption = "Descriptive Statistics of Continuous Variables",
+      format = "latex",
+      #col.names = c("Gender","Education","Count","Mean","Median","SD"),
+      align = "l") %>%
+  gsub("\\\\hline", "", .) %>% 
+  kable_classic(full_width = F, 
+                html_font = "helvetica") %>% 
   append_results_tables()
 
-# Write file --------------------------------------------------------------
 continuous_table %>% write_csv(here::here('output/tables/continuous-table.csv'))
 
 # Message

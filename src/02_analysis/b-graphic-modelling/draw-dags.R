@@ -3,18 +3,14 @@ library(ggdag)
 library(dagitty)
 
 
-dag_1 <- 
-  dagify('ID' ~ 'MI',
-         exposure = 'MI', 
-         outcome = 'ID')
-
+dag_1 <- dagify('ID' ~ 'MI', exposure = 'MI', outcome = 'ID')
 
 coordinates(dag_1) <- list(
   x = c(MI = 0, ID = 1),
   y = c(MI = 0, ID = 0)
 )
 
-(plot_1_adj <-
+(plot_1 <-
     ggdag(dag_1) +
     geom_dag_point(fill = 'white', color = 'white') +
     geom_dag_edges() +
@@ -23,8 +19,7 @@ coordinates(dag_1) <- list(
     labs(title = 'DAG 1')
 )
 
-#ggsave(here::here('output/dags/dag-1.jpeg'), plot = dag_1_adj)
-
+ggsave(here::here('output/dags/dag-1.jpeg'), plot = plot_1)
 
 
 # -------------------------------------------------------------------------
@@ -57,8 +52,8 @@ coordinates(dag_2) <- list(
     labs(title = 'DAG 2')
 )
 
-#ggsave(here::here('output/dags/dag-2.jpeg'), plot = plot_dag_2)
-plot(dag_2)
+ggsave(here::here('output/dags/dag-2.jpeg'), plot = plot_dag_2)
+
 
 (dag_2_adj <- 
     ggdag_adjustment_set(dag_2, 
@@ -71,7 +66,7 @@ plot(dag_2)
     labs(title = 'Adjustment Sets: DAG 2')
 )
 
-#ggsave(here::here('output/dags/dag-2-adj.jpeg'), plot = dag_2_adj)
+ggsave(here::here('output/dags/dag-2-adj.jpeg'), plot = dag_2_adj)
 
 
 
@@ -82,7 +77,6 @@ plot(dag_2)
 # -------------------------------------------------------------------------
 # -------------------------------------------------------------------------
 # -------------------------------------------------------------------------
-
 
 dag_3 <- 
   dagify('ID' ~ 'MI' + 'PTSD' + 'Combat' + 'Gender' + 'Race' + 'Era',
@@ -104,10 +98,10 @@ coordinates(dag_3) <- list(
     geom_dag_edges() +
     geom_dag_text(color = 'black', size = 3) +
     theme_dag() +
-    labs(title = 'DAG 4')
+    labs(title = 'DAG 3')
 )
 
-#ggsave(here::here('output/dags/dag-3.jpeg'), plot = plot_dag_3)
+ggsave(here::here('output/dags/dag-3.jpeg'), plot = plot_dag_3)
 
 
 (dag_3_adj <- 
@@ -118,24 +112,21 @@ coordinates(dag_3) <- list(
     ) + 
     theme_dag() +
     ggsci::scale_color_bmj() + 
-    labs(title = 'Adjustment Sets: DAG 4')
+    labs(title = 'Adjustment Sets: DAG 3')
 )
 
-#ggsave(here::here('output/dags/dag-4-adj.jpeg'), plot = dag_4_adj)
+ggsave(here::here('output/dags/dag-3-adj.jpeg'), plot = dag_3_adj)
 
 
-
 # -------------------------------------------------------------------------
 # -------------------------------------------------------------------------
 # -------------------------------------------------------------------------
 # -------------------------------------------------------------------------
 # -------------------------------------------------------------------------
 # -------------------------------------------------------------------------
-
 
 dag_4 <- 
   dagify(
-         
          
          'Era' ~ 'Age',
          'Rank' ~~ 'Education',
@@ -162,17 +153,16 @@ dag_4 <-
          outcome = 'ID')
 
 
-
 (plot_dag_4 <-
     ggdag(dag_4) +
     geom_dag_point(fill = 'white', color = 'white') +
     geom_dag_edges() +
     geom_dag_text(color = 'black', size = 3) +
     theme_dag() +
-    labs(title = 'DAG 7')
+    labs(title = 'DAG 4')
 )
 
-#ggsave(here::here('output/dags/dag-7.jpeg'), plot = plot_dag_4)
+ggsave(here::here('output/dags/dag-4.jpeg'), plot = plot_dag_4)
 
 
 (dag_4_adj <-  
@@ -188,9 +178,11 @@ dag_4 <-
 
 adjustmentSets(dag_4)
 
+
+# Adjust for Participation ------------------------------------------------
 dag_4_participate <- adjust_for(dag_4, 'Particpate')
 
-(dag_4_adj <-  
+(dag_4_participate_adj <-  
     ggdag_adjustment_set(dag_4_participate, 
                          text_size = 3,
                          shadow = T,
@@ -201,9 +193,7 @@ dag_4_participate <- adjust_for(dag_4, 'Particpate')
     labs(title = 'Adjustment Sets: DAG 4 - Controlled for Participation')
 )
 
-
-
-#ggsave(here::here('output/dags/dag-7-adj.jpeg'), plot = dag_4_adj)
+ggsave(here::here('output/dags/dag-4-participate-adj.jpeg'), plot = dag_4_participate_adj)
 
 
 # -------------------------------------------------------------------------
@@ -212,17 +202,12 @@ dag_4_participate <- adjust_for(dag_4, 'Particpate')
 # -------------------------------------------------------------------------
 # -------------------------------------------------------------------------
 # -------------------------------------------------------------------------
-
-
-
 
 plot_dag_2
-plot_dag_3
 plot_dag_3
 plot_dag_4
 
 dag_2_adj
 dag_3_adj
-dag_3_adj
 dag_4_adj
-
+dag_4_participate_adj

@@ -10,7 +10,14 @@ plot_pairs <-
          wis_interdependent_total,
          wis_public_regard_total,
          biis_conflict) %>% 
-  GGally::ggpairs(title = 'Pair Plots: Moral Injury, Connection, Dissonance')
+  rename(
+    `Moral Injury` = mios_total, 
+    `Attachment` = wis_interdependent_total,
+    `Public Regard` = wis_public_regard_total,
+    `Identity Dissonance` = biis_conflict
+  ) %>% 
+  GGally::ggpairs(
+    title = 'Pair Plots: Moral Injury, Attachment, Identity Dissonance')
 
 plot_pairs %>% print()
 

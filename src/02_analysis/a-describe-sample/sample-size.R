@@ -1,5 +1,5 @@
 
 n <- data %>% nrow()
 n %>% print()
-n %>% write_lines('output/stats/sample-size.txt')
+n %>% write_lines('output/sample-size.txt')
 rm(n)

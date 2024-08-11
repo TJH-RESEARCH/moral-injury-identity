@@ -1,7 +1,7 @@
 
-
-# Create Tables -----------------------------------------------------------
 library(kableExtra)
+
+# Coefficients: BIIS -----------------------------------------------------------
 coefs %>%
   filter(model == 'biis') %>% 
   select(-model) %>%
@@ -36,7 +36,7 @@ coefs %>%
   append_results_tables()
 
 
-# Coefficients ------------------------------------------------------------
+# Coefficients: WIS ------------------------------------------------------------
 coefs %>%
   filter(model == 'wis') %>% 
   select(-model) %>%
@@ -104,6 +104,80 @@ coefs %>%
   kable_classic(full_width = F, 
                 html_font = "helvetica") %>% 
   append_results_tables()
+
+
+
+# Coefficients: BIIS -----------------------------------------------------------
+coefs %>%
+  filter(model == 'biis_m2cq') %>% 
+  select(-model) %>%
+  rename(
+    Term = term,
+    `b` = estimate,
+    SE = std.error,
+    t = statistic,
+    p = p.value, 
+    `CI Lower` = conf.low,
+    `CI Upper` = conf.high
+  ) %>% 
+  mutate(across(where(is.numeric),  ~ round(.x, 2))) %>% 
+  mutate(term = c(
+    '(Intercept)',
+    'Identity Dissonance',
+    'Moral Injury',
+    'PTSD',
+    'Combat',
+    'Era: Post-9/11',
+    'Era: Persian Gulf',
+    'Gender: Male',
+    'Race/Ethnicity: Black',
+    'Race/Ethnicity: White'
+  )) %>% 
+  kbl(caption = "Regression Coefficients: M2C-Q - Identity Dissonance",
+      format = "latex",
+      #col.names = c("Gender","Education","Count","Mean","Median","SD"),
+      align = "l") %>%
+  gsub("\\\\hline", "", .) %>% 
+  kable_classic(full_width = F, 
+                html_font = "helvetica") %>% 
+  append_results_tables()
+
+
+# Coefficients: WIS ------------------------------------------------------------
+coefs %>%
+  filter(model == 'wis_m2cq') %>% 
+  select(-model) %>%
+  rename(
+    `b` = estimate,
+    SE = std.error,
+    t = statistic,
+    p = p.value, 
+    `CI Lower` = conf.low,
+    `CI Upper` = conf.high
+  ) %>% 
+  mutate(across(where(is.numeric),  ~ round(.x, 2))) %>% 
+  mutate(term = c(
+    '(Intercept)',
+    'Attachment',
+    'Moral Injury',
+    'PTSD',
+    'Combat',
+    'Era: Post-9/11',
+    'Era: Persian Gulf',
+    'Gender: Male',
+    'Race/Ethnicity: Black',
+    'Race/Ethnicity: White'
+  )) %>% 
+  kbl(caption ="Regression Coefficients: M2C-Q - Military Attachment",
+      format = "latex",
+      #col.names = c("Gender","Education","Count","Mean","Median","SD"),
+      align="l") %>%
+  gsub("\\\\hline", "", .) %>% 
+  kable_classic(full_width = F, 
+                html_font = "helvetica") %>% 
+  append_results_tables()
+
+
 
 
 # Model Fits --------------------------------------------------------------

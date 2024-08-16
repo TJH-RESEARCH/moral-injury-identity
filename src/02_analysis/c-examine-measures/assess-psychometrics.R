@@ -7,16 +7,6 @@ alpha_mios <-
          mios_9, mios_10, mios_11, mios_12, mios_13, mios_14) %>% 
   psych::alpha()
 
-
-# BIIS Conflict --------------------------------------------------------------
-model_biis_conflict <- 
-  'conflict =~ biis_1 + biis_2 + biis_3 + biis_4 + biis_5 + biis_6 + biis_7 + biis_8 + biis_9 + biis_10'
-
-fit_biis_conflict <- 
-  lavaan::cfa(model_biis_conflict, data, 
-              std.lv = T, orthogonal = FALSE, estimator = 'MLR')
-
-
 # WIS Interdependence --------------------------------------------------------------
 model_wis_interdependent <- 
   'interdependent =~ wis_interdependent_8 + wis_interdependent_9 + wis_interdependent_10 + wis_interdependent_11 + wis_interdependent_12 + wis_interdependent_13 + wis_interdependent_14'
@@ -26,12 +16,12 @@ fit_wis_interdependent <-
               std.lv = F, ordered = F, estimator = 'MLR')
 
 
-# WIS Public Regard -------------------------------------------------------
-model_wis_public_regard <- 
-  'public_regard =~ wis_public_25 + wis_public_26 + wis_public_27 + wis_public_28'
+# WIS Private Regard -------------------------------------------------------
+model_wis_private_regard <- 
+  'private_regard =~ wis_private_1 + wis_private_2 + wis_private_3 + wis_private_4 + wis_private_5 + wis_private_6 + wis_private_7'
 
-fit_wis_public_regard <- 
-  lavaan::cfa(model_wis_public_regard, data, 
+fit_wis_private_regard <- 
+  lavaan::cfa(model_wis_private_regard, data, 
               std.lv = F, ordered = F, estimator = 'MLR')
 
 
@@ -39,24 +29,23 @@ fit_wis_public_regard <-
 psychometrics <-
   tibble(
   variable = 
-    c('Identity Dissonance', 
-      'Moral Injury',
+    c(
+      'Moral Injury Symptoms',
       'Military Identity Attachment',
-      'Percieved Public Regard for the Military'),
+      'Regard for the Military'),
   
   measure = 
-    c('BIIS-2 Conflict', 
-      'Moral Injury Symptoms',
-      'WIS Interdependent',
-      'WIS Public Regard'
+    c(
+      'Moral Injury Outcomes Scale',
+      'Warrior Identity Scale: Interdependence Subscale',
+      'Warrior Identity Scale: Private Regard Subscale'
        ),
   
   alpha = 
     c(
-      fit_biis_conflict %>% semTools::reliability() %>% tibble() %>% slice(1) %>% round(2) %>% as.numeric(),
       alpha_mios$total[1] %>% round(2) %>% as.numeric(),
       fit_wis_interdependent %>% semTools::reliability() %>% tibble() %>% slice(1) %>% round(2) %>% as.numeric(),
-      fit_wis_public_regard %>% semTools::reliability() %>% tibble() %>% slice(1) %>% round(2) %>% as.numeric()
+      fit_wis_private_regard %>% semTools::reliability() %>% tibble() %>% slice(1) %>% round(2) %>% as.numeric()
     )
 )
 

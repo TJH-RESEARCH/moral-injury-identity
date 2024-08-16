@@ -1,6 +1,13 @@
 
 library(kableExtra)
 
+boot_indices %>% 
+  dplyr::group_by(model) %>% 
+  summarise(mean_rsquared = mean(r.squared))
+
+
+
+
 # Coefficients: BIIS -----------------------------------------------------------
 coefs %>%
   filter(model == 'biis') %>% 

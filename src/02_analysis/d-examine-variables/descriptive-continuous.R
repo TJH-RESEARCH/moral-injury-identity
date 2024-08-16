@@ -11,18 +11,16 @@
 continuous_table <-
   data %>% 
   select(mios_total, 
-         biis_harmony,
          wis_interdependent_total,
-         wis_public_regard_total) %>% 
+         wis_private_regard_total) %>% 
 
   corrr::correlate() %>% 
   
   bind_cols(
     data %>% 
   select(mios_total, 
-         biis_harmony,
          wis_interdependent_total,
-         wis_public_regard_total) %>% 
+         wis_private_regard_total) %>% 
       psych::describe() %>% 
       tibble() %>% 
       select(mean, sd, min, max) 
@@ -35,17 +33,15 @@ continuous_table <-
          Max = max,
          # Replace column names with numbers
          `1` = mios_total, 
-         `2` = biis_harmony,
-         `3` = wis_interdependent_total,
-         `4` = wis_public_regard_total
+         `2` = wis_interdependent_total,
+         `3` = wis_private_regard_total
   ) %>% 
   mutate(
     term = str_replace(term, 'mios_total', 'Moral Injury Symptoms'),
-    term = str_replace(term, 'biis_harmony', 'Identity Dissonance'),
-    term = str_replace(term, 'wis_interdependent_total', 'Military Attachment'),
-    term = str_replace(term, 'wis_public_regard_total', 'Percieved Public Regard')
+    term = str_replace(term, 'wis_interdependent_total', 'Interdependence'),
+    term = str_replace(term, 'wis_private_regard_total', 'Regard')
   ) %>% 
-  select(-`4`)
+  select(-`3`)
 
 
 # Print:

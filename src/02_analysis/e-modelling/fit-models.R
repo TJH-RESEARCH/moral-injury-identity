@@ -1,149 +1,141 @@
-library(tidymodels)
 
+library(tidymodels)
+library(modelr)
 
 # A. RECIPES ----------------------------------------------------------------------
 
-
-### Identity Connection -----------------------------------------------------------------
-
-recipe_wis <-
-  recipes::recipe(wis_interdependent_total ~ 
-                    mios_total +
-                    pc_ptsd_positive_screen + 
-                    military_exp_combat +
-                    #MOS +
-                    service_era_post_911 +
-                    service_era_persian_gulf +
-                    sex_male +
-                    race_black +
-                    race_white,
-                  data = data) %>% 
-  step_center(all_numeric_predictors()) %>% 
-  step_scale(mios_total, factor = 2)
-
-recipe_wis %>% prep(., data) 
-
-data_baked_wis <- recipe_wis %>% prep(., data) %>% bake(., NULL)
-
-
-
-### Identity Dissonance -----------------------------------------------------------------
-
-recipe_biis <-
-  recipes::recipe(biis_conflict ~ 
-                    mios_total +
-                    pc_ptsd_positive_screen + 
-                    military_exp_combat +
-                    #MOS +
-                    service_era_post_911 +
-                    service_era_persian_gulf +
-                    sex_male +
-                    race_black +
-                    race_white,
-                  data = data) %>% 
-  step_center(all_numeric_predictors()) %>% 
-  step_scale(mios_total, factor = 2)
-
-recipe_biis %>% prep(., data) 
-
-data_baked_biis <- recipe_biis %>% prep(., data) %>% bake(., NULL)
-
-
-
-### Interaction  -----------------------------------------------------------------
-
-recipe_interact <-
-  recipes::recipe(biis_conflict ~ 
-                    mios_total +
-                    wis_public_regard_total +
-                    pc_ptsd_positive_screen + 
-                    military_exp_combat +
-                    #MOS +
-                    service_era_post_911 +
-                    service_era_persian_gulf +
-                    sex_male +
-                    race_black +
-                    race_white,
-                  data = data) %>% 
-  step_center(all_numeric_predictors()) %>% 
-  step_scale(mios_total, factor = 2) %>%
-  step_interact(terms = ~ mios_total:wis_public_regard_total)
-
-recipe_interact %>% prep(., data) 
-
-data_baked_interact <- recipe_interact %>% prep(., data) %>% bake(., NULL)
+## Specify the base 'recipe' for all the models:
+recipe <-
+  recipe(data, 
+         vars = 
+           c(
+             'mios_total',
+             'wis_private_regard_total',
+             'wis_interdependent_total',
+             'mios_screener',
+             'mios_criterion_a',
+             'military_exp_combat',
+             'race_black', 'race_white',
+             'branch_air_force', 'branch_marines', 'branch_navy',
+             'sex_male',
+             'service_era_init_pre_vietnam', 'service_era_init_vietnam', 'service_era_init_post_vietnam', 'service_era_init_persian_gulf',
+             'mos_combat',
+             'years_service',
+             'rank_e1_e3', 'rank_e4_e6', 'rank_e7_e9')
+         ) %>% 
+  
+  ### Center all the continuous variables
+  step_center(mios_total, 
+              wis_private_regard_total, 
+              wis_interdependent_total, 
+              years_service) %>% 
+  
+  ### Scale all the continuous variable to have a mean of 0 and SD of .5:
+  step_scale(mios_total, 
+             wis_private_regard_total, 
+             wis_interdependent_total, 
+             years_service, 
+             factor = 2) %>% 
+  
+  ### subtract the mean from the index variables to give them a new mean of 0:
+  step_mutate_at(mios_screener,
+                 mios_criterion_a,
+                 military_exp_combat,
+                 race_black, race_white,
+                 branch_air_force, branch_marines, branch_navy,
+                 sex_male,
+                 service_era_init_pre_vietnam, service_era_init_vietnam, 
+                 service_era_init_post_vietnam, service_era_init_persian_gulf,
+                 mos_combat,
+                 rank_e1_e3, rank_e4_e6, rank_e7_e9, 
+                 fn = ~ .x - mean(.x)) %>% 
+  
+  ### Set the variables that will be predictors in every model:
+  update_role(mios_screener, 
+              mios_criterion_a, 
+              military_exp_combat, 
+              race_black, race_white, 
+              branch_air_force, branch_marines, branch_navy,
+              sex_male, 
+              service_era_init_pre_vietnam, service_era_init_vietnam, service_era_init_post_vietnam, service_era_init_persian_gulf,
+              mos_combat,
+              years_service, 
+              rank_e1_e3, rank_e4_e6, rank_e7_e9, 
+              new_role = 'predictor')
 
 
+### Print the recipe:
+recipe %>% print()
+
+### Save a copy of the prepared data ('baked' according to the 'recipe'): 
+data_baked <- recipe %>% prep(., data) %>% bake(., NULL)
 
 
-# Mediation: Attachment ---------------------------------------------------
-
-recipe_wis_m2cq <-
-  recipes::recipe(m2cq_mean ~ 
-                    wis_interdependent_total +
-                    mios_total +
-                    pc_ptsd_positive_screen + 
-                    military_exp_combat +
-                    #MOS +
-                    service_era_post_911 +
-                    service_era_persian_gulf +
-                    sex_male +
-                    race_black +
-                    race_white,
-                  data = data) %>% 
-  step_center(all_numeric_predictors()) %>% 
-  step_scale(mios_total, factor = 2)
-
-recipe_wis_m2cq %>% prep(., data) 
-
-data_baked_wis_m2cq <- recipe_wis_m2cq %>% prep(., data) %>% bake(., NULL)
+### Check that transformations made everything the same scale (i.e., mean = 0)
+data_baked %>% summarize(across(where(is.numeric), ~ round(mean(.x), 14))) %>% t()
+### And standard deviations are all between 0-1
+data_baked %>% summarize(across(where(is.numeric), ~ sd(.x))) %>% t()
+### And that the index variables are still a difference of 1
+data_baked %>% summarize(across(where(is.numeric), ~ max(.x) - min(.x))) %>% t()
 
 
 
+## Modify the base recipe for each regression model ----------------------------
 
-# Mediation: Dissonance ---------------------------------------------------
+### Interdependence as the outcome:
+recipe_inter <-
+  recipe %>% 
+  update_role(wis_interdependent_total, new_role = 'outcome')
 
-
-recipe_biis_m2cq <-
-  recipes::recipe(m2cq_mean ~ 
-                    biis_conflict +
-                    mios_total +
-                    pc_ptsd_positive_screen + 
-                    military_exp_combat +
-                    #MOS +
-                    service_era_post_911 +
-                    service_era_persian_gulf +
-                    sex_male +
-                    race_black +
-                    race_white,
-                  data = data) %>% 
-  step_center(all_numeric_predictors()) %>% 
-  step_scale(mios_total, factor = 2)
-
-recipe_biis_m2cq %>% prep(., data) 
-
-data_baked_biis_m2cq <- recipe_biis_m2cq %>% prep(., data) %>% bake(., NULL)
+recipe_inter %>% print()
 
 
+### Interdependence as a predictor and Moral Injury symptoms as the outcome:
+recipe_mios_inter <-
+  recipe %>% 
+  update_role(wis_interdependent_total, new_role = 'predictor') %>% 
+  update_role(mios_total, new_role = 'outcome')
+
+recipe_mios_inter %>% print()
 
 
+### Private Regard as the outcome
+recipe_regard <-
+  recipe %>% 
+  update_role(wis_private_regard_total, new_role = 'outcome')
 
-# B. DEFINE MODELS ----------------------------------------------------------------
+recipe_regard %>% print()
+
+
+### Private Regard as a predictor and Moral Injury Symptoms as the outcome
+recipe_mios_regard <-
+  recipe %>% 
+  update_role(wis_private_regard_total, new_role = 'predictor') %>% 
+  update_role(mios_total, new_role = 'outcome')
+  
+recipe_mios_regard %>% print()
+
+
+# B. INSTANTIATE REGRESSION MODEL ----------------------------------------------------------------
 
 model_lm <-
   linear_reg() %>% 
   set_engine('lm')
 
+model_lm %>% print()
+
+
 
 # C. WORKFLOW SETS ----------------------------------------------------------------
+## Cross the instantiated regression model with the recipes and save as a set:
+
 models <-
   workflow_set(
     preproc = list(
-      biis = recipe_biis,
-      wis = recipe_wis, 
-      biis_m2cq = recipe_biis_m2cq,
-      wis_m2cq = recipe_wis_m2cq,
-      interact = recipe_interact
+      inter = recipe_inter,
+      mios_inter = recipe_mios_inter,
+      regard = recipe_regard,
+      mios_regard = recipe_mios_regard
     ),
     models = list(
       lm = model_lm
@@ -154,40 +146,122 @@ models <-
 models %>% print(n = 50)
 
 
+models %>% 
+  extract_workflow('regard_lm') %>% 
+  fit(data) %>% extract_model()
+
+models %>% 
+  extract_workflow('mios_regard_lm') %>% 
+  fit(data) %>% extract_model()
+
+
+models %>% 
+  extract_workflow('inter_lm') %>% 
+  fit(data) %>% extract_model()
+
+models %>% 
+  extract_workflow('mios_inter_lm') %>% 
+  fit(data) %>% extract_model()
+
 
 # D. FIT MODELS -------------------------------------------------------------------
 
-fit_biis <- 
-  models %>% 
-  extract_workflow('biis_lm') %>% 
-  fit(data)
+## Make Bootstrapped Data Sets:
+set.seed(14020)      ### Set seed for pseudo-random number generator
+n_bootstraps <- 100 ### declare number of samples to bootstrap
 
-fit_wis <- 
-  models %>% 
-  extract_workflow('wis_lm') %>% 
-  fit(data)
-
-fit_interact <- 
-  models %>% 
-  extract_workflow('interact_lm') %>% 
-  fit(data)
-
-fit_biis_m2cq <- 
-  models %>% 
-  extract_workflow('biis_m2cq_lm') %>% 
-  fit(data)
-
-fit_wis_m2cq <- 
-  models %>% 
-  extract_workflow('wis_m2cq_lm') %>% 
-  fit(data)
+boots <- 
+  bootstraps(data_baked,           # Use the prepared data
+             times = n_bootstraps, 
+             apparent = TRUE
+             )
 
 
-# E. EXTRACT MODELS ---------------------------------------------------------------
 
-### Total ----
-fit_biis      <- fit_biis %>% parsnip::extract_fit_engine()
-fit_wis       <- fit_wis %>% parsnip::extract_fit_engine()
-fit_interact  <- fit_interact %>% parsnip::extract_fit_engine()
-fit_biis_m2cq <- fit_biis_m2cq %>% parsnip::extract_fit_engine()
-fit_wis_m2cq  <- fit_wis_m2cq %>% parsnip::extract_fit_engine()
+## Make functions 
+
+### to extract workflow and fit model to bootstraps:
+fit_fun <- function(split, model, ...) {
+  fits <-
+    models %>% 
+    extract_workflow(model) %>% ### Pulls the declared model from workflow sets
+    fit(analysis(split)) 
+}
+
+fit_aug <- function(fits, newdata) {
+  preds <-
+    fits %>% 
+    extract_model() 
+    broom::augment(model = ., newdata = newdata)
+}
+
+
+
+
+x <- models %>% 
+     extract_workflow('mios_inter_lm') %>% 
+     fit(data) %>% 
+     extract_model() %>% 
+  broom::augment(data = data_baked)
+
+
+## Fit models:
+
+### Interdepence as the outcome:
+lm_inter_boot <-
+  boots %>%
+  mutate(fits = map(splits, ~ fit_fun(.x, model = 'inter_lm', start = start_vals)),
+         results = map(fits, ~ broom::tidy(.x)),
+         #preds = map(fits, ~ broom::augment(model = .x, newdata = data)),
+         fit_indices = map(fits, ~ broom::glance(.x))
+         )
+
+### Moral Injury as the outcome and interdependence as a predictor:
+lm_mios_inter_boot <-
+  boots %>%
+  mutate(fits = map(splits, ~ fit_fun(.x, model = 'mios_inter_lm', start = start_vals)),
+         results = map(fits, ~ broom::tidy(.x)),
+         #preds = map(fits, ~ add_predictions(data = data, model = .x)),
+         fit_indices = map(fits, ~ broom::glance(.x))
+  )
+
+### Private Regard as the outcome:
+lm_regard_boot <-
+  boots %>%
+  mutate(fits = map(splits, ~ fit_fun(.x, model = 'regard_lm', start = start_vals)),
+         results = map(fits, ~ broom::tidy(.x)),
+         #preds = map(fits, ~ add_predictions(data = data, model = .x)),
+         fit_indices = map(fits, ~ broom::glance(.x))
+  )
+
+### Moral Injury Symptoms as the outcome as private regard as a predictor:
+lm_mios_regard_boot <-
+  boots %>%
+  mutate(fits = map(splits, ~ fit_fun(.x, model = 'mios_regard_lm', start = start_vals)),
+         results = map(fits, ~ broom::tidy(.x)),
+         #preds = map(fits, ~ add_predictions(data = data, model = .x)),
+         fit_indices = map(fits, ~ broom::glance(.x))
+  )
+
+
+
+# E. SAVE RESULTS ---------------------------------------------------------
+
+## Bind the results together:
+boot_output <- 
+  bind_rows(
+    lm_inter_boot %>% mutate(model = 'lm_inter', mediation = 'inter'),
+    lm_mios_inter_boot %>% mutate(model = 'lm_mios_inter', mediation = 'inter'),
+    lm_regard_boot %>% mutate(model = 'lm_regard', mediation = 'regard'),
+    lm_mios_regard_boot %>% mutate(model = 'lm_mios_regard', mediation = 'regard'),
+  )
+
+### Add predictions
+boot_output$preds <-
+  boot_output$fits[1:404] %>% 
+  map(~ extract_model(.x)) %>% 
+  map(~ broom::augment(.x, 
+                       data = data_baked, 
+                       se_fit = TRUE))
+
+

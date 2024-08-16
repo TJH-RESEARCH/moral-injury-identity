@@ -1,5 +1,4 @@
 # Load Packages -----------------------------------------------------------
-source(here::here('renv/activate.R'))
 library(kableExtra)
 library(tidyverse)
 
@@ -8,7 +7,7 @@ source(here::here('src/01_config/folder-structure.R'))
 source(here::here('src/01_config/functions/function-append-results.R'))
 
 # READ DATA SET  -----------------------------------------------------------
-data <- read_csv(here::here('data/data_main_moral_injury_identity.csv'))
+data <- read_csv(here::here('data/data_main.csv'))
 
 # DESCRIBE SAMPLE ----------------------------------------------------------
 source(here::here('src/02_analysis/a-describe-sample/sample-size.R'))
@@ -28,21 +27,13 @@ source(here::here('src/02_analysis/d-examine-variables/descriptive-continuous.R'
 
 # SPECIFY MODELS ----------------------------------------------------
 source(here::here('src/02_analysis/e-modelling/fit-models.R'))
+source(here::here('src/02_analysis/e-modelling/save-results.R'))
 source(here::here('src/02_analysis/e-modelling/model-diagnostics.R'))
-source(here::here('src/02_analysis/e-modelling/calculate-robust-se.R'))
+source(here::here('src/02_analysis/e-modelling/model-predictions.R'))
+source(here::here('src/02_analysis/e-modelling/calculate-effects.R'))
+source(here::here('src/02_analysis/e-modelling/make-results-tables.R'))
+source(here::here('src/02_analysis/e-modelling/visualize-results.R'))
 
-# INTERPRET MODELS --------------------------------------------------------
-source(here::here('src/02_analysis/f-interpret-results/save-results.R'))
-source(here::here('src/02_analysis/f-interpret-results/make-results-tables.R'))
-source(here::here('src/02_analysis/f-interpret-results/visualize-results.R'))
-
-# POST HOC ANALYSIS -------------------------------------------------------
-source(here::here('src/02_analysis/g-posthoc/split-sample.R'))
-source(here::here('src/02_analysis/g-posthoc/group-sizes-post-hoc.R'))
-source(here::here('src/02_analysis/g-posthoc/fit-models-post-hoc.R'))
-source(here::here('src/02_analysis/g-posthoc/calculate-robust-se-post-hoc.R'))
-#source(here::here('src/02_analysis/g-posthoc/make-results-tables-post-hoc.R'))
-#source(here::here('src/02_analysis/g-posthoc/visualize-coefficients-post-hoc.R'))
 
 # SAVE SESSION INFO -------------------------------------------------------
 source(here::here('src/01_config/session-info.R'))

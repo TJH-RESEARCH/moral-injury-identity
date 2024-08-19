@@ -56,7 +56,7 @@ continuous_table %>%
   gsub("\\\\hline", "", .) %>% 
   kable_classic(full_width = F, 
                 html_font = "helvetica") %>% 
-  append_results_tables()
+  write_lines(file = here::here('output/tables/results-tables.txt'), append = TRUE)
 
 continuous_table %>% write_csv(here::here('output/tables/continuous-table.csv'))
 

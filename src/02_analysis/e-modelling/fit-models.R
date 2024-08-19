@@ -146,37 +146,17 @@ models <-
 models %>% print(n = 50)
 
 
-models %>% 
-  extract_workflow('regard_lm') %>% 
-  fit(data) %>% extract_model()
-
-models %>% 
-  extract_workflow('mios_regard_lm') %>% 
-  fit(data) %>% extract_model()
-
-
-models %>% 
-  extract_workflow('inter_lm') %>% 
-  fit(data) %>% extract_model()
-
-models %>% 
-  extract_workflow('mios_inter_lm') %>% 
-  fit(data) %>% extract_model()
-
-
 # D. FIT MODELS -------------------------------------------------------------------
 
 ## Make Bootstrapped Data Sets:
 set.seed(14020)      ### Set seed for pseudo-random number generator
-n_bootstraps <- 100 ### declare number of samples to bootstrap
+n_bootstraps <- 2000 ### declare number of samples to bootstrap
 
 boots <- 
   bootstraps(data_baked,           # Use the prepared data
              times = n_bootstraps, 
              apparent = TRUE
              )
-
-
 
 ## Make functions 
 
@@ -188,6 +168,7 @@ fit_fun <- function(split, model, ...) {
     fit(analysis(split)) 
 }
 
+
 fit_aug <- function(fits, newdata) {
   preds <-
     fits %>% 
@@ -196,53 +177,39 @@ fit_aug <- function(fits, newdata) {
 }
 
 
-
-
-x <- models %>% 
-     extract_workflow('mios_inter_lm') %>% 
-     fit(data) %>% 
-     extract_model() %>% 
-  broom::augment(data = data_baked)
-
-
 ## Fit models:
 
 ### Interdepence as the outcome:
 lm_inter_boot <-
   boots %>%
-  mutate(fits = map(splits, ~ fit_fun(.x, model = 'inter_lm', start = start_vals)),
+  mutate(fits = map(splits, ~ fit_fun(.x, model = 'mios_inter_lm')),
          results = map(fits, ~ broom::tidy(.x)),
-         #preds = map(fits, ~ broom::augment(model = .x, newdata = data)),
          fit_indices = map(fits, ~ broom::glance(.x))
          )
 
 ### Moral Injury as the outcome and interdependence as a predictor:
 lm_mios_inter_boot <-
   boots %>%
-  mutate(fits = map(splits, ~ fit_fun(.x, model = 'mios_inter_lm', start = start_vals)),
+  mutate(fits = map(splits, ~ fit_fun(.x, model = 'mios_inter_lm')),
          results = map(fits, ~ broom::tidy(.x)),
-         #preds = map(fits, ~ add_predictions(data = data, model = .x)),
          fit_indices = map(fits, ~ broom::glance(.x))
   )
 
 ### Private Regard as the outcome:
 lm_regard_boot <-
   boots %>%
-  mutate(fits = map(splits, ~ fit_fun(.x, model = 'regard_lm', start = start_vals)),
+  mutate(fits = map(splits, ~ fit_fun(.x, model = 'regard_lm')),
          results = map(fits, ~ broom::tidy(.x)),
-         #preds = map(fits, ~ add_predictions(data = data, model = .x)),
          fit_indices = map(fits, ~ broom::glance(.x))
   )
 
 ### Moral Injury Symptoms as the outcome as private regard as a predictor:
 lm_mios_regard_boot <-
   boots %>%
-  mutate(fits = map(splits, ~ fit_fun(.x, model = 'mios_regard_lm', start = start_vals)),
+  mutate(fits = map(splits, ~ fit_fun(.x, model = 'mios_regard_lm')),
          results = map(fits, ~ broom::tidy(.x)),
-         #preds = map(fits, ~ add_predictions(data = data, model = .x)),
          fit_indices = map(fits, ~ broom::glance(.x))
   )
-
 
 
 # E. SAVE RESULTS ---------------------------------------------------------
@@ -258,10 +225,6 @@ boot_output <-
 
 ### Add predictions
 boot_output$preds <-
-  boot_output$fits[1:404] %>% 
+  boot_output$fits[1:nrow(boot_output)] %>% 
   map(~ extract_model(.x)) %>% 
-  map(~ broom::augment(.x, 
-                       data = data_baked, 
-                       se_fit = TRUE))
-
-
+  map(~ broom::augment(.x, data = data_baked, se_fit = TRUE))

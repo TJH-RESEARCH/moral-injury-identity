@@ -1,8 +1,8 @@
 
 
 # Helper Functions -------------------------------------------------------------
-source(here::here('src/01_config/functions/function-percentage-tables.R'))
-source(here::here('src/01_config/functions/function-count-percentage.R'))
+source(here::here('src/01_config/function-percentage-tables.R'))
+source(here::here('src/01_config/function-count-percentage.R'))
 
 # Create Demographic Table -----------------------------------------------------
 
@@ -60,15 +60,16 @@ military_demographic_table <-
             "Prior peacekeeping deployment",
             "Supported combat operations"
           )
-      ),
+      ) %>% 
+      arrange(desc(n)),
     
     # Disability ---------------------------------------------------------------
     disability = 
       data %>% 
       group_by(disability) %>% 
       count_perc(T) %>% 
-      mutate(category = c("Does not recieve VA Disability",
-                          "Recieves VA Disability")
+      mutate(category = c("Does not receive VA Disability",
+                          "Receives VA Disability")
       ),
     
     # Years of Service ---------------------------------------------------------
@@ -131,7 +132,7 @@ military_demographic_table %>%
   gsub("\\\\hline", "", .) %>% 
   kable_classic(full_width = F, 
                 html_font = "helvetica") %>% 
-  append_results_tables()
+  write_lines(file = here::here('output/tables/results-tables.txt'), append = TRUE)
 
 military_demographic_table %>% readr::write_csv(here::here('output/tables/military-demographics.csv'))
 

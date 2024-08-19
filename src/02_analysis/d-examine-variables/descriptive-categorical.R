@@ -1,44 +1,78 @@
 
 
-source(here::here('src/01_config/functions/function-percentage-tables.R'))
-source(here::here('src/01_config/functions/function-count-percentage.R'))
+source(here::here('src/01_config/function-percentage-tables.R'))
+source(here::here('src/01_config/function-count-percentage.R'))
 
 # Categorical --------------------------------------------------------------
 
 
 categorical_table <-
-  data %>% count(mios_screener) %>% mutate(perc = n / sum(n) * 100) %>% 
+  data %>% 
+  count(mios_screener) %>% mutate(perc = n / sum(n) * 100) %>% 
   mutate(mios_screener = 
            ifelse(mios_screener == 1, 
                   'Endorsed a moral injury event', 
-                  'Did not endorse a moral injury event')) %>% rename(variable = 1) %>% 
+                  'Did not endorse a moral injury event')) %>% 
+  rename(Category = 1) %>% 
   
   bind_rows(
-    data %>% select(starts_with('mios_event_type_') & !ends_with('multiple')) %>% 
-      create_percentage_table() %>% arrange() %>% rename(variable = 1), 
+    data %>% 
+      select(starts_with('mios_event_type_') & !ends_with('multiple')) %>% 
+      create_percentage_table() %>% 
+      select(-perc) %>%
+      rename(Category = 1) %>% 
+      mutate(
+        Category = c('Moral Injury Event Type: Betrayal',
+                'Moral Injury Event Type: Other Person',
+                'Moral Injury Event Type: Self'),
+        perc = (n / 
+             # percent of those endorsing an MI event
+             data %>% 
+             count(mios_screener) %>% 
+             filter(mios_screener == 1) %>% 
+             select(n) %>% as.numeric()
+             ) * 100
+        ), 
     
-    data %>% select(mios_event_type_multiple) %>% 
-      create_percentage_table() %>% arrange() %>% rename(variable = 1),
+    data %>% 
+      count(mios_event_type_multiple) %>% 
+      filter(mios_event_type_multiple == 1) %>% 
+      mutate(
+        perc = (n / 
+               # percent of those endorsing an MI event
+               data %>% 
+               count(mios_screener) %>% 
+               filter(mios_screener == 1) %>% 
+               select(n) %>% as.numeric()
+               ) * 100
+        ) %>% 
+      rename(Category = 1) %>% 
+      mutate(Category = c('Moral Injury Event Type: Multiple Types')),
   
-    data %>% count(mios_criterion_a) %>% mutate(perc = n / sum(n) * 100) %>% 
+    data %>% 
+      count(mios_criterion_a) %>% 
+      mutate(perc = n / sum(n) * 100) %>% 
       mutate(mios_criterion_a = 
                ifelse(mios_criterion_a == 1, 
-                      'Endorsed Criterian A PTSD experience', 
-                      'Did not endorse Criterian A experience')) %>% rename(variable = 1),
+                      'Endorsed Criterion A PTSD experience', 
+                      'Did not endorse Criterion A experience')) %>% 
+      rename(Category = 1),
   
-    data %>% count(pc_ptsd_positive_screen) %>% mutate(perc = n / sum(n) * 100) %>% 
+    data %>% 
+      count(pc_ptsd_positive_screen) %>% 
+      mutate(perc = n / sum(n) * 100) %>% 
       mutate(pc_ptsd_positive_screen = 
                 ifelse(pc_ptsd_positive_screen == 1, 
                       'Probable PTSD detected', 
-                      'Probable PTSD not detected')) %>% rename(variable = 1)
+                      'Probable PTSD not detected')) %>% 
+      rename(Category = 1)
+    
   ) %>% 
-  mutate(perc = round(perc, 2))
+  mutate(perc = round(perc, 1))
 
   
-categorical_table$variable[3] <- 'Moral Injury Event Type: Betrayal'
-categorical_table$variable[4] <- 'Moral Injury Event Type: Other Person'
-categorical_table$variable[5] <- 'Moral Injury Event Type: Self'
-categorical_table$variable[6] <- 'Moral Injury Event Type: Multiple Types'
+
+
 
 
 
@@ -48,20 +82,20 @@ categorical_table %>% print(n = 100)
 # Write file --------------------------------------------------------------
 categorical_table %>%  
   kableExtra::kbl(
-  caption = "Descriptive Statistics for Categorical Variables",
+  caption = "Descriptive Statistics for Categorical Categorys",
   format = "latex",
   col.names = c("Category","n","%"),
   align = "l") %>% 
   gsub("\\\\hline", "", .) %>% 
   kable_classic(full_width = F, 
                 html_font = "helvetica") %>% 
-  append_results_tables()
+  write_lines(file = here::here('output/tables/results-tables.txt'), append = TRUE)
 
 categorical_table %>% write_csv(here::here('output/tables/categorical-table.csv'))
 
 
 # Message
-message('Descriptive Table: Cateogrical variables saved to `output/tables/categorical-table.csv`')
+message('Descriptive Table: Cateogrical Categorys saved to `output/tables/categorical-table.csv`')
 
 
 

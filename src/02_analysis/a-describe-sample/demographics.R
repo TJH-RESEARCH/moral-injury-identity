@@ -1,8 +1,8 @@
 
 
 # Helper Functions -------------------------------------------------------------
-source(here::here('src/01_config/functions/function-percentage-tables.R'))
-source(here::here('src/01_config/functions/function-count-percentage.R'))
+source(here::here('src/01_config/function-percentage-tables.R'))
+source(here::here('src/01_config/function-count-percentage.R'))
 
 # Create Demographic Table -----------------------------------------------------
 
@@ -108,7 +108,7 @@ demographic_table %>%
   gsub("\\\\hline", "", .) %>% 
   kable_classic(full_width = F, 
                 html_font = "helvetica") %>% 
-  append_results_tables()
+  write_lines(file = here::here('output/tables/results-tables.txt'), append = TRUE)
 
 demographic_table %>% readr::write_csv(here::here('output/tables/demographics.csv'))
 

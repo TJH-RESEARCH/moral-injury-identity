@@ -293,6 +293,7 @@ adjustmentSets(dag_5, effect = 'direct')
     ggsci::scale_color_bmj() + 
     labs(title = 'Adjusting for Collider Biased Introduced by Participation')
 )
+ggsave(here::here('output/dags/dag-5-participate.jpeg'), plot = dag_5_participate)
 
 
 (dag_5_direct <- 
@@ -307,7 +308,7 @@ adjustmentSets(dag_5, effect = 'direct')
 )
 
 
-ggsave(here::here('output/dags/dag-5-adj.jpeg'), plot = dag_5_adj)
+ggsave(here::here('output/dags/dag-5-direct.jpeg'), plot = dag_5_direct)
 
 
 # -------------------------------------------------------------------------
@@ -373,6 +374,7 @@ adjustmentSets(dag_6, effect = 'direct')
     labs(title = 'Adjusting for Collider Biased Introduced by Participation')
 )
 
+ggsave(here::here('output/dags/dag-6-participate.jpeg'), plot = dag_6_participate)
 
 (dag_6_direct <- 
     ggdag_adjust(dag_6,
@@ -385,6 +387,6 @@ adjustmentSets(dag_6, effect = 'direct')
     labs(title = 'Getting the direct effect')
 )
 
+ggsave(here::here('output/dags/dag-6-direct.jpeg'), plot = dag_6_direct)
 
-#ggsave(here::here('output/dags/dag-6-adj.jpeg'), plot = dag_6_adj)
 

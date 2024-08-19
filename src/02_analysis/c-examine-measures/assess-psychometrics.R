@@ -63,6 +63,4 @@ psychometrics %>%
   gsub("\\\\hline", "", .) %>% 
   kable_classic(full_width = F, 
                 html_font = "helvetica") %>% 
-  append_results_tables()
-
-
+  write_lines(file = here::here('output/tables/results-tables.txt'), append = TRUE)

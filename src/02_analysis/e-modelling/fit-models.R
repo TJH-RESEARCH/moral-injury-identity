@@ -182,7 +182,7 @@ fit_aug <- function(fits, newdata) {
 ### Interdepence as the outcome:
 lm_inter_boot <-
   boots %>%
-  mutate(fits = map(splits, ~ fit_fun(.x, model = 'mios_inter_lm')),
+  mutate(fits = map(splits, ~ fit_fun(.x, model = 'inter_lm')),
          results = map(fits, ~ broom::tidy(.x)),
          fit_indices = map(fits, ~ broom::glance(.x))
          )

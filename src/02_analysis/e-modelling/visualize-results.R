@@ -101,3 +101,6 @@ patchwork::plot_annotation(
 ggsave(filename = 'plot-bootstrap.pdf', 
        path = here::here('output/figures'),
        bg = "transparent", width = 6, height = 4, dpi = 300)
+
+
+

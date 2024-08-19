@@ -37,12 +37,6 @@ boot_models %>% print()
 
 
 
-# RESULTS: FIT INDICES ----------------------------------------------------
-results_indices <-
-  boot_indices %>% 
-  filter(id == 'Apparent')
-
-
 # RESULTS: ALL COEFFICIENTS -----------------------------------------------
 results_coefs <-
   left_join(

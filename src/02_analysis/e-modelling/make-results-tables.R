@@ -25,7 +25,8 @@ result_indirect %>%
 
 
 # RESULTS TABLE: MODEL FITS --------------------------------------------------------------
-results_indices %>% 
+boot_indices %>% 
+  filter(id == 'Apparent') %>% 
   select(c(model, r.squared, AIC, nobs)) %>% 
   rename(
     Model = model,

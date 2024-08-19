@@ -38,7 +38,7 @@ military_demographic_table <-
     service_era = 
       data %>% 
       count(service_era_init) %>% 
-      mutate(perc = n / n()) %>% 
+      mutate(perc = n / sum(n) * 100) %>% 
       rename(category = service_era_init),
     
     # Discharge Reason ---------------------------------------------------------

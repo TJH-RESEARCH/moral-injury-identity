@@ -111,7 +111,10 @@ demographic_table %>%
   write_lines(file = here::here('output/tables/results-tables.txt'), append = TRUE)
 
 demographic_table %>% readr::write_csv(here::here('output/tables/demographics.csv'))
-
+demographic_table %>% print()
 
 # Message -----------------------------------------------------------------
 message('Demographic table saved to `output/tables/sample-demographics.csv`')
+
+
+data %>% count(years_of_age) %>% arrange(desc(years_of_age)) %>% print(n = 300)

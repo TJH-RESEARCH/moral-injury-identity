@@ -1,5 +1,117 @@
 
-library(kableExtra)
+library(kableExtra) # Package for conversion to latex
+
+
+# RESULTS: ALL COEFFICIENTS -----------------------------------------------
+results_coefs <-
+  left_join(
+    # Get coefficients from original data sets
+    coefs %>% 
+      filter(id == 'Apparent') %>%  # Apparent is the original data, not bootsrapped
+      select(model, term, estimate, path),
+    
+    # Get standard deviation of coefficients across the bootstrap samples
+    coefs %>% 
+      filter(id != 'Apparent') %>% 
+      group_by(model, term) %>% 
+      reframe(model, term, sd_boot = sd(estimate), path) %>% 
+      unique() %>% 
+      select(model, term, sd_boot, path),
+    
+    by = c('model' = 'model', 'term' = 'term', 'path' = 'path')
+    
+  ) %>% 
+  # Calculate a test statistic
+  mutate(statistic = abs(estimate / sd_boot),
+         p_z = pt(statistic, df = Inf, lower.tail = FALSE)) %>% 
+  select(model, term, path, estimate, sd_boot, statistic, p_z)
+
+results_coefs %>% print(n = 100)
+
+
+# RESULTS: PATHS ONLY -------------------------------------------------------------------
+## Same as above but filter only for the a, b, and c' paths
+results_paths <-
+  results_coefs %>% 
+  filter(!is.na(path)) %>% 
+  arrange(path)
+
+results_paths %>% print()
+
+
+# MEAN OF BOOTSTRAP PATH ESTIMATES ------------------------------------------------
+
+results_paths_boot <-
+  coefs %>% 
+  filter(id != 'Apparent' & !is.na(path)) %>% 
+  group_by(model, path, term) %>% 
+  summarize(mean_estimate = mean(estimate),
+            se_estimate = sd(estimate),
+            statistic = abs(mean_estimate / se_estimate),
+            p_z = pt(statistic, df = Inf, lower.tail = FALSE)) %>% 
+  select(model, term, path, mean_estimate, se_estimate, statistic, p_z) %>% 
+  arrange(path)
+
+results_paths_boot %>% print()
+
+
+# INDIRECT EFFECT ---------------------------------------------------------
+## Find the indirect effect by using the bootstrap samples,
+## and multiplying a and b coefficients
+
+result_indirect_all_coefs <-
+  coefs %>% 
+  filter(id != 'Apparent' & !is.na(path)) %>% # bootstraps only
+  select(c(id, mediation, path, estimate)) %>% 
+  pivot_wider(names_from = path, values_from = estimate) %>%
+  group_by(mediation) %>% 
+  ## Multiply a and b paths for the indirect effect:
+  mutate(ab = a * b,
+         c =  c_prime + ab) %>% 
+  
+  ungroup() %>% 
+  arrange(mediation, ab) %>% 
+  group_by(mediation) %>% 
+  
+  ## Percentile confidence intervals:
+  mutate(order = c(1:n_bootstraps),
+         pci_lower_95 = if_else(order == as.integer(0.5 * (1 - 95/100) * n_bootstraps), 1, 0),
+         pci_upper_95 = if_else(order == as.integer(1 + 0.5 * (1 + 95/100) * n_bootstraps), 1, 0)
+  )
+
+result_indirect_all_coefs %>% print()
+
+
+# SAVE INDIRECT EFFECTS -----------------------------------------
+result_indirect <-
+  bind_rows(
+    result_indirect_all_coefs %>% filter(pci_lower_95 == 1) %>% select(ab, pci_lower_95),
+    result_indirect_all_coefs %>% filter(pci_upper_95 == 1) %>% select(ab, pci_upper_95)
+  ) %>% 
+  mutate(pci_lower_95 = ab * pci_lower_95,
+         pci_upper_95 = ab * pci_upper_95) %>% 
+  pivot_longer(-c(mediation, ab)) %>%
+  filter(!is.na(value)) %>% 
+  pivot_wider(id_cols = mediation, values_from = value, names_from = name) %>% 
+  
+  # Join the Percentile Confidence Intervals with Bootsrapped Mean & SD of AB 
+  right_join(
+    
+    result_indirect_all_coefs %>%
+      group_by(mediation) %>%
+      summarize(mean_ab = mean(ab),
+                se_ab = sd(ab),
+                statistic = abs(mean_ab / se_ab),
+                p_z = pt(statistic, df = Inf, lower.tail = FALSE)),
+    
+    by = c('mediation' = 'mediation')
+  ) %>% 
+  
+  # Rearrange columns
+  select(mediation, mean_ab, se_ab, statistic, p_z, everything()) %>% 
+  ungroup()
+
+result_indirect %>% print()
 
 
 # RESULTS TABLES: INDIRECT EFFECTS --------------------------------------------------------
@@ -49,7 +161,6 @@ boot_indices %>%
 
 
 # RESULTS TABLES: Coefficients --------------------------------------------
-
 
 ## Base
 results_coefs_base_format <-

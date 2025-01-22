@@ -96,7 +96,7 @@ patchwork::plot_layout(axes = 'collect')
 
 
 ## Save
-ggsave(filename = 'plot-bootstrap.pdf', 
+ggsave(filename = 'plot-bootstrap.jpg', 
        path = here::here('output/figures'),
        bg = "transparent", width = 6, height = 4, dpi = 300)
 

@@ -6,25 +6,25 @@
 \hline
 Category & n & \%\\
 \hline
-Did not endorse a moral injury event & 149 & 62.08\\
+Did not endorse a moral injury event & 151 & 62.14\\
 \hline
-Endorsed a moral injury event & 91 & 37.92\\
+Endorsed a moral injury event & 92 & 37.86\\
 \hline
-Moral Injury Event Type: Betrayal & 52 & 21.67\\
+Moral Injury Event Type: Betrayal & 53 & 21.81\\
 \hline
-Moral Injury Event Type: Other Person & 52 & 21.67\\
+Moral Injury Event Type: Other Person & 53 & 21.81\\
 \hline
-Moral Injury Event Type: Self & 20 & 8.33\\
+Moral Injury Event Type: Self & 20 & 8.23\\
 \hline
-Moral Injury Event Type: Multiple Types & 25 & 10.42\\
+Moral Injury Event Type: Multiple Types & 26 & 10.70\\
 \hline
-Did not endorse Criterian A experience & 177 & 73.75\\
+Did not endorse Criterian A experience & 180 & 74.07\\
 \hline
-Endorsed Criterian A PTSD experience & 63 & 26.25\\
+Endorsed Criterian A PTSD experience & 63 & 25.93\\
 \hline
-Probable PTSD not detected & 215 & 89.58\\
+Probable PTSD not detected & 218 & 89.71\\
 \hline
-Probable PTSD detected & 25 & 10.42\\
+Probable PTSD detected & 25 & 10.29\\
 \hline
 \end{tabular}
 \end{table}

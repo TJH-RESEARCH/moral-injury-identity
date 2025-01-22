@@ -3,12 +3,12 @@
 \hline
 term & M & SD & Min & Max & 1 & 2 & 3\\
 \hline
-Moral Injury Symptoms & 15.09 & 10.96 & 0 & 55 & NA & -0.60 & 0.23\\
+Moral Injury Symptoms & 15.16 & 10.98 & 0 & 55 & NA & -0.61 & 0.23\\
 \hline
-Identity Dissonance & 37.17 & 8.24 & 15 & 50 & -0.60 & NA & -0.45\\
+Identity Dissonance & 37.16 & 8.27 & 15 & 50 & -0.61 & NA & -0.45\\
 \hline
-Military Attachment & 18.71 & 3.89 & 8 & 28 & 0.23 & -0.45 & NA\\
+Military Attachment & 18.71 & 3.87 & 8 & 28 & 0.23 & -0.45 & NA\\
 \hline
-Percieved Public Regard & 11.43 & 2.25 & 4 & 16 & -0.21 & 0.23 & 0.06\\
+Percieved Public Regard & 11.44 & 2.25 & 4 & 16 & -0.22 & 0.24 & 0.06\\
 \hline
 \end{tabular}

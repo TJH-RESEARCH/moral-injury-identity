@@ -1,11 +1,11 @@
-variable,n,perc
-Did not endorse a moral injury event,149,62.08
-Endorsed a moral injury event,91,37.92
-Moral Injury Event Type: Betrayal,52,21.67
-Moral Injury Event Type: Other Person,52,21.67
-Moral Injury Event Type: Self,20,8.33
-Moral Injury Event Type: Multiple Types,25,10.42
-Did not endorse Criterian A experience,177,73.75
-Endorsed Criterian A PTSD experience,63,26.25
-Probable PTSD not detected,215,89.58
-Probable PTSD detected,25,10.42
+Category,n,perc
+Did not endorse a moral injury event,149,61.3
+Endorsed a moral injury event,94,38.7
+Moral Injury Event Type: Betrayal,54,57.4
+Moral Injury Event Type: Other Person,55,58.5
+Moral Injury Event Type: Self,20,21.3
+Moral Injury Event Type: Multiple Types,27,28.7
+Did not endorse Criterion A experience,179,73.7
+Endorsed Criterion A PTSD experience,64,26.3
+Probable PTSD not detected,222,91.4
+Probable PTSD detected,21,8.6

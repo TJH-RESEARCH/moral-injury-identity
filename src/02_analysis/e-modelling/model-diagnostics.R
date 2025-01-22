@@ -1,6 +1,6 @@
 # ANALYZE REGRESSION DIAGNOSTICS -----------------------------------------------
 
-### Extract lm objects from parsnip objects ------------------------------------
+## Extract lm objects from parsnip objects ------------------------------------
 boot_fits_aparent <-
   boot_output %>% 
   filter(id == 'Apparent')
@@ -11,55 +11,110 @@ boot_fits_aparent$fits <-
 
 
 ## Check residuals of individual regressions -----------------------------------
-library(ggfortify) ### "ggfortify lets ggplot2 know how to interpret lm objects." https://cran.r-project.org/web/packages/ggfortify/vignettes/plot_lm.html
-
 ### Interdependence as the outcome ---------------------------------------------
-autoplot(
-  boot_fits_aparent$fits[[1]],
-  which = c(1:6),
-  label.size = 3) + 
-theme_bw()
+diagnostics_interdependence <-
+  tibble(
+    residuals = boot_fits_aparent$fits[[1]]$residuals,
+    fits = boot_fits_aparent$fits[[1]]$fitted.values
+  )
 
-## Save
-ggsave(filename = 'diagnostics-interdependence.pdf', 
-       path = here::here('output/figures'),
-       bg = "transparent", width = 6, height = 4, dpi = 300)
+#### Normality (Histogram of residuals)
+diagnostics_interdependence %>% 
+  ggplot(aes(residuals)) +
+  geom_histogram()
+
+#### Linearity (Residual Dependence Plot)
+diagnostics_interdependence %>% 
+  ggplot(aes(fits, residuals)) +
+  geom_point() +
+  geom_smooth(method = 'lm')
+
+#### Homoskedasticity (SL Plot)
+diagnostics_interdependence %>% 
+  mutate(abs_residuals = abs(residuals)) %>% 
+  ggplot(aes(fits, abs_residuals)) +
+  geom_point() +
+  geom_smooth(method = 'lm')
+
+
+
+
 
 
 ### Interdependence as a predictor, Moral Injury symptoms as the outcome -------
-autoplot(
-  boot_fits_aparent$fits[[2]],
-  which = c(1:6),
-  label.size = 3) + 
-  theme_bw()
+diagnostics_mios_interdependence <-
+  tibble(
+    residuals = boot_fits_aparent$fits[[2]]$residuals,
+    fits = boot_fits_aparent$fits[[2]]$fitted.values
+  )
 
-## Save
-ggsave(filename = 'diagnostics-moral-injury-interdependence.pdf', 
-       path = here::here('output/figures'),
-       bg = "transparent", width = 6, height = 4, dpi = 300)
+#### Normality (Histogram of residuals)
+diagnostics_mios_interdependence %>% 
+  ggplot(aes(residuals)) +
+  geom_histogram()
+
+#### Linearity (Residual Dependence Plot)
+diagnostics_mios_interdependence %>% 
+  ggplot(aes(fits, residuals)) +
+  geom_point() +
+  geom_smooth(method = 'lm')
+
+#### Homoskedasticity (SL Plot)
+diagnostics_mios_interdependence %>% 
+  mutate(abs_residuals = abs(residuals)) %>% 
+  ggplot(aes(fits, abs_residuals)) +
+  geom_point() +
+  geom_smooth(method = 'lm')
+
 
 
 ### Regard as the outcome ------------------------------------------------------
-autoplot(
-  boot_fits_aparent$fits[[3]],
-  which = c(1:6),
-  label.size = 3) + 
-  theme_bw()
+diagnostics_regard <-
+  tibble(
+    residuals = boot_fits_aparent$fits[[3]]$residuals,
+    fits = boot_fits_aparent$fits[[3]]$fitted.values
+  )
 
-## Save
-ggsave(filename = 'diagnostics-regard.pdf', 
-       path = here::here('output/figures'),
-       bg = "transparent", width = 6, height = 4, dpi = 300)
+#### Normality (Histogram of residuals)
+diagnostics_regard %>% 
+  ggplot(aes(residuals)) +
+  geom_histogram()
+
+#### Linearity (Residual Dependence Plot)
+diagnostics_regard %>% 
+  ggplot(aes(fits, residuals)) +
+  geom_point() +
+  geom_smooth(method = 'lm')
+
+#### Homoskedasticity (SL Plot)
+diagnostics_regard %>% 
+  mutate(abs_residuals = abs(residuals)) %>% 
+  ggplot(aes(fits, abs_residuals)) +
+  geom_point() +
+  geom_smooth(method = 'lm')
 
 
 ### Regard as a predictor, Moral Injury symptoms as the outcome ----------------
-autoplot(
-  boot_fits_aparent$fits[[4]],
-  which = c(1:6),
-  label.size = 3) + 
-  theme_bw()
+diagnostics_mios_regard <-
+  tibble(
+    residuals = boot_fits_aparent$fits[[4]]$residuals,
+    fits = boot_fits_aparent$fits[[4]]$fitted.values
+  )
 
-## Save
-ggsave(filename = 'diagnostics-moral-injury-regard.pdf', 
-       path = here::here('output/figures'),
-       bg = "transparent", width = 6, height = 4, dpi = 300)
+#### Normality (Histogram of residuals)
+diagnostics_mios_regard %>% 
+  ggplot(aes(residuals)) +
+  geom_histogram()
+
+#### Linearity (Residual Dependence Plot)
+diagnostics_mios_regard %>% 
+  ggplot(aes(fits, residuals)) +
+  geom_point() +
+  geom_smooth(method = 'lm')
+
+#### Homoskedasticity (SL Plot)
+diagnostics_mios_regard %>% 
+  mutate(abs_residuals = abs(residuals)) %>% 
+  ggplot(aes(fits, abs_residuals)) +
+  geom_point() +
+  geom_smooth(method = 'lm')

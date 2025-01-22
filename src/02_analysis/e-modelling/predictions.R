@@ -5,7 +5,7 @@ library(viridis)
 library(viridisLite)
 
 density_inter <-
-  boot_preds %>% 
+  preds %>% 
   filter(model == 'lm_inter', id == 'Apparent') %>%
   select(id, model, mediation, .fitted, wis_interdependent_total) %>% 
   rename(Predicted = .fitted, Observed = wis_interdependent_total) %>%
@@ -30,7 +30,7 @@ density_inter <-
 
 
 density_mios_inter <-
-  boot_preds %>% 
+  preds %>% 
   filter(model == 'lm_mios_inter', id == 'Apparent') %>%
   select(id, model, mediation, .fitted, mios_total) %>% 
   rename(Predicted = .fitted, Observed = mios_total) %>%
@@ -54,7 +54,7 @@ density_mios_inter <-
   )
 
 density_regard <-
-  boot_preds %>% 
+  preds %>% 
   filter(model == 'lm_regard', id == 'Apparent') %>%
   select(id, model, mediation, .fitted, wis_private_regard_total) %>% 
   rename(Predicted = .fitted, Observed = wis_private_regard_total) %>%
@@ -78,7 +78,7 @@ density_regard <-
 
 
 density_mios_regard <-
-  boot_preds %>% 
+  preds %>% 
   filter(model == 'lm_mios_regard', id == 'Apparent') %>%
   select(id, model, mediation, .fitted, mios_total) %>% 
   rename(Predicted = .fitted, Observed = mios_total) %>%

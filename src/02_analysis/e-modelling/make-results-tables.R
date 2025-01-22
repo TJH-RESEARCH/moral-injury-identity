@@ -137,7 +137,7 @@ result_indirect %>%
 
 
 # RESULTS TABLE: MODEL FITS --------------------------------------------------------------
-boot_indices %>% 
+indices %>% 
   filter(id == 'Apparent') %>% 
   select(c(model, r.squared, AIC, nobs)) %>% 
   rename(
@@ -251,3 +251,4 @@ results_coefs_base_format %>%
   kable_classic(full_width = F, 
                 html_font = "helvetica") %>% 
   write_lines(file = here::here('output/tables/results-tables.txt'), append = TRUE)
+

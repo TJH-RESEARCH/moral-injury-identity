@@ -7,7 +7,8 @@ library(tidyverse)
 source(here::here('src/01_config/folder-structure.R'))
 
 # READ DATA SET  ---------------------------------------------------------------
-data <- read_csv(here::here('data/data_main.csv'))
+#data <- read_csv(here::here('data/data_main.csv'))
+data <- read_csv(here::here('data/data_main_moral_injury_identity.csv'))
 
 # DESCRIBE SAMPLE --------------------------------------------------------------
 source(here::here('src/02_analysis/a-describe-sample/demographics.R'))
@@ -38,3 +39,4 @@ source(here::here('src/02_analysis/e-modelling/visualize-results.R'))
 source(here::here('src/01_config/session-info.R'))
 
 message('Replication complete')
+

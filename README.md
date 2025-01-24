@@ -3,8 +3,8 @@ contributors:
   - Thomas J. Hodges
 ---
 
-# To Do
-- output of diagnostic only saves 1 plot
+# To Do 
+Add the replication data or don't
 
 
 # Replcation Code: Moral Injury and Identity: Examining Moral Injury as Identity Loss and Identity Change

@@ -5,7 +5,7 @@
 coefs <-
   boot_output %>%
   dplyr::select(-c(fits, splits, preds, fit_indices)) %>%
-  unnest(cols = results) %>% 
+  unnest(cols = results) %>%
   select(mediation, model, everything()) %>% 
   
   ## Declare the mediation paths (a, b, and c'):
@@ -16,6 +16,11 @@ coefs <-
     model == 'lm_regard' & term == 'mios_criterion_a' ~ 'a',
     model == 'lm_mios_regard' & term == 'mios_criterion_a' ~ 'c_prime',
     model == 'lm_mios_regard' & term == 'wis_private_regard_total' ~ 'b',
+    
+    model == 'lm_robust_inter' & term == 'mios_criterion_a' ~ 'c_prime',
+    model == 'lm_robust_inter' & term == 'wis_interdependent_total' ~ 'b',
+    model == 'lm_robust_regard' & term == 'mios_criterion_a' ~ 'c_prime',
+    model == 'lm_robust_regard' & term == 'wis_private_regard_total' ~ 'b',
     .default = NA
   ))
 

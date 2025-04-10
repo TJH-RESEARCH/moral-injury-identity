@@ -15,7 +15,6 @@ source(here::here('src/02_analysis/a-describe-sample/demographics.R'))
 source(here::here('src/02_analysis/a-describe-sample/military-demographics.R'))
 source(here::here('src/02_analysis/a-describe-sample/population-demographics.R'))
 
-
 # GRAPHIC MODELLING ------------------------------------------------------------
 source(here::here('src/02_analysis/b-graphic-modelling/draw-dags.R'))
 
@@ -26,6 +25,7 @@ source(here::here('src/02_analysis/c-examine-measures/assess-psychometrics.R'))
 source(here::here('src/02_analysis/d-examine-variables/plot-pairs.R'))
 source(here::here('src/02_analysis/d-examine-variables/descriptive-categorical.R'))
 source(here::here('src/02_analysis/d-examine-variables/descriptive-continuous.R'))
+source(here::here('src/02_analysis/d-examine-variables/t-test-mios.R'))
 
 # SPECIFY MODELS ---------------------------------------------------------------
 source(here::here('src/02_analysis/e-modelling/fit-models.R'))

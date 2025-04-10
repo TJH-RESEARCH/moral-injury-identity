@@ -26,7 +26,7 @@ results_coefs <-
          p_z = pt(statistic, df = Inf, lower.tail = FALSE)) %>% 
   select(model, term, path, estimate, sd_boot, statistic, p_z)
 
-results_coefs %>% print(n = 100)
+results_coefs %>% print(n = 120)
 
 
 # RESULTS: PATHS ONLY -------------------------------------------------------------------

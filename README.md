@@ -3,10 +3,6 @@ contributors:
   - Thomas J. Hodges
 ---
 
-# To Do 
-Add the replication data or don't
-
-
 # Replcation Code: Moral Injury and Identity: Examining Moral Injury as Identity Loss and Identity Change
 
 
@@ -57,6 +53,7 @@ The data analysis scripts are ordered in five steps: descriptive statistics of t
 | src/02_analysis/c-examine-measures    | assess-psychometrics.R            | Prints summary table/latex for all scale psychometrics.                   |
 | src/02_analysis/d-examine-variables   | descriptive-categorical.R         | Prints summary table/latex for the categorical variables.                 |
 | src/02_analysis/d-examine-variables   | descriptive-continuous.R          | Prints summary table/latex for the continuous variables.                  |
+| src/02_analysis/d-examine-variables   | t-test-mios.R                     | Runs a 2 sample t-test on Moral Injury symptoms comparing PMIE vs no PMIE.|
 | src/02_analysis/e-modelling           | fit-models.R                      | Specify and fits regression models to data.                               |
 | src/02_analysis/e-modelling           | save-results.R                    | Unnests the data and saves it to the environment for subsequent analysis. |
 | src/02_analysis/e-modelling           | model-diagnostics.R               | Creates diagnostic plots for regression models.                           |

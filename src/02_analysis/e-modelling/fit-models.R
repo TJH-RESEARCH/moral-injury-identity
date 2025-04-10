@@ -4,12 +4,19 @@ library(modelr)
 
 # A. RECIPES ----------------------------------------------------------------------
 
+## Calculate an MIOS score of 0 for anyone who did not endorse a Moral Injury Event.
+data <-
+  data %>% 
+  mutate(mios_total_robust = ifelse(mios_screener == 0, 0, mios_total))
+
+
 ## Specify the base 'recipe' for all the models:
 recipe <-
   recipe(data, 
          vars = 
            c(
              'mios_total',
+             'mios_total_robust',
              'wis_private_regard_total',
              'wis_interdependent_total',
              'mios_screener',
@@ -26,12 +33,14 @@ recipe <-
   
   ### Center all the continuous variables
   step_center(mios_total, 
+              mios_total_robust,
               wis_private_regard_total, 
               wis_interdependent_total, 
               years_service) %>% 
   
   ### Scale all the continuous variable to have a mean of 0 and SD of .5:
   step_scale(mios_total, 
+             mios_total_robust,
              wis_private_regard_total, 
              wis_interdependent_total, 
              years_service, 
@@ -116,6 +125,24 @@ recipe_mios_regard <-
 recipe_mios_regard %>% print()
 
 
+### Robustness check
+#### Private Regard with Robust MIOS variable 
+recipe_mios_regard_robust <-
+  recipe %>% 
+  update_role(wis_private_regard_total, new_role = 'predictor') %>% 
+  update_role(mios_total_robust, new_role = 'outcome')
+
+recipe_mios_regard_robust %>% print()
+
+### Interdependence with Robust MIOS variable 
+recipe_mios_inter_robust <-
+  recipe %>% 
+  update_role(wis_interdependent_total, new_role = 'predictor') %>% 
+  update_role(mios_total_robust, new_role = 'outcome')
+
+recipe_mios_inter_robust %>% print()
+
+
 # B. INSTANTIATE REGRESSION MODEL ----------------------------------------------------------------
 
 model_lm <-
@@ -135,7 +162,9 @@ models <-
       inter = recipe_inter,
       mios_inter = recipe_mios_inter,
       regard = recipe_regard,
-      mios_regard = recipe_mios_regard
+      mios_regard = recipe_mios_regard,
+      robust_regard = recipe_mios_regard_robust,
+      robust_inter = recipe_mios_inter_robust
     ),
     models = list(
       lm = model_lm
@@ -144,7 +173,7 @@ models <-
   )
 
 models %>% print(n = 50)
-
+models$info
 
 # D. FIT MODELS -------------------------------------------------------------------
 
@@ -157,6 +186,7 @@ boots <-
              times = n_bootstraps, 
              apparent = TRUE
              )
+
 
 ## Make functions 
 
@@ -195,6 +225,7 @@ lm_mios_inter_boot <-
          fit_indices = map(fits, ~ broom::glance(.x))
   )
 
+
 ### Private Regard as the outcome:
 lm_regard_boot <-
   boots %>%
@@ -212,6 +243,26 @@ lm_mios_regard_boot <-
   )
 
 
+
+### Moral Injury Symptoms ROBUST as the outcome as private regard as a predictor:
+lm_robust_regard_boot <-
+  boots %>%
+  mutate(fits = map(splits, ~ fit_fun(.x, model = 'robust_regard_lm')),
+         results = map(fits, ~ broom::tidy(.x)),
+         fit_indices = map(fits, ~ broom::glance(.x))
+  )
+
+
+### Moral Injury as the outcome and interdependence as a predictor:
+lm_robust_inter_boot <-
+  boots %>%
+  mutate(fits = map(splits, ~ fit_fun(.x, model = 'robust_inter_lm')),
+         results = map(fits, ~ broom::tidy(.x)),
+         fit_indices = map(fits, ~ broom::glance(.x))
+  )
+
+
+
 # E. SAVE RESULTS ---------------------------------------------------------
 
 ## Bind the results together:
@@ -221,6 +272,8 @@ boot_output <-
     lm_mios_inter_boot %>% mutate(model = 'lm_mios_inter', mediation = 'inter'),
     lm_regard_boot %>% mutate(model = 'lm_regard', mediation = 'regard'),
     lm_mios_regard_boot %>% mutate(model = 'lm_mios_regard', mediation = 'regard'),
+    lm_robust_regard_boot %>% mutate(model = 'lm_robust_regard', mediation = 'regard'),
+    lm_robust_inter_boot %>% mutate(model = 'lm_robust_inter', mediation = 'inter'),
   )
 
 ### Add predictions

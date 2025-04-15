@@ -10,15 +10,19 @@ coefs <-
   
   ## Declare the mediation paths (a, b, and c'):
   mutate(path = case_when(
-    model == 'lm_inter' & term == 'mios_criterion_a' ~ 'a',
+    model == 'lm_inter' & term == 'mios_criterion_a' & robust == 0 ~ 'a',
     model == 'lm_mios_inter' & term == 'mios_criterion_a' ~ 'c_prime',
     model == 'lm_mios_inter' & term == 'wis_interdependent_total' ~ 'b',
-    model == 'lm_regard' & term == 'mios_criterion_a' ~ 'a',
+    
+    model == 'lm_regard' & term == 'mios_criterion_a' & robust == 0 ~ 'a',
     model == 'lm_mios_regard' & term == 'mios_criterion_a' ~ 'c_prime',
     model == 'lm_mios_regard' & term == 'wis_private_regard_total' ~ 'b',
     
+    model == 'lm_inter' & term == 'mios_criterion_a' & robust == 1 ~ 'a',
     model == 'lm_robust_inter' & term == 'mios_criterion_a' ~ 'c_prime',
     model == 'lm_robust_inter' & term == 'wis_interdependent_total' ~ 'b',
+    
+    model == 'lm_regard' & term == 'mios_criterion_a' & robust == 1 ~ 'a',
     model == 'lm_robust_regard' & term == 'mios_criterion_a' ~ 'c_prime',
     model == 'lm_robust_regard' & term == 'wis_private_regard_total' ~ 'b',
     .default = NA

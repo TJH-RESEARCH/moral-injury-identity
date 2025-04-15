@@ -8,25 +8,25 @@ results_coefs <-
     # Get coefficients from original data sets
     coefs %>% 
       filter(id == 'Apparent') %>%  # Apparent is the original data, not bootsrapped
-      select(model, term, estimate, path),
+      select(model, term, robust, estimate, path),
     
     # Get standard deviation of coefficients across the bootstrap samples
     coefs %>% 
       filter(id != 'Apparent') %>% 
-      group_by(model, term) %>% 
-      reframe(model, term, sd_boot = sd(estimate), path) %>% 
+      group_by(model, term, robust) %>% 
+      reframe(model, term, robust, sd_boot = sd(estimate), path) %>% 
       unique() %>% 
-      select(model, term, sd_boot, path),
+      select(model, term, robust, sd_boot, path),
     
-    by = c('model' = 'model', 'term' = 'term', 'path' = 'path')
+    by = c('model' = 'model', 'term' = 'term', 'path' = 'path', 'robust' = 'robust')
     
   ) %>% 
   # Calculate a test statistic
   mutate(statistic = abs(estimate / sd_boot),
          p_z = pt(statistic, df = Inf, lower.tail = FALSE)) %>% 
-  select(model, term, path, estimate, sd_boot, statistic, p_z)
+  select(model, term, robust, path, estimate, sd_boot, statistic, p_z)
 
-results_coefs %>% print(n = 120)
+results_coefs %>% print(n = 180)
 
 
 # RESULTS: PATHS ONLY -------------------------------------------------------------------
@@ -34,7 +34,7 @@ results_coefs %>% print(n = 120)
 results_paths <-
   results_coefs %>% 
   filter(!is.na(path)) %>% 
-  arrange(path)
+  arrange(path, term, model)
 
 results_paths %>% print()
 
@@ -44,7 +44,7 @@ results_paths %>% print()
 results_paths_boot <-
   coefs %>% 
   filter(id != 'Apparent' & !is.na(path)) %>% 
-  group_by(model, path, term) %>% 
+  group_by(model, path, term, robust) %>% 
   summarize(mean_estimate = mean(estimate),
             se_estimate = sd(estimate),
             statistic = abs(mean_estimate / se_estimate),
@@ -62,16 +62,16 @@ results_paths_boot %>% print()
 result_indirect_all_coefs <-
   coefs %>% 
   filter(id != 'Apparent' & !is.na(path)) %>% # bootstraps only
-  select(c(id, mediation, path, estimate)) %>% 
+  select(c(id, mediation, path, estimate, robust)) %>% 
   pivot_wider(names_from = path, values_from = estimate) %>%
-  group_by(mediation) %>% 
+  group_by(mediation, robust) %>% 
   ## Multiply a and b paths for the indirect effect:
   mutate(ab = a * b,
-         c =  c_prime + ab) %>% 
+         c =  c_prime + ab) %>%
   
   ungroup() %>% 
-  arrange(mediation, ab) %>% 
-  group_by(mediation) %>% 
+  arrange(mediation, robust, ab) %>% 
+  group_by(mediation, robust) %>% 
   
   ## Percentile confidence intervals:
   mutate(order = c(1:n_bootstraps),
@@ -90,25 +90,25 @@ result_indirect <-
   ) %>% 
   mutate(pci_lower_95 = ab * pci_lower_95,
          pci_upper_95 = ab * pci_upper_95) %>% 
-  pivot_longer(-c(mediation, ab)) %>%
+  pivot_longer(-c(mediation, ab, robust)) %>%
   filter(!is.na(value)) %>% 
-  pivot_wider(id_cols = mediation, values_from = value, names_from = name) %>% 
+  pivot_wider(id_cols = c(mediation, robust), values_from = value, names_from = name) %>% 
   
   # Join the Percentile Confidence Intervals with Bootsrapped Mean & SD of AB 
   right_join(
     
     result_indirect_all_coefs %>%
-      group_by(mediation) %>%
+      group_by(mediation, robust) %>%
       summarize(mean_ab = mean(ab),
                 se_ab = sd(ab),
                 statistic = abs(mean_ab / se_ab),
                 p_z = pt(statistic, df = Inf, lower.tail = FALSE)),
     
-    by = c('mediation' = 'mediation')
+    by = c('mediation' = 'mediation', 'robust' = 'robust')
   ) %>% 
   
   # Rearrange columns
-  select(mediation, mean_ab, se_ab, statistic, p_z, everything()) %>% 
+  select(mediation, robust, mean_ab, se_ab, statistic, p_z, everything()) %>% 
   ungroup()
 
 result_indirect %>% print()
@@ -116,9 +116,10 @@ result_indirect %>% print()
 
 # RESULTS TABLES: INDIRECT EFFECTS --------------------------------------------------------
 result_indirect %>% 
-  mutate(mediation = c('Interdependence', 'Regard')) %>% 
+  mutate(mediation = ifelse(mediation == 'inter', 'Interdependence', 'Regard')) %>% 
   rename(
     Mediator = mediation, 
+    Robust = robust, 
     ab = mean_ab,
     SE = se_ab,
     z = statistic,
@@ -139,15 +140,21 @@ result_indirect %>%
 # RESULTS TABLE: MODEL FITS --------------------------------------------------------------
 indices %>% 
   filter(id == 'Apparent') %>% 
-  select(c(model, r.squared, AIC, nobs)) %>% 
+  select(c(model, robust, r.squared, AIC, nobs)) %>% 
   rename(
     Model = model,
+    Robust = robust,
     `R^2` = r.squared,
     n = nobs
   ) %>% 
   mutate(
-    Model = c('Interdependence', 'Moral Injury ~ Interdependence', 
-              'Regard', 'Moral Injury ~ Regard'),
+    Model = 
+      rep(
+        c('Interdependence', 
+          'Moral Injury ~ Interdependence', 
+          'Regard', 
+          'Moral Injury ~ Regard'), 2
+        ),
     across(where(is.numeric),  ~ round(.x, 2))) %>% 
   kbl(caption = "Model Fit",
       format = "latex",
@@ -203,8 +210,8 @@ results_coefs %>%
   
 # Interdependence
 results_coefs_base_format %>% 
-  filter(model == 'lm_inter') %>% 
-  select(-model) %>% 
+  filter(model == 'lm_inter' & robust == 0) %>%
+  select(-c(model, robust)) %>% 
   kbl(caption = "Regression Coefficients: Interdependence",
       format = "latex",
       align="l") %>%
@@ -217,7 +224,7 @@ results_coefs_base_format %>%
 # Moral Injury ~ Interdependence 
 results_coefs_base_format %>% 
   filter(model == 'lm_mios_inter') %>% 
-  select(-model) %>% 
+  select(-c(model, robust)) %>% 
   kbl(caption = "Regression Coefficients: Moral Injury ~ Interdependence",
       format = "latex",
       align="l") %>%
@@ -229,8 +236,8 @@ results_coefs_base_format %>%
 
 # Moral Injury ~ Regard 
 results_coefs_base_format %>% 
-  filter(model == 'lm_regard') %>% 
-  select(-model) %>% 
+  filter(model == 'lm_regard' & robust == 0) %>% 
+  select(-c(model, robust)) %>% 
   kbl(caption = "Regression Coefficients: Regard",
       format = "latex",
       align="l") %>%
@@ -243,7 +250,7 @@ results_coefs_base_format %>%
 # Moral Injury ~ Regard 
 results_coefs_base_format %>% 
   filter(model == 'lm_mios_regard') %>% 
-  select(-model) %>% 
+  select(-c(model, robust)) %>% 
   kbl(caption = "Regression Coefficients: Moral Injury ~ Regard",
       format = "latex",
       align="l") %>%
@@ -252,3 +259,29 @@ results_coefs_base_format %>%
                 html_font = "helvetica") %>% 
   write_lines(file = here::here('output/tables/results-tables.txt'), append = TRUE)
 
+
+
+# Moral Injury ~ Interdependence  - Robustness check
+results_coefs_base_format %>% 
+  filter(model == 'lm_robust_inter') %>% 
+  select(-c(model, robust)) %>% 
+  kbl(caption = "Regression Coefficients: Moral Injury Robust ~ Interdependence",
+      format = "latex",
+      align="l") %>%
+  gsub("\\\\hline", "", .) %>% 
+  kable_classic(full_width = F, 
+                html_font = "helvetica") %>% 
+  write_lines(file = here::here('output/tables/results-tables.txt'), append = TRUE)
+
+
+# Moral Injury ~ Regard   - Robustness check
+results_coefs_base_format %>% 
+  filter(model == 'lm_robust_regard') %>% 
+  select(-c(model, robust)) %>% 
+  kbl(caption = "Regression Coefficients: Moral Injury Robust ~ Regard",
+      format = "latex",
+      align="l") %>%
+  gsub("\\\\hline", "", .) %>% 
+  kable_classic(full_width = F, 
+                html_font = "helvetica") %>% 
+  write_lines(file = here::here('output/tables/results-tables.txt'), append = TRUE)

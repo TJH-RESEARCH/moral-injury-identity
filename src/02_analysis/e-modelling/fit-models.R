@@ -268,12 +268,19 @@ lm_robust_inter_boot <-
 ## Bind the results together:
 boot_output <- 
   bind_rows(
-    lm_inter_boot %>% mutate(model = 'lm_inter', mediation = 'inter'),
-    lm_mios_inter_boot %>% mutate(model = 'lm_mios_inter', mediation = 'inter'),
-    lm_regard_boot %>% mutate(model = 'lm_regard', mediation = 'regard'),
-    lm_mios_regard_boot %>% mutate(model = 'lm_mios_regard', mediation = 'regard'),
-    lm_robust_regard_boot %>% mutate(model = 'lm_robust_regard', mediation = 'regard'),
-    lm_robust_inter_boot %>% mutate(model = 'lm_robust_inter', mediation = 'inter'),
+    lm_inter_boot %>% mutate(model = 'lm_inter', mediation = 'inter', robust = 0),
+    lm_mios_inter_boot %>% mutate(model = 'lm_mios_inter', mediation = 'inter', robust = 0),
+    lm_regard_boot %>% mutate(model = 'lm_regard', mediation = 'regard', robust = 0),
+    lm_mios_regard_boot %>% mutate(model = 'lm_mios_regard', mediation = 'regard', robust = 0),
+    
+    # Robustness Check
+    lm_robust_regard_boot %>% mutate(model = 'lm_robust_regard', mediation = 'regard', robust = 1),
+    lm_robust_inter_boot %>% mutate(model = 'lm_robust_inter', mediation = 'inter', robust = 1),
+    
+    ## The robustness only changed one of the two models, so we can re-use the one that was not affected:
+    lm_inter_boot %>% mutate(model = 'lm_inter', mediation = 'inter', robust = 1),
+    lm_regard_boot %>% mutate(model = 'lm_regard', mediation = 'regard', robust = 1)
+    
   )
 
 ### Add predictions
